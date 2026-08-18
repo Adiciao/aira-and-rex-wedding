@@ -73,10 +73,10 @@ export default function PhotoboothApp() {
     pinkCrownImgRef.current = img2
   }, [])
 
-  // Load MediaPipe Face Detection script dynamically
+  // Load MediaPipe Face Detection script dynamically from official Google gstatic CDN
   useEffect(() => {
     const script = document.createElement('script')
-    script.src = 'https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js'
+    script.src = 'https://www.gstatic.com/mediapipe/face_detection/face_detection.js'
     script.async = true
     script.onload = () => {
       initFaceDetection()
@@ -97,10 +97,10 @@ export default function PhotoboothApp() {
     if (!window.FaceDetection) return
     try {
       const detector = new window.FaceDetection({
-        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
+        locateFile: (file) => `https://www.gstatic.com/mediapipe/face_detection/${file}`
       })
       detector.setOptions({
-        model: 'short',
+        modelSelection: 0, // 0 = short range (within 2m) which is perfect for photobooth selfie cameras
         minDetectionConfidence: 0.5
       })
       detector.onResults((results) => {
