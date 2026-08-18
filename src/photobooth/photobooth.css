@@ -1,13 +1,13 @@
 /* Photobooth Application Styling */
 
 :root {
-  --pb-bg: #11141c;
-  --pb-surface: #181d29;
-  --pb-border: rgba(255, 255, 255, 0.08);
-  --pb-text: #f3f4f6;
-  --pb-muted: #9ca3af;
-  --pb-accent: #c9a96e; /* Champagne gold */
-  --pb-active-bg: rgba(201, 169, 110, 0.15);
+  --pb-bg: #f5f0fa;          /* Soft pastel purple page background */
+  --pb-surface: #ffffff;     /* Clean white for panels/cards */
+  --pb-border: #e2d5f0;      /* Soft purple border */
+  --pb-text: #422a5c;        /* Deep purple text */
+  --pb-muted: #8c72a8;       /* Lavender secondary text */
+  --pb-accent: #a78bfa;      /* Vibrant pastel purple/violet accent */
+  --pb-active-bg: rgba(167, 139, 250, 0.15); /* Soft active state background */
   --pb-danger: #ef4444;
   --pb-success: #10b981;
 }

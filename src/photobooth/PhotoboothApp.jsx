@@ -146,9 +146,7 @@ export default function PhotoboothApp() {
       canvas.height = 480
       const ctx = canvas.getContext('2d')
       
-      // Draw video frame to canvas
-      ctx.translate(640, 0)
-      ctx.scale(-1, 1) // Mirror effect for natural feel
+      // Draw video frame to canvas (no mirroring)
       ctx.drawImage(videoRef.current, 0, 0, 640, 480)
       
       const dataUrl = canvas.toDataURL('image/jpeg')
@@ -220,9 +218,25 @@ export default function PhotoboothApp() {
       capturedPhotos.forEach((src, idx) => {
         const img = new Image()
         img.onload = () => {
-          // Photo dimensions: 360 x 240 (leaves 20px padding left/right)
+          // Photo dimensions: 360 x 250 (leaves 20px padding left/right)
           const y = 20 + idx * 265 // 20px padding top + spacing
-          ctx.drawImage(img, 20, y, 360, 250)
+          
+          // Draw image centered and cover-cropped to avoid stretching on phone/tablet orientation
+          const w = 360;
+          const h = 250;
+          const targetRatio = w / h;
+          const imgRatio = img.width / img.height;
+          let sx = 0, sy = 0, sw = img.width, sh = img.height;
+          
+          if (imgRatio > targetRatio) {
+            sw = img.height * targetRatio;
+            sx = (img.width - sw) / 2;
+          } else {
+            sh = img.width / targetRatio;
+            sy = (img.height - sh) / 2;
+          }
+          
+          ctx.drawImage(img, sx, sy, sw, sh, 20, y, w, h);
           
           // Draw thin frame border around photo
           ctx.strokeStyle = frameTheme.border
@@ -480,7 +494,7 @@ export default function PhotoboothApp() {
                       )}
 
                       {simulatorMode ? (
-                        <div className="pb-camera-placeholder" style={{ background: '#1c1f26' }}>
+                        <div className="pb-camera-placeholder" style={{ background: 'var(--pb-bg)' }}>
                           <span style={{ fontSize: '2.5rem' }}>🤖</span>
                           <div>
                             <p style={{ fontWeight: 600, margin: '0 0 0.25rem 0', color: 'var(--pb-accent)' }}>Simulator Active</p>
@@ -519,7 +533,7 @@ export default function PhotoboothApp() {
                         value={guestName}
                         onChange={e => setGuestName(e.target.value)}
                         disabled={isCapturing}
-                        style={{ flex: 1, height: '44px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--pb-border)', borderRadius: '8px', padding: '0 1rem', color: '#fff', outline: 'none' }}
+                        style={{ flex: 1, height: '44px', background: 'rgba(0,0,0,0.02)', border: '1px solid var(--pb-border)', borderRadius: '8px', padding: '0 1rem', color: 'var(--pb-text)', outline: 'none' }}
                       />
                       <button 
                         className="pb-btn pb-btn-primary" 
