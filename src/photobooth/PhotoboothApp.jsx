@@ -34,6 +34,9 @@ export default function PhotoboothApp() {
   const [retakeCounts, setRetakeCounts] = useState({ 0: 0, 1: 0, 2: 0, 3: 0 })
   const [activeRetakeSlot, setActiveRetakeSlot] = useState(null)
   
+  // Click-to-zoom preview modal state
+  const [zoomImage, setZoomImage] = useState(null) // { src: string, index: number, countLeft: number }
+  
   const videoRef = useRef(null)
   const streamRef = useRef(null)
   const canvasRef = useRef(null)
@@ -147,10 +150,9 @@ export default function PhotoboothApp() {
       canvas.height = h
       const ctx = canvas.getContext('2d')
       
-      // Draw video frame to canvas
       if (mirrorCamera) {
         ctx.translate(w, 0)
-        ctx.scale(-1, 1) // Mirror flip if mirror mode is enabled
+        ctx.scale(-1, 1)
       }
       ctx.drawImage(video, 0, 0, w, h)
       
@@ -369,12 +371,27 @@ export default function PhotoboothApp() {
     setTab('camera')
   }
 
+  // Custom step-back handler to prevent hard-exits
+  const handleBackStep = (e) => {
+    if (tab !== 'camera') {
+      e.preventDefault()
+      setTab('camera')
+      return
+    }
+    if (finalizedStrip) {
+      e.preventDefault()
+      handleStartNew()
+      return
+    }
+    // Allow standard navigation back to home screen
+  }
+
   return (
     <div className="ios-shell">
       {/* iOS Status Top Bar */}
       <header className="ios-top-bar">
-        <a href="/" className="ios-back-link" title="Back to invitation">
-          <span className="ios-arrow">‹</span> Invitation
+        <a href="/" className="ios-back-link" onClick={handleBackStep} title="Back">
+          <span className="ios-arrow">‹</span> Back
         </a>
         <h1 className="ios-page-title">PHOTOBOOTH</h1>
         <div style={{ width: '60px' }} /> {/* Spacer */}
@@ -538,8 +555,8 @@ export default function PhotoboothApp() {
 
                 {/* Column 2: 2x2 Snaps cockpit & customizer options */}
                 <div className="ios-camera-cockpit-column">
-                  <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--pb-muted)', margin: '0 0 0.75rem 0' }}>
-                    📸 Captured Poses (2x2 grid)
+                  <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--pb-muted)', margin: '0 0 0.5rem 0' }}>
+                    📸 Poses (Click to zoom/preview)
                   </h3>
 
                   {/* Snaps 2x2 Grid */}
@@ -552,12 +569,18 @@ export default function PhotoboothApp() {
                       return (
                         <div 
                           key={idx} 
-                          className={`ios-grid-slot ${currentSlot === idx && isCapturing && activeRetakeSlot === null ? 'active' : ''} ${isTargetRetake ? 'retaking' : ''}`}
+                          className={`ios-grid-slot clickable ${currentSlot === idx && isCapturing && activeRetakeSlot === null ? 'active' : ''} ${isTargetRetake ? 'retaking' : ''}`}
+                          onClick={() => {
+                            if (hasImg) {
+                              setZoomImage({ src: capturedPhotos[idx], index: idx, countLeft })
+                            }
+                          }}
+                          title={hasImg ? "Click to inspect photo quality" : ""}
                         >
                           {hasImg ? (
                             <>
                               <img src={capturedPhotos[idx]} alt={`Pose ${idx + 1}`} />
-                              <div className="ios-grid-slot-overlay">
+                              <div className="ios-grid-slot-overlay" onClick={e => e.stopPropagation()}>
                                 <span>R: {retakeCounts[idx]}/3</span>
                                 <button 
                                   className="ios-retake-btn" 
@@ -623,6 +646,37 @@ export default function PhotoboothApp() {
           </div>
         )}
       </div>
+
+      {/* Click-to-Zoom Lightroom Inspector Modal */}
+      {zoomImage && (
+        <div className="ios-zoom-modal" onClick={() => setZoomImage(null)}>
+          <div className="ios-zoom-content" onClick={e => e.stopPropagation()}>
+            <button className="ios-zoom-close" onClick={() => setZoomImage(null)}>✕</button>
+            <h4 className="ios-zoom-title">Pose #{zoomImage.index + 1} Preview</h4>
+            <div className="ios-zoom-frame">
+              <img src={zoomImage.src} alt="Pose Zoomed" className="ios-zoom-img" />
+            </div>
+            <div className="ios-zoom-footer">
+              <span className="ios-zoom-counter">Retakes used: {3 - zoomImage.countLeft}/3</span>
+              {zoomImage.countLeft > 0 ? (
+                <button 
+                  className="ios-action-btn ios-action-primary" 
+                  style={{ height: '38px', borderRadius: '19px', fontSize: '0.85rem' }}
+                  onClick={() => {
+                    setZoomImage(null)
+                    handleRetakeSlot(zoomImage.index)
+                  }}
+                  disabled={isCapturing}
+                >
+                  🔄 Retake Pose ({zoomImage.countLeft} Left)
+                </button>
+              ) : (
+                <span className="ios-zoom-capped-label">Retake limit reached</span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* iOS Bottom Native Mode Selector & Shutter bar */}
       {(!finalizedStrip || tab !== 'camera') && (
