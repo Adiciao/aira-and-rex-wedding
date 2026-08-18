@@ -40,7 +40,7 @@ export default function RSVPTab() {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '2rem', gap: '1rem', flexWrap: 'wrap' }}>
         <div>
           <h2 className="admin-page-title">RSVP Responses</h2>
-          <p className="admin-page-sub" style={{ marginBottom: 0 }}>All guest responses for {bride} &amp; {groom}'s wedding.</p>
+          <p className="admin-page-sub" style={{ marginBottom: 0 }}>All guest responses for {groom} &amp; {bride}'s wedding.</p>
         </div>
         <button className="admin-btn admin-btn-ghost" onClick={() => exportCSV(rsvps)} disabled={rsvps.length === 0}>
           ↓ Export CSV

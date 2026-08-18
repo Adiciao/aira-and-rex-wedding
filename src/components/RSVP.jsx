@@ -209,7 +209,7 @@ export default function RSVP() {
                   <span style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>✉️</span>
                   <h4 style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.6rem', color: 'var(--text)', marginBottom: '0.75rem', fontWeight: 300 }}>Request Sent</h4>
                   <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.86rem', color: 'var(--text-soft)', lineHeight: 1.7, margin: '0 auto', maxWidth: 380 }}>
-                    Your invitation request has been submitted to <strong>{bride} &amp; {groom}</strong> for review. You can close this window now.
+                    Your invitation request has been submitted to <strong>{groom} &amp; {bride}</strong> for review. You can close this window now.
                   </p>
                   <button
                     onClick={() => { setShowRequestModal(false); setReqStatus('idle') }}

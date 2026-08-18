@@ -48,7 +48,7 @@ export default function AdminDashboard({ onLogout }) {
         >
           ☰
         </button>
-        <span className="admin-mobile-header-title">{bride} &amp; {groom} Admin</span>
+        <span className="admin-mobile-header-title">{groom} &amp; {bride} Admin</span>
       </div>
 
       {/* Backdrop for mobile */}
@@ -64,7 +64,7 @@ export default function AdminDashboard({ onLogout }) {
         <div className="admin-logo">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <h1>{bride} &amp; {groom}</h1>
+              <h1>{groom} &amp; {bride}</h1>
               <p>Admin Dashboard</p>
             </div>
             <button 

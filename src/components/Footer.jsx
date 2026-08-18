@@ -12,7 +12,7 @@ export default function Footer() {
     <footer style={{ background: 'var(--noir)', color: 'rgba(255,255,255,0.5)' }}>
       <div style={{ padding: 'clamp(4rem, 8vw, 7rem) 2rem 3rem', textAlign: 'center', maxWidth: 800, margin: '0 auto' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }} style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(3rem, 8vw, 5.5rem)', fontWeight: 300, color: 'var(--champagne)', letterSpacing: '0.02em', marginBottom: '0.5rem' }}>
-          {bride} &amp; {groom}
+          {groom} &amp; {bride}
         </motion.div>
         <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.4rem' }}>{formattedDate}</p>
         <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.35)', marginBottom: '3rem' }}>{ceremonyVenueName} &amp; {receptionVenueName}</p>
@@ -24,7 +24,7 @@ export default function Footer() {
         </div>
       </div>
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '1.5rem 2rem', textAlign: 'center', fontSize: '0.75rem', color: 'rgba(255,255,255,0.2)' }}>
-        Made with ♥ for {bride} &amp; {groom} · {year}
+        Made with ♥ for {groom} &amp; {bride} · {year}
       </div>
     </footer>
   )

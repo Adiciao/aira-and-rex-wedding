@@ -27,7 +27,7 @@ export default function OurStory() {
             <motion.p key={i} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.3 + i * 0.12, ease: [0.16, 1, 0.3, 1] }} style={{ color: 'var(--text-soft)', fontSize: '0.97rem', lineHeight: 1.9, marginBottom: '1.4rem' }}>{p}</motion.p>
           ))}
           <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={inView ? { opacity: 1, scaleX: 1 } : {}} transition={{ duration: 1, delay: 0.7 }} style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--blush)', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '2rem', fontWeight: 300, color: 'var(--taupe)' }}>{bride} &amp; {groom}</span>
+            <span style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '2rem', fontWeight: 300, color: 'var(--taupe)' }}>{groom} &amp; {bride}</span>
             <div style={{ width: 40, height: 1, background: 'var(--champagne)' }} />
             <span style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-soft)', fontWeight: 300 }}>{year}</span>
           </motion.div>
@@ -36,7 +36,7 @@ export default function OurStory() {
         <motion.div initial={{ opacity: 0, x: 60 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }} style={{ position: 'relative' }}>
           <TiltCard>
             <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '2px', boxShadow: '0 40px 100px rgba(0,0,0,0.18)' }}>
-              <motion.img src={images.couple} alt={`${bride} and ${groom}`} style={{ width: '100%', height: 'clamp(400px, 60vh, 620px)', objectFit: 'cover', display: 'block', y: imageY }} />
+              <motion.img src={images.couple} alt={`${groom} and ${bride}`} style={{ width: '100%', height: 'clamp(400px, 60vh, 620px)', objectFit: 'cover', display: 'block', y: imageY }} />
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to top, rgba(15,13,11,0.6), transparent)' }} />
             </div>
           </TiltCard>

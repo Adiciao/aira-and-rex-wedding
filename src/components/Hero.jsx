@@ -71,9 +71,9 @@ export default function Hero() {
           You Are Invited
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(0.4rem, 2vw, 1.5rem)', flexWrap: 'wrap', marginBottom: '1.8rem' }}>
-          <span className="hero-name-bride" style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(4rem, 10vw, 9.5rem)', color: 'white', lineHeight: 0.9, opacity: 0, textShadow: '0 4px 40px rgba(0,0,0,0.4)', letterSpacing: '-0.02em' }}>{bride}</span>
-          <span className="hero-amp" style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 6vw, 5.5rem)', color: 'var(--gold)', opacity: 0, lineHeight: 1, marginTop: '0.3em' }}>&amp;</span>
           <span className="hero-name-groom" style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(4rem, 10vw, 9.5rem)', color: 'white', lineHeight: 0.9, opacity: 0, textShadow: '0 4px 40px rgba(0,0,0,0.4)', letterSpacing: '-0.02em' }}>{groom}</span>
+          <span className="hero-amp" style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 6vw, 5.5rem)', color: 'var(--gold)', opacity: 0, lineHeight: 1, marginTop: '0.3em' }}>&amp;</span>
+          <span className="hero-name-bride" style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(4rem, 10vw, 9.5rem)', color: 'white', lineHeight: 0.9, opacity: 0, textShadow: '0 4px 40px rgba(0,0,0,0.4)', letterSpacing: '-0.02em' }}>{bride}</span>
         </div>
         <p ref={dateRef} style={{ fontFamily: 'var(--ff-sans)', fontSize: 'clamp(0.7rem, 1.5vw, 0.85rem)', fontWeight: 300, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.65)', marginBottom: '3rem', fontVariantNumeric: 'tabular-nums' }}>&nbsp;</p>
         <div className="hero-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', opacity: 0 }}>
