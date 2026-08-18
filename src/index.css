@@ -43,7 +43,6 @@ body {
   color: var(--text);
   line-height: 1.7;
   overflow-x: hidden;
-  cursor: none; /* we use custom cursor */
 }
 
 img {
@@ -54,13 +53,14 @@ img {
 a {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
 ul { list-style: none; }
 
 button {
   font-family: var(--ff-sans);
-  cursor: none;
+  cursor: pointer;
   border: none;
   background: none;
 }

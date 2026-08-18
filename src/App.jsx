@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import CustomCursor  from './components/CustomCursor'
 import PetalCanvas  from './components/PetalCanvas'
 import LiveChat     from './components/LiveChat'
 import Hero         from './components/Hero'
@@ -24,7 +23,6 @@ export default function App() {
   return (
     <>
       {/* Global overlays */}
-      <CustomCursor />
       <PetalCanvas />
       <LiveChat />
 
