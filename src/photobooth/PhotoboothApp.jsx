@@ -28,6 +28,7 @@ export default function PhotoboothApp() {
   const [galleryStrips, setGalleryStrips] = useState([])
   const [cameraBlocked, setCameraBlocked] = useState(false)
   const [simulatorMode, setSimulatorMode] = useState(false)
+  const [mirrorCamera, setMirrorCamera] = useState(false)
   
   const videoRef = useRef(null)
   const streamRef = useRef(null)
@@ -146,7 +147,11 @@ export default function PhotoboothApp() {
       canvas.height = 480
       const ctx = canvas.getContext('2d')
       
-      // Draw video frame to canvas (no mirroring)
+      // Draw video frame to canvas
+      if (mirrorCamera) {
+        ctx.translate(640, 0)
+        ctx.scale(-1, 1) // Mirror flip if mirror mode is enabled
+      }
       ctx.drawImage(videoRef.current, 0, 0, 640, 480)
       
       const dataUrl = canvas.toDataURL('image/jpeg')
@@ -504,7 +509,14 @@ export default function PhotoboothApp() {
                           </div>
                         </div>
                       ) : (
-                        <video ref={videoRef} className="pb-camera-video" autoPlay playsInline muted />
+                        <video 
+                          ref={videoRef} 
+                          className="pb-camera-video" 
+                          autoPlay 
+                          playsInline 
+                          muted 
+                          style={{ transform: mirrorCamera ? 'scaleX(-1)' : 'none' }}
+                        />
                       )}
                     </div>
 
@@ -546,15 +558,25 @@ export default function PhotoboothApp() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.72rem', color: 'var(--pb-muted)' }}>
-                      <span>Status: {simulatorMode ? 'Simulator fallback active' : 'Device camera ready'}</span>
-                      {!cameraBlocked && (
-                        <button 
-                          onClick={() => setSimulatorMode(!simulatorMode)}
-                          style={{ background: 'none', border: 'none', color: 'var(--pb-accent)', cursor: 'pointer', fontSize: '0.72rem', textDecoration: 'underline' }}
-                        >
-                          Switch to {simulatorMode ? 'Real Camera' : 'Simulator'}
-                        </button>
-                      )}
+                      <span>Status: {simulatorMode ? 'Simulator active' : 'Camera active'}</span>
+                      <div style={{ display: 'flex', gap: '1rem' }}>
+                        {!simulatorMode && (
+                          <button 
+                            onClick={() => setMirrorCamera(!mirrorCamera)}
+                            style={{ background: 'none', border: 'none', color: 'var(--pb-accent)', cursor: 'pointer', fontSize: '0.72rem', textDecoration: 'underline' }}
+                          >
+                            {mirrorCamera ? 'Unmirror Feed' : 'Mirror Feed'}
+                          </button>
+                        )}
+                        {!cameraBlocked && (
+                          <button 
+                            onClick={() => setSimulatorMode(!simulatorMode)}
+                            style={{ background: 'none', border: 'none', color: 'var(--pb-accent)', cursor: 'pointer', fontSize: '0.72rem', textDecoration: 'underline' }}
+                          >
+                            Switch to {simulatorMode ? 'Real Camera' : 'Simulator'}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
