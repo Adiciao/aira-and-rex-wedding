@@ -841,17 +841,24 @@ export default function PhotoboothApp() {
 }
 
 function LiveWallView({ strips, onClose }) {
-  const [index, setIndex] = useState(0)
+  const containerRef = useRef(null)
+  const [shouldScroll, setShouldScroll] = useState(false)
 
   useEffect(() => {
-    if (strips.length <= 3) return
-    const interval = setInterval(() => {
-      setIndex(prev => (prev + 3 >= strips.length ? 0 : prev + 3))
-    }, 5000)
-    return () => clearInterval(interval)
+    const checkOverflow = () => {
+      if (containerRef.current) {
+        const totalWidth = strips.length * (215 + 32)
+        const overflows = totalWidth > window.innerWidth
+        setShouldScroll(overflows)
+      }
+    }
+
+    checkOverflow()
+    window.addEventListener('resize', checkOverflow)
+    return () => window.removeEventListener('resize', checkOverflow)
   }, [strips])
 
-  const visibleStrips = strips.slice(index, index + 3)
+  const displayStrips = shouldScroll ? [...strips, ...strips] : strips
 
   return (
     <div className="pb-live-wall-container">
@@ -870,15 +877,18 @@ function LiveWallView({ strips, onClose }) {
           <p>Live reception photostrips • Snap yours now!</p>
         </div>
 
-        <div className="pb-live-wall-display">
+        <div 
+          ref={containerRef}
+          className={`pb-live-wall-display ${shouldScroll ? 'marquee-active' : ''}`}
+        >
           {strips.length === 0 ? (
             <div className="pb-live-wall-empty">
               <span className="live-empty-icon">🎞</span>
               <p>Waiting for guests to capture photostrips...</p>
             </div>
           ) : (
-            visibleStrips.map(strip => (
-              <div key={strip.id} className="pb-live-strip-card">
+            displayStrips.map((strip, idx) => (
+              <div key={`${strip.id}-${idx}`} className="pb-live-strip-card">
                 <img src={strip.image_url} alt="Live projection" />
               </div>
             ))

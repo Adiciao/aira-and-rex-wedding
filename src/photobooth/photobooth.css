@@ -1102,6 +1102,7 @@
   flex-direction: column;
   padding: 1.5rem;
   box-sizing: border-box;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -1205,6 +1206,30 @@
 
   .pb-live-wall-header h2 {
     font-size: 1.8rem;
+  }
+}
+
+/* Infinite scrolling marquee track for reception projection */
+.pb-live-wall-display.marquee-active {
+  justify-content: flex-start !important;
+  width: max-content !important;
+  max-width: none !important;
+  animation: pb-marquee-scroll 45s linear infinite;
+  overflow: visible !important;
+  flex-wrap: nowrap !important;
+}
+
+/* Pause scroll when guests hover over cards so they can scan code or inspect pose details */
+.pb-live-wall-display.marquee-active:hover {
+  animation-play-state: paused;
+}
+
+@keyframes pb-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
