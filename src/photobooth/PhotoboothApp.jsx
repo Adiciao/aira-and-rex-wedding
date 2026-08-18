@@ -73,10 +73,16 @@ export default function PhotoboothApp() {
     pinkCrownImgRef.current = img2
   }, [])
 
-  // Load MediaPipe Face Detection script dynamically from official Google gstatic CDN
+  // Load MediaPipe Face Detection script dynamically with pinned stable versions
   useEffect(() => {
+    if (window.FaceDetection) {
+      initFaceDetection()
+      return
+    }
+
     const script = document.createElement('script')
-    script.src = 'https://www.gstatic.com/mediapipe/face_detection/face_detection.js'
+    script.src = 'https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4.1646425229/face_detection.js'
+    script.crossOrigin = 'anonymous'
     script.async = true
     script.onload = () => {
       initFaceDetection()
@@ -97,11 +103,11 @@ export default function PhotoboothApp() {
     if (!window.FaceDetection) return
     try {
       const detector = new window.FaceDetection({
-        locateFile: (file) => `https://www.gstatic.com/mediapipe/face_detection/${file}`
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4.1646425229/${file}`
       })
       detector.setOptions({
         modelSelection: 0, // 0 = short range (within 2m) which is perfect for photobooth selfie cameras
-        minDetectionConfidence: 0.5
+        minDetectionConfidence: 0.55
       })
       detector.onResults((results) => {
         if (results.detections) {
@@ -285,25 +291,32 @@ export default function PhotoboothApp() {
       ctx.filter = 'none' // Reset filter context
 
       // Burn overlay face tracking heart crown onto photo canvas
-      if (
-        (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') &&
-        faceDetections.length > 0
-      ) {
-        const det = faceDetections[0]
-        const box = det.boundingBox
-
-        const faceW = box.width * w
-        const crownW = faceW * 1.5
-        const crownH = crownW * 0.45 // aspect ratio matching crown image
-        const crownX = (box.xMin + box.width / 2) * w - crownW / 2
-        const crownY = box.yMin * h - crownH * 0.72
-
+      if (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') {
         const crownImg = activeFilter === 'hearts-purple'
           ? purpleCrownImgRef.current
           : pinkCrownImgRef.current
 
         if (crownImg && crownImg.complete) {
-          ctx.drawImage(crownImg, crownX, crownY, crownW, crownH)
+          if (faceDetections.length > 0) {
+            const det = faceDetections[0]
+            const box = det.boundingBox
+
+            const faceW = box.width * w
+            const crownW = faceW * 1.5
+            const crownH = crownW * 0.45 // aspect ratio matching crown image
+            const crownX = (box.xMin + box.width / 2) * w - crownW / 2
+            const crownY = box.yMin * h - crownH * 0.72
+
+            ctx.drawImage(crownImg, crownX, crownY, crownW, crownH)
+          } else {
+            // Fallback: Burn crown at the default center-top position (typical head placement)
+            const crownW = w * 0.38
+            const crownH = crownW * 0.45
+            const crownX = w * 0.31 // center horizontally: (1 - 0.38) / 2 = 0.31
+            const crownY = h * 0.16 // typical forehead level
+
+            ctx.drawImage(crownImg, crownX, crownY, crownW, crownH)
+          }
         }
       }
       
@@ -720,32 +733,52 @@ export default function PhotoboothApp() {
                         />
 
                         {/* Live Face Tracking Overlays rendered inside mirrored video container */}
-                        {tab === 'camera' && !simulatorMode && (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && faceDetections.map((det, i) => {
-                          const box = det.boundingBox
-                          const crownW = box.width * 1.5 * 100 // 1.5 times face width as percentage
-                          const crownH = crownW * 0.45 // aspect ratio match
-                          const left = (box.xMin + box.width / 2) * 100 - crownW / 2
-                          const top = box.yMin * 100 - crownH * 0.72
+                        {tab === 'camera' && !simulatorMode && (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && (
+                          faceDetections.length > 0 ? (
+                            faceDetections.map((det, i) => {
+                              const box = det.boundingBox
+                              const crownW = box.width * 1.5 * 100 // 1.5 times face width as percentage
+                              const crownH = crownW * 0.45 // aspect ratio match
+                              const left = (box.xMin + box.width / 2) * 100 - crownW / 2
+                              const top = box.yMin * 100 - crownH * 0.72
 
-                          return (
+                              return (
+                                <img
+                                  key={i}
+                                  src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
+                                  style={{
+                                    position: 'absolute',
+                                    left: `${left}%`,
+                                    top: `${top}%`,
+                                    width: `${crownW}%`,
+                                    height: 'auto',
+                                    pointerEvents: 'none',
+                                    zIndex: 9,
+                                    transformOrigin: 'bottom center',
+                                    transition: 'left 0.08s ease-out, top 0.08s ease-out, width 0.08s ease-out'
+                                  }}
+                                  alt="Tracking Crown"
+                                />
+                              )
+                            })
+                          ) : (
+                            /* Fallback overlay if face tracking is loading, failed, or not active yet */
                             <img
-                              key={i}
                               src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
                               style={{
                                 position: 'absolute',
-                                left: `${left}%`,
-                                top: `${top}%`,
-                                width: `${crownW}%`,
+                                left: '31%',
+                                top: '16%',
+                                width: '38%',
                                 height: 'auto',
                                 pointerEvents: 'none',
                                 zIndex: 9,
-                                transformOrigin: 'bottom center',
-                                transition: 'left 0.08s ease-out, top 0.08s ease-out, width 0.08s ease-out'
+                                transformOrigin: 'bottom center'
                               }}
-                              alt="Tracking Crown"
+                              alt="Static Crown fallback"
                             />
                           )
-                        })}
+                        )}
                       </div>
                     )}
                   </div>
