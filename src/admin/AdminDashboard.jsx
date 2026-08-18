@@ -8,12 +8,14 @@ import ImagesTab from './tabs/ImagesTab'
 import RSVPTab   from './tabs/RSVPTab'
 import GuestsTab from './tabs/GuestsTab'
 import MessagesTab from './tabs/MessagesTab'
+import StripsTab from './tabs/StripsTab'
 import './admin.css'
 
 const TABS = [
   { id: 'rsvp',     icon: '💌', label: 'RSVPs' },
   { id: 'guests',   icon: '👥', label: 'Guest List' },
   { id: 'messages', icon: '💬', label: 'Messages' },
+  { id: 'strips',   icon: '🎞',  label: 'Strips Images' },
   { id: 'info',     icon: '✏️',  label: 'Wedding Info' },
   { id: 'images',   icon: '🖼',  label: 'Images' },
 ]
@@ -130,6 +132,7 @@ export default function AdminDashboard({ onLogout }) {
         {tab === 'rsvp'     && <RSVPTab />}
         {tab === 'guests'   && <GuestsTab />}
         {tab === 'messages' && <MessagesTab />}
+        {tab === 'strips'   && <StripsTab />}
       </main>
     </div>
   )
