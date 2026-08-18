@@ -13,6 +13,15 @@ const THEMES = [
   { id: 'midnight-purple', bg: '#23182b', border: '#170e1e', text: '#eedef7', label: 'Midnight Purple' },
 ]
 
+const FILTERS = [
+  { id: 'none', label: 'Normal', icon: '📷' },
+  { id: 'hearts', label: 'Hearts', icon: '💖', emoji: '💖 💜 💖' },
+  { id: 'crown', label: 'Floral Crown', icon: '🌸', emoji: '🌸 🌺 🌸' },
+  { id: 'rings', label: 'Gold Rings', icon: '💍', emoji: '💍 💍' },
+  { id: 'sparkles', label: 'Sparkles', icon: '✨', emoji: '✨' },
+  { id: 'vintage', label: 'Vintage Tone', icon: '🎞', filterCss: 'sepia(0.4) contrast(1.15) brightness(0.95)' },
+]
+
 export default function PhotoboothApp() {
   const [tab, setTab] = useState('camera') // 'camera', 'gallery', 'live-wall'
   const [guestName, setGuestName] = useState('')
@@ -29,6 +38,10 @@ export default function PhotoboothApp() {
   const [cameraBlocked, setCameraBlocked] = useState(false)
   const [simulatorMode, setSimulatorMode] = useState(false)
   const [mirrorCamera, setMirrorCamera] = useState(false)
+  
+  // MacBook style Filter States
+  const [activeFilter, setActiveFilter] = useState('none')
+  const [showFiltersTray, setShowFiltersTray] = useState(false)
   
   // Retake-specific state (capped at 3 per slot)
   const [retakeCounts, setRetakeCounts] = useState({ 0: 0, 1: 0, 2: 0, 3: 0 })
@@ -90,7 +103,7 @@ export default function PhotoboothApp() {
     }
   }
 
-  // Draw simulated poses
+  // Draw simulated poses with filter overlay burned in
   const drawSimulatedPose = (index) => {
     const canvas = document.createElement('canvas')
     canvas.width = 640
@@ -126,7 +139,43 @@ export default function PhotoboothApp() {
     ctx.font = 'italic 16px serif'
     ctx.fillText('Aira & Rex Wedding Photobooth', 320, 360)
 
+    // Burn selected filter overlay graphics onto simulator canvas
+    burnFilterGraphics(ctx, 640, 480)
+
     return canvas.toDataURL('image/jpeg')
+  }
+
+  const burnFilterGraphics = (ctx, w, h) => {
+    // 1. Vintage Tone adjustments
+    if (activeFilter === 'vintage') {
+      ctx.filter = 'sepia(0.4) contrast(1.15) brightness(0.95)'
+    }
+
+    // 2. Overlay Graphics
+    ctx.fillStyle = '#ffffff'
+    ctx.textAlign = 'center'
+
+    if (activeFilter === 'hearts') {
+      ctx.font = '55px sans-serif'
+      ctx.fillText('💖  💜  💖', w / 2, 75)
+    } else if (activeFilter === 'crown') {
+      ctx.font = '50px sans-serif'
+      ctx.fillText('🌸  🌺  🌸', w / 2, 65)
+    } else if (activeFilter === 'rings') {
+      ctx.font = '40px sans-serif'
+      ctx.textAlign = 'right'
+      ctx.fillText('💍 💍', w - 40, h - 35)
+    } else if (activeFilter === 'sparkles') {
+      ctx.font = '35px sans-serif'
+      ctx.textAlign = 'left'
+      ctx.fillText('✨', 35, 60)
+      ctx.textAlign = 'right'
+      ctx.fillText('✨', w - 35, 60)
+      ctx.textAlign = 'left'
+      ctx.fillText('✨', 35, h - 35)
+      ctx.textAlign = 'right'
+      ctx.fillText('✨', w - 35, h - 35)
+    }
   }
 
   const capturePhoto = (slotIndex = capturedPhotos.length) => {
@@ -150,11 +199,21 @@ export default function PhotoboothApp() {
       canvas.height = h
       const ctx = canvas.getContext('2d')
       
+      // Mirror feed if mirror camera active
       if (mirrorCamera) {
         ctx.translate(w, 0)
         ctx.scale(-1, 1)
       }
+
+      // Draw original frame with sepia/vintage context filters if selected
+      if (activeFilter === 'vintage') {
+        ctx.filter = 'sepia(0.4) contrast(1.15) brightness(0.95)'
+      }
       ctx.drawImage(video, 0, 0, w, h)
+      ctx.filter = 'none' // Reset filter context
+
+      // Burn overlay emojis/decorations
+      burnFilterGraphics(ctx, w, h)
       
       const dataUrl = canvas.toDataURL('image/jpeg')
       setCapturedPhotos(prev => {
@@ -368,10 +427,10 @@ export default function PhotoboothApp() {
     setFinalizedStrip(null)
     setRetakeCounts({ 0: 0, 1: 0, 2: 0, 3: 0 })
     setActiveRetakeSlot(null)
+    setActiveFilter('none')
     setTab('camera')
   }
 
-  // Custom step-back handler to prevent hard-exits
   const handleBackStep = (e) => {
     if (tab !== 'camera') {
       e.preventDefault()
@@ -383,8 +442,10 @@ export default function PhotoboothApp() {
       handleStartNew()
       return
     }
-    // Allow standard navigation back to home screen
   }
+
+  // Get active filter css value to apply live to preview stream wrapper
+  const currentFilterObj = FILTERS.find(f => f.id === activeFilter)
 
   return (
     <div className="ios-shell">
@@ -479,6 +540,25 @@ export default function PhotoboothApp() {
                       <div className="grid-v grid-v-2" />
                     </div>
 
+                    {/* Viewfinder Filter Overlays inside UI */}
+                    {activeFilter === 'hearts' && (
+                      <div className="ios-live-emoji-overlay floating-hearts">💖 💜 💖</div>
+                    )}
+                    {activeFilter === 'crown' && (
+                      <div className="ios-live-emoji-overlay flower-garland">🌸 🌺 🌸</div>
+                    )}
+                    {activeFilter === 'rings' && (
+                      <div className="ios-live-emoji-overlay interlock-rings">💍 💍</div>
+                    )}
+                    {activeFilter === 'sparkles' && (
+                      <>
+                        <div className="ios-live-emoji-overlay sparkle-tl">✨</div>
+                        <div className="ios-live-emoji-overlay sparkle-tr">✨</div>
+                        <div className="ios-live-emoji-overlay sparkle-bl">✨</div>
+                        <div className="ios-live-emoji-overlay sparkle-br">✨</div>
+                      </>
+                    )}
+
                     {isCapturing && countdown !== null && (
                       <div className="ios-viewfinder-countdown">{countdown}</div>
                     )}
@@ -503,6 +583,7 @@ export default function PhotoboothApp() {
                           width: '100%', 
                           height: '100%', 
                           transform: mirrorCamera ? 'scaleX(-1)' : 'none',
+                          filter: currentFilterObj?.filterCss || 'none',
                           overflow: 'hidden'
                         }}
                       >
@@ -681,6 +762,29 @@ export default function PhotoboothApp() {
       {/* iOS Bottom Native Mode Selector & Shutter bar */}
       {(!finalizedStrip || tab !== 'camera') && (
         <div className="ios-shutter-bar">
+          
+          {/* MacBook Style Filters Slider Tray (Collapsible) */}
+          {showFiltersTray && tab === 'camera' && (
+            <div className="ios-filter-tray">
+              <div className="ios-filter-tray-header">
+                <span>Select Camera Filter Overlay</span>
+                <button onClick={() => setShowFiltersTray(false)} className="ios-tray-close">✕</button>
+              </div>
+              <div className="ios-filter-options">
+                {FILTERS.map(f => (
+                  <button 
+                    key={f.id}
+                    className={`ios-filter-thumb-btn ${activeFilter === f.id ? 'active' : ''}`}
+                    onClick={() => setActiveFilter(f.id)}
+                  >
+                    <span className="ios-filter-icon">{f.icon}</span>
+                    <span className="ios-filter-label">{f.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="ios-modes-switcher">
             <button className={tab === 'gallery' ? 'active' : ''} onClick={() => setTab('gallery')}>
               GALLERY
@@ -694,8 +798,17 @@ export default function PhotoboothApp() {
           </div>
 
           <div className="ios-shutter-row">
+            {/* Shutter Left: Toggle MacBook style Filters */}
             <div className="ios-shutter-left">
-              {galleryStrips[0] ? (
+              {tab === 'camera' ? (
+                <button 
+                  className={`ios-filter-toggle-btn ${showFiltersTray ? 'active' : ''}`}
+                  onClick={() => setShowFiltersTray(!showFiltersTray)}
+                  title="Toggle Lens Filters"
+                >
+                  ✨
+                </button>
+              ) : galleryStrips[0] ? (
                 <div className="ios-roll-preview" onClick={() => setTab('gallery')}>
                   <img src={galleryStrips[0].image_url} alt="Latest roll" />
                 </div>
@@ -704,6 +817,7 @@ export default function PhotoboothApp() {
               )}
             </div>
 
+            {/* Shutter Center: Shutter trigger */}
             <div className="ios-shutter-center">
               {tab === 'camera' ? (
                 <button 
@@ -721,6 +835,7 @@ export default function PhotoboothApp() {
               )}
             </div>
 
+            {/* Shutter Right: Start new strip reset */}
             <div className="ios-shutter-right">
               {tab === 'camera' && (
                 <button 
