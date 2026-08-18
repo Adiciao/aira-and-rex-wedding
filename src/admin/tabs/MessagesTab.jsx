@@ -14,6 +14,36 @@ export default function MessagesTab() {
 
   const chatEndRef = useRef(null)
 
+  // Sync state with browser history popstate event for mobile back gesture/button support
+  useEffect(() => {
+    const handlePopState = (e) => {
+      if (!e.state || e.state.type !== 'chat-thread') {
+        setActiveId(null)
+      } else if (e.state.type === 'chat-thread') {
+        setActiveId(e.state.threadId)
+      }
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  const handleSelectThread = (id) => {
+    if (activeId) {
+      window.history.replaceState({ type: 'chat-thread', threadId: id }, '')
+    } else {
+      window.history.pushState({ type: 'chat-thread', threadId: id }, '')
+    }
+    setActiveId(id)
+  }
+
+  const handleGoBack = () => {
+    if (window.history.state?.type === 'chat-thread') {
+      window.history.back()
+    } else {
+      setActiveId(null)
+    }
+  }
+
   const GUESTS_REF = collection(db, 'invited_guests')
   const RSVPS_REF  = collection(db, 'rsvps')
 
@@ -254,7 +284,7 @@ export default function MessagesTab() {
                 {threads.map(t => (
                   <div
                     key={t.id}
-                    onClick={() => setActiveId(t.id)}
+                    onClick={() => handleSelectThread(t.id)}
                     style={{
                       padding: '1.25rem 1rem',
                       borderBottom: '1px solid rgba(255,255,255,0.03)',
@@ -301,7 +331,7 @@ export default function MessagesTab() {
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <button
                       className="admin-mobile-back-btn"
-                      onClick={() => setActiveId(null)}
+                      onClick={handleGoBack}
                       style={{
                         display: 'none',
                         background: 'none',
