@@ -117,7 +117,7 @@ export default function Entourage() {
               color: 'var(--taupe)',
               background: 'var(--cream-light)',
             }}>
-              A&R
+              R&A
             </div>
             <div style={{ width: 1, height: 60, background: 'linear-gradient(to bottom, var(--champagne), transparent)', marginTop: '1rem' }} />
           </motion.div>
