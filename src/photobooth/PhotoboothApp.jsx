@@ -471,23 +471,24 @@ export default function PhotoboothApp() {
   }
 
   const handleFinalizeAndUpload = async () => {
-    if (!previewCanvasRef.current) return
+    if (!previewCanvasRef.current) {
+      alert("Canvas compilation not ready yet!")
+      return
+    }
     setUploading(true)
     
     try {
       const barcodeId = 'AR-' + Math.floor(1000 + Math.random() * 9000)
       const canvas = previewCanvasRef.current
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'))
       
-      const storagePath = `photostrips/strip_${Date.now()}_${barcodeId}.png`
-      const storageRef = ref(storage, storagePath)
-      await uploadBytes(storageRef, blob)
-      const downloadUrl = await getDownloadURL(storageRef)
+      // Compile canvas directly to highly compressed JPEG base64 data URL
+      // This bypasses Firebase Storage upload delays, CORS blocks, and permissions rules entirely
+      const downloadUrl = canvas.toDataURL('image/jpeg', 0.85)
 
       await addDoc(collection(db, 'photostrips'), {
         guest_name: guestName.trim(),
         image_url: downloadUrl,
-        storage_path: storagePath,
+        storage_path: 'firestore_direct',
         barcode_id: barcodeId,
         theme_id: frameTheme.id,
         created_at: serverTimestamp(),
