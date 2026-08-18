@@ -15,10 +15,8 @@ const THEMES = [
 
 const FILTERS = [
   { id: 'none', label: 'Normal', icon: '📷' },
-  { id: 'hearts', label: 'Hearts', icon: '💖', emoji: '💖 💜 💖' },
-  { id: 'crown', label: 'Floral Crown', icon: '🌸', emoji: '🌸 🌺 🌸' },
-  { id: 'rings', label: 'Gold Rings', icon: '💍', emoji: '💍 💍' },
-  { id: 'sparkles', label: 'Sparkles', icon: '✨', emoji: '✨' },
+  { id: 'hearts-purple', label: 'Purple Crown', icon: '💜' },
+  { id: 'hearts-pink', label: 'Pink Crown', icon: '💖' },
   { id: 'vintage', label: 'Vintage Tone', icon: '🎞', filterCss: 'sepia(0.4) contrast(1.15) brightness(0.95)' },
 ]
 
@@ -43,6 +41,15 @@ export default function PhotoboothApp() {
   const [activeFilter, setActiveFilter] = useState('none')
   const [showFiltersTray, setShowFiltersTray] = useState(false)
   
+  // MediaPipe Face Tracking States
+  const [faceDetectionLoaded, setFaceDetectionLoaded] = useState(false)
+  const [faceDetections, setFaceDetections] = useState([])
+  const faceDetectorRef = useRef(null)
+
+  // Preloaded image references for synchronous canvas rendering
+  const purpleCrownImgRef = useRef(null)
+  const pinkCrownImgRef = useRef(null)
+
   // Retake-specific state (capped at 3 per slot)
   const [retakeCounts, setRetakeCounts] = useState({ 0: 0, 1: 0, 2: 0, 3: 0 })
   const [activeRetakeSlot, setActiveRetakeSlot] = useState(null)
@@ -54,6 +61,97 @@ export default function PhotoboothApp() {
   const streamRef = useRef(null)
   const canvasRef = useRef(null)
   const previewCanvasRef = useRef(null)
+
+  // Preload crown images
+  useEffect(() => {
+    const img1 = new Image()
+    img1.src = '/assets/hearts-crown-purple.png'
+    purpleCrownImgRef.current = img1
+
+    const img2 = new Image()
+    img2.src = '/assets/hearts-crown-pink.png'
+    pinkCrownImgRef.current = img2
+  }, [])
+
+  // Load MediaPipe Face Detection script dynamically
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js'
+    script.async = true
+    script.onload = () => {
+      initFaceDetection()
+    }
+    document.head.appendChild(script)
+
+    return () => {
+      try {
+        document.head.removeChild(script)
+      } catch (e) {
+        // Script might already be removed
+      }
+    }
+  }, [])
+
+  // Initialize face tracking options
+  const initFaceDetection = () => {
+    if (!window.FaceDetection) return
+    try {
+      const detector = new window.FaceDetection({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
+      })
+      detector.setOptions({
+        model: 'short',
+        minDetectionConfidence: 0.5
+      })
+      detector.onResults((results) => {
+        if (results.detections) {
+          setFaceDetections(results.detections)
+        } else {
+          setFaceDetections([])
+        }
+      })
+      faceDetectorRef.current = detector
+      setFaceDetectionLoaded(true)
+    } catch (err) {
+      console.warn('Face detection initialization failed:', err)
+    }
+  }
+
+  // Face tracking requestAnimationFrame render loop
+  useEffect(() => {
+    let active = true
+    let animId = null
+
+    const processFrame = async () => {
+      if (!active) return
+
+      if (
+        tab === 'camera' &&
+        !finalizedStrip &&
+        !simulatorMode &&
+        videoRef.current &&
+        videoRef.current.readyState >= 3 &&
+        faceDetectorRef.current
+      ) {
+        try {
+          await faceDetectorRef.current.send({ image: videoRef.current })
+        } catch (err) {
+          // Fail silently to avoid spamming console during camera track updates
+        }
+      }
+
+      animId = requestAnimationFrame(processFrame)
+    }
+
+    if (faceDetectionLoaded) {
+      animId = requestAnimationFrame(processFrame)
+    }
+
+    return () => {
+      active = false
+      if (animId) cancelAnimationFrame(animId)
+    }
+  }, [tab, finalizedStrip, simulatorMode, faceDetectionLoaded])
 
   // Fetch strips for gallery and live wall
   useEffect(() => {
@@ -103,7 +201,7 @@ export default function PhotoboothApp() {
     }
   }
 
-  // Draw simulated poses with filter overlay burned in
+  // Draw simulated poses
   const drawSimulatedPose = (index) => {
     const canvas = document.createElement('canvas')
     canvas.width = 640
@@ -139,43 +237,17 @@ export default function PhotoboothApp() {
     ctx.font = 'italic 16px serif'
     ctx.fillText('Aira & Rex Wedding Photobooth', 320, 360)
 
-    // Burn selected filter overlay graphics onto simulator canvas
-    burnFilterGraphics(ctx, 640, 480)
+    // Burn selected crown filter overlay onto simulator canvas statically
+    if (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') {
+      const crownImg = activeFilter === 'hearts-purple' 
+        ? purpleCrownImgRef.current 
+        : pinkCrownImgRef.current
+      if (crownImg && crownImg.complete) {
+        ctx.drawImage(crownImg, 320 - 150, 45, 300, 135)
+      }
+    }
 
     return canvas.toDataURL('image/jpeg')
-  }
-
-  const burnFilterGraphics = (ctx, w, h) => {
-    // 1. Vintage Tone adjustments
-    if (activeFilter === 'vintage') {
-      ctx.filter = 'sepia(0.4) contrast(1.15) brightness(0.95)'
-    }
-
-    // 2. Overlay Graphics
-    ctx.fillStyle = '#ffffff'
-    ctx.textAlign = 'center'
-
-    if (activeFilter === 'hearts') {
-      ctx.font = '55px sans-serif'
-      ctx.fillText('💖  💜  💖', w / 2, 75)
-    } else if (activeFilter === 'crown') {
-      ctx.font = '50px sans-serif'
-      ctx.fillText('🌸  🌺  🌸', w / 2, 65)
-    } else if (activeFilter === 'rings') {
-      ctx.font = '40px sans-serif'
-      ctx.textAlign = 'right'
-      ctx.fillText('💍 💍', w - 40, h - 35)
-    } else if (activeFilter === 'sparkles') {
-      ctx.font = '35px sans-serif'
-      ctx.textAlign = 'left'
-      ctx.fillText('✨', 35, 60)
-      ctx.textAlign = 'right'
-      ctx.fillText('✨', w - 35, 60)
-      ctx.textAlign = 'left'
-      ctx.fillText('✨', 35, h - 35)
-      ctx.textAlign = 'right'
-      ctx.fillText('✨', w - 35, h - 35)
-    }
   }
 
   const capturePhoto = (slotIndex = capturedPhotos.length) => {
@@ -212,8 +284,28 @@ export default function PhotoboothApp() {
       ctx.drawImage(video, 0, 0, w, h)
       ctx.filter = 'none' // Reset filter context
 
-      // Burn overlay emojis/decorations
-      burnFilterGraphics(ctx, w, h)
+      // Burn overlay face tracking heart crown onto photo canvas
+      if (
+        (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') &&
+        faceDetections.length > 0
+      ) {
+        const det = faceDetections[0]
+        const box = det.boundingBox
+
+        const faceW = box.width * w
+        const crownW = faceW * 1.5
+        const crownH = crownW * 0.45 // aspect ratio matching crown image
+        const crownX = (box.xMin + box.width / 2) * w - crownW / 2
+        const crownY = box.yMin * h - crownH * 0.72
+
+        const crownImg = activeFilter === 'hearts-purple'
+          ? purpleCrownImgRef.current
+          : pinkCrownImgRef.current
+
+        if (crownImg && crownImg.complete) {
+          ctx.drawImage(crownImg, crownX, crownY, crownW, crownH)
+        }
+      }
       
       const dataUrl = canvas.toDataURL('image/jpeg')
       setCapturedPhotos(prev => {
@@ -444,7 +536,6 @@ export default function PhotoboothApp() {
     }
   }
 
-  // Get active filter css value to apply live to preview stream wrapper
   const currentFilterObj = FILTERS.find(f => f.id === activeFilter)
 
   return (
@@ -540,25 +631,6 @@ export default function PhotoboothApp() {
                       <div className="grid-v grid-v-2" />
                     </div>
 
-                    {/* Viewfinder Filter Overlays inside UI */}
-                    {activeFilter === 'hearts' && (
-                      <div className="ios-live-emoji-overlay floating-hearts">💖 💜 💖</div>
-                    )}
-                    {activeFilter === 'crown' && (
-                      <div className="ios-live-emoji-overlay flower-garland">🌸 🌺 🌸</div>
-                    )}
-                    {activeFilter === 'rings' && (
-                      <div className="ios-live-emoji-overlay interlock-rings">💍 💍</div>
-                    )}
-                    {activeFilter === 'sparkles' && (
-                      <>
-                        <div className="ios-live-emoji-overlay sparkle-tl">✨</div>
-                        <div className="ios-live-emoji-overlay sparkle-tr">✨</div>
-                        <div className="ios-live-emoji-overlay sparkle-bl">✨</div>
-                        <div className="ios-live-emoji-overlay sparkle-br">✨</div>
-                      </>
-                    )}
-
                     {isCapturing && countdown !== null && (
                       <div className="ios-viewfinder-countdown">{countdown}</div>
                     )}
@@ -575,6 +647,21 @@ export default function PhotoboothApp() {
                             {activeRetakeSlot !== null ? 'Posing for selected slot...' : 'Click Shutter to capture 4 simulated emoji wedding poses.'}
                           </p>
                         </div>
+                        {/* Static Crown for simulator mode */}
+                        {(activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && (
+                          <img
+                            src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
+                            style={{
+                              position: 'absolute',
+                              top: '15%',
+                              width: '45%',
+                              height: 'auto',
+                              pointerEvents: 'none',
+                              zIndex: 9
+                            }}
+                            alt="Static Crown fallback"
+                          />
+                        )}
                       </div>
                     ) : (
                       <div 
@@ -584,7 +671,8 @@ export default function PhotoboothApp() {
                           height: '100%', 
                           transform: mirrorCamera ? 'scaleX(-1)' : 'none',
                           filter: currentFilterObj?.filterCss || 'none',
-                          overflow: 'hidden'
+                          overflow: 'hidden',
+                          position: 'relative'
                         }}
                       >
                         <video 
@@ -600,6 +688,34 @@ export default function PhotoboothApp() {
                             display: 'block'
                           }}
                         />
+
+                        {/* Live Face Tracking Overlays rendered inside mirrored video container */}
+                        {tab === 'camera' && !simulatorMode && (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && faceDetections.map((det, i) => {
+                          const box = det.boundingBox
+                          const crownW = box.width * 1.5 * 100 // 1.5 times face width as percentage
+                          const crownH = crownW * 0.45 // aspect ratio match
+                          const left = (box.xMin + box.width / 2) * 100 - crownW / 2
+                          const top = box.yMin * 100 - crownH * 0.72
+
+                          return (
+                            <img
+                              key={i}
+                              src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
+                              style={{
+                                position: 'absolute',
+                                left: `${left}%`,
+                                top: `${top}%`,
+                                width: `${crownW}%`,
+                                height: 'auto',
+                                pointerEvents: 'none',
+                                zIndex: 9,
+                                transformOrigin: 'bottom center',
+                                transition: 'left 0.08s ease-out, top 0.08s ease-out, width 0.08s ease-out'
+                              }}
+                              alt="Tracking Crown"
+                            />
+                          )
+                        })}
                       </div>
                     )}
                   </div>
