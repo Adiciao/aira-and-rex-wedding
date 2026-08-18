@@ -46,6 +46,12 @@ export default function PhotoboothApp() {
   const [faceDetections, setFaceDetections] = useState([])
   const faceDetectorRef = useRef(null)
 
+  // Draggable & Scalable Crown States (unified fallback & AI auto-tracking)
+  const [crownPosition, setCrownPosition] = useState({ x: 50, y: 30 }) // X: 50%, Y: 30% (center-based)
+  const [crownScale, setCrownScale] = useState(38) // Width percentage (20% - 60%)
+  const isDraggingRef = useRef(false)
+  const dragStartRef = useRef({ x: 0, y: 0, initialX: 50, initialY: 30 })
+
   // Preloaded image references for synchronous canvas rendering
   const purpleCrownImgRef = useRef(null)
   const pinkCrownImgRef = useRef(null)
@@ -109,6 +115,18 @@ export default function PhotoboothApp() {
       detector.onResults((results) => {
         if (results.detections) {
           setFaceDetections(results.detections)
+          
+          // Auto-snap crown coordinates to tracked face if the guest is not manually positioning it
+          if (results.detections.length > 0 && !isDraggingRef.current) {
+            const det = results.detections[0]
+            const box = det.boundingBox
+            const w = box.width * 1.5 * 100 // Scale width matching face bounds
+            const left = (box.xMin + box.width / 2) * 100
+            const top = box.yMin * 100 - (w * 0.45) * 0.72 + (w * 0.45) / 2 // offset to center-based Y coordinate
+
+            setCrownPosition({ x: left, y: top })
+            setCrownScale(Math.round(w))
+          }
         } else {
           setFaceDetections([])
         }
@@ -304,26 +322,12 @@ export default function PhotoboothApp() {
           : pinkCrownImgRef.current
 
         if (crownImg && crownImg.complete) {
-          if (faceDetections.length > 0) {
-            const det = faceDetections[0]
-            const box = det.boundingBox
+          const crownW = (crownScale / 100) * w
+          const crownH = crownW * 0.45 // aspect ratio matching crown image
+          const crownX = (crownPosition.x / 100) * w - crownW / 2
+          const crownY = (crownPosition.y / 100) * h - crownH / 2
 
-            const faceW = box.width * w
-            const crownW = faceW * 1.5
-            const crownH = crownW * 0.45 // aspect ratio matching crown image
-            const crownX = (box.xMin + box.width / 2) * w - crownW / 2
-            const crownY = box.yMin * h - crownH * 0.72
-
-            ctx.drawImage(crownImg, crownX, crownY, crownW, crownH)
-          } else {
-            // Fallback: Burn crown at the default center-top position (typical head placement)
-            const crownW = w * 0.38
-            const crownH = crownW * 0.45
-            const crownX = w * 0.31 // center horizontally: (1 - 0.38) / 2 = 0.31
-            const crownY = h * 0.16 // typical forehead level
-
-            ctx.drawImage(crownImg, crownX, crownY, crownW, crownH)
-          }
+          ctx.drawImage(crownImg, crownX, crownY, crownW, crownH)
         }
       }
       
@@ -557,6 +561,44 @@ export default function PhotoboothApp() {
     }
   }
 
+  // Mouse & Touch Dragging Handlers for custom crown positioning
+  const handleDragStart = (e) => {
+    // Only drag when clicking the crown image itself
+    isDraggingRef.current = true
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY
+    dragStartRef.current = {
+      x: clientX,
+      y: clientY,
+      initialX: crownPosition.x,
+      initialY: crownPosition.y
+    }
+  }
+
+  const handleDragMove = (e) => {
+    if (!isDraggingRef.current) return
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY
+    
+    const viewfinder = document.querySelector('.ios-viewfinder')
+    if (!viewfinder) return
+    const rect = viewfinder.getBoundingClientRect()
+    
+    // Calculate delta relative to the viewfinder container width/height
+    const deltaX = ((clientX - dragStartRef.current.x) / rect.width) * 100
+    const deltaY = ((clientY - dragStartRef.current.y) / rect.height) * 100
+    
+    // Limit coordinates to keep the crown inside the viewfinder bounds
+    const newX = Math.max(5, Math.min(95, dragStartRef.current.initialX + deltaX))
+    const newY = Math.max(5, Math.min(95, dragStartRef.current.initialY + deltaY))
+    
+    setCrownPosition({ x: newX, y: newY })
+  }
+
+  const handleDragEnd = () => {
+    isDraggingRef.current = false
+  }
+
   const currentFilterObj = FILTERS.find(f => f.id === activeFilter)
 
   return (
@@ -670,7 +712,14 @@ export default function PhotoboothApp() {
                 
                 {/* Column 1: Viewfinder window */}
                 <div className="ios-camera-view-column">
-                  <div className="ios-viewfinder">
+                  <div 
+                    className="ios-viewfinder"
+                    onMouseMove={handleDragMove}
+                    onTouchMove={handleDragMove}
+                    onMouseUp={handleDragEnd}
+                    onTouchEnd={handleDragEnd}
+                    onMouseLeave={handleDragEnd}
+                  >
                     <div className={`pb-camera-flash ${flashActive ? 'flash-active' : ''}`} />
                     
                     {/* Grid Overlay lines */}
@@ -697,19 +746,26 @@ export default function PhotoboothApp() {
                             {activeRetakeSlot !== null ? 'Posing for selected slot...' : 'Click Shutter to capture 4 simulated emoji wedding poses.'}
                           </p>
                         </div>
-                        {/* Static Crown for simulator mode */}
+                        {/* Interactive Crown for simulator mode */}
                         {(activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && (
                           <img
                             src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
+                            onMouseDown={handleDragStart}
+                            onTouchStart={handleDragStart}
                             style={{
                               position: 'absolute',
-                              top: '15%',
-                              width: '45%',
+                              left: `${crownPosition.x - crownScale / 2}%`,
+                              top: `${crownPosition.y - (crownScale * 0.45) / 2}%`,
+                              width: `${crownScale}%`,
                               height: 'auto',
-                              pointerEvents: 'none',
-                              zIndex: 9
+                              cursor: 'move',
+                              zIndex: 10,
+                              transformOrigin: 'center center',
+                              userSelect: 'none',
+                              touchAction: 'none',
+                              filter: 'drop-shadow(0 4px 10px rgba(167, 139, 250, 0.4))'
                             }}
-                            alt="Static Crown fallback"
+                            alt="Adjustable Crown fallback"
                           />
                         )}
                       </div>
@@ -740,56 +796,70 @@ export default function PhotoboothApp() {
                           }}
                         />
 
-                        {/* Live Face Tracking Overlays rendered inside mirrored video container */}
-                        {tab === 'camera' && !simulatorMode && (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && (
-                          faceDetections.length > 0 ? (
-                            faceDetections.map((det, i) => {
-                              const box = det.boundingBox
-                              const crownW = box.width * 1.5 * 100 // 1.5 times face width as percentage
-                              const crownH = crownW * 0.45 // aspect ratio match
-                              const left = (box.xMin + box.width / 2) * 100 - crownW / 2
-                              const top = box.yMin * 100 - crownH * 0.72
-
-                              return (
-                                <img
-                                  key={i}
-                                  src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
-                                  style={{
-                                    position: 'absolute',
-                                    left: `${left}%`,
-                                    top: `${top}%`,
-                                    width: `${crownW}%`,
-                                    height: 'auto',
-                                    pointerEvents: 'none',
-                                    zIndex: 9,
-                                    transformOrigin: 'bottom center',
-                                    transition: 'left 0.08s ease-out, top 0.08s ease-out, width 0.08s ease-out'
-                                  }}
-                                  alt="Tracking Crown"
-                                />
-                              )
-                            })
-                          ) : (
-                            /* Fallback overlay if face tracking is loading, failed, or not active yet */
-                            <img
-                              src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
-                              style={{
-                                position: 'absolute',
-                                left: '31%',
-                                top: '16%',
-                                width: '38%',
-                                height: 'auto',
-                                pointerEvents: 'none',
-                                zIndex: 9,
-                                transformOrigin: 'bottom center'
-                              }}
-                              alt="Static Crown fallback"
-                            />
-                          )
+                        {/* Interactive Crown Filter Overlay (unified for auto-tracking & manual fallback) */}
+                        {tab === 'camera' && (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && (
+                          <img
+                            src={activeFilter === 'hearts-purple' ? '/assets/hearts-crown-purple.png' : '/assets/hearts-crown-pink.png'}
+                            onMouseDown={handleDragStart}
+                            onTouchStart={handleDragStart}
+                            style={{
+                              position: 'absolute',
+                              left: `${crownPosition.x - crownScale / 2}%`,
+                              top: `${crownPosition.y - (crownScale * 0.45) / 2}%`,
+                              width: `${crownScale}%`,
+                              height: 'auto',
+                              cursor: 'move',
+                              zIndex: 10,
+                              transformOrigin: 'center center',
+                              userSelect: 'none',
+                              touchAction: 'none',
+                              filter: 'drop-shadow(0 4px 10px rgba(167, 139, 250, 0.4))'
+                            }}
+                            alt="Adjustable Crown Filter"
+                          />
                         )}
                       </div>
                     )}
                   </div>
+
+                  {/* Crown Size Slider (Only visible when crown filter is active) */}
+                  {tab === 'camera' && (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') && (
+                    <div className="ios-slider-container" style={{
+                      marginTop: '0.8rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.8rem',
+                      background: 'rgba(255, 255, 255, 0.8)',
+                      padding: '0.45rem 0.85rem',
+                      borderRadius: '16px',
+                      border: '1px solid var(--pb-border)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      boxShadow: '0 4px 15px rgba(66, 42, 92, 0.03)'
+                    }}>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--pb-text)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        👑 Size:
+                      </span>
+                      <input 
+                        type="range" 
+                        min="20" 
+                        max="60" 
+                        value={crownScale} 
+                        onChange={(e) => setCrownScale(Number(e.target.value))}
+                        style={{ flex: 1, accentColor: 'var(--pb-accent)', height: '4px', borderRadius: '2px', cursor: 'pointer' }}
+                      />
+                      <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--pb-muted)', minWidth: '28px', textAlign: 'right' }}>
+                        {crownScale}%
+                      </span>
+                      <button 
+                        className="ios-bar-link" 
+                        style={{ fontSize: '0.72rem', marginLeft: '0.4rem', fontWeight: 700, textDecoration: 'none' }}
+                        onClick={() => { setCrownPosition({ x: 50, y: 30 }); setCrownScale(38); }}
+                      >
+                        Reset Position
+                      </button>
+                    </div>
+                  )}
 
                   {/* Nickname Input Bar */}
                   <div className="ios-input-bar" style={{ marginTop: '0.85rem' }}>
