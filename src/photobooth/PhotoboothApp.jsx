@@ -95,12 +95,12 @@ export default function PhotoboothApp() {
     return () => clearInterval(checkExist)
   }, [])
 
-  // Initialize face tracking options
+  // Initialize face tracking options using locally hosted MediaPipe WebAssembly and model files
   const initFaceDetection = () => {
     if (!window.FaceDetection) return
     try {
       const detector = new window.FaceDetection({
-        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4.1646425229/${file}`
+        locateFile: (file) => `/mediapipe/${file}`
       })
       detector.setOptions({
         modelSelection: 0, // 0 = short range (within 2m) which is perfect for photobooth selfie cameras
@@ -201,6 +201,16 @@ export default function PhotoboothApp() {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop())
       streamRef.current = null
+    }
+  }
+
+  // Explicitly set width & height attributes for the video element once the stream loads.
+  // This is required for MediaPipe's WASM engine to capture correct pixel dimensions.
+  const handleVideoMetadata = (e) => {
+    const video = e.target
+    if (video) {
+      video.width = video.videoWidth || 640
+      video.height = video.videoHeight || 480
     }
   }
 
@@ -721,6 +731,7 @@ export default function PhotoboothApp() {
                           autoPlay 
                           playsInline 
                           muted 
+                          onLoadedMetadata={handleVideoMetadata}
                           style={{ 
                             width: '100%', 
                             height: '100%', 
