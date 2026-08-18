@@ -229,7 +229,7 @@ export default function MessagesTab() {
           Loading guest messages inbox...
         </div>
       ) : (
-        <div style={{
+        <div className={`admin-messenger-container ${activeId ? 'has-active-thread' : ''}`} style={{
           flex: 1,
           display: 'grid',
           gridTemplateColumns: '300px 1fr',
@@ -240,7 +240,7 @@ export default function MessagesTab() {
           minHeight: 400,
         }}>
           {/* Thread List Sidebar */}
-          <div style={{ borderRight: '1px solid var(--a-border)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+          <div className="messenger-threads-sidebar" style={{ borderRight: '1px solid var(--a-border)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '1rem', borderBottom: '1px solid var(--a-border)', fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--a-muted)', fontWeight: 500 }}>
               Inbox ({threads.length})
             </div>
@@ -293,18 +293,40 @@ export default function MessagesTab() {
           </div>
 
           {/* Active Chat Pane */}
-          <div style={{ display: 'flex', flexDirection: 'column', background: '#11141c' }}>
+          <div className="messenger-chat-pane" style={{ display: 'flex', flexDirection: 'column', background: '#11141c' }}>
             {activeChat ? (
               <>
                 {/* Header */}
                 <div style={{ padding: '1rem 1.5rem', borderBottom: '1px solid var(--a-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--a-surface)' }}>
-                  <div>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 500 }}>{activeChat.guest_name}</h3>
-                    <p style={{ fontSize: '0.72rem', color: 'var(--a-muted)' }}>Real-time chat session</p>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button
+                      className="admin-mobile-back-btn"
+                      onClick={() => setActiveId(null)}
+                      style={{
+                        display: 'none',
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--a-accent)',
+                        fontSize: '1.4rem',
+                        marginRight: '0.8rem',
+                        cursor: 'pointer',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '32px',
+                        height: '32px',
+                        lineHeight: 1,
+                      }}
+                    >
+                      ←
+                    </button>
+                    <div>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 500 }}>{activeChat.guest_name}</h3>
+                      <p style={{ fontSize: '0.72rem', color: 'var(--a-muted)' }}>Real-time chat session</p>
+                    </div>
                   </div>
                   <div style={{ display: 'flex', gap: '0.55rem' }}>
                     <button
-                      className="admin-btn admin-btn-ghost admin-btn-sm"
+                      className="admin-btn admin-btn-ghost admin-btn-sm admin-header-desktop-btn"
                       style={{ color: 'var(--a-accent)', borderColor: 'var(--a-border)' }}
                       onClick={handleSendFormCard}
                     >
@@ -314,7 +336,8 @@ export default function MessagesTab() {
                       className="admin-btn admin-btn-danger admin-btn-sm"
                       onClick={() => handleDeleteThread(activeChat.id, activeChat.guest_name)}
                     >
-                      Clear Chat
+                      <span className="btn-label-desktop">Clear Chat</span>
+                      <span className="btn-label-mobile">🗑</span>
                     </button>
                   </div>
                 </div>
@@ -388,16 +411,17 @@ export default function MessagesTab() {
                     return (
                       <div
                         key={m.id}
+                        className={isAdmin ? 'chat-bubble-admin' : 'chat-bubble-guest'}
                         style={{
                           alignSelf: isAdmin ? 'flex-end' : 'flex-start',
-                          maxWidth: '70%',
+                          maxWidth: '75%',
                           background: isAdmin ? 'var(--a-accent)' : 'var(--a-surface)',
                           color: isAdmin ? '#0f1117' : 'var(--a-text)',
                           border: isAdmin ? 'none' : '1px solid var(--a-border)',
-                          padding: '0.75rem 1rem',
-                          borderRadius: 8,
+                          padding: '0.65rem 0.9rem',
+                          borderRadius: isAdmin ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                           fontSize: '0.88rem',
-                          lineHeight: 1.5,
+                          lineHeight: 1.55,
                           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                         }}
                       >
@@ -416,7 +440,8 @@ export default function MessagesTab() {
                     style={{ color: 'var(--a-accent)', borderColor: 'var(--a-border)', height: '42px', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}
                     onClick={handleSendFormCard}
                   >
-                    📄 Send Form
+                    <span className="btn-label-desktop">Send Form</span>
+                    <span className="btn-label-mobile">📄</span>
                   </button>
                   <input
                     className="admin-input"
@@ -427,7 +452,8 @@ export default function MessagesTab() {
                     style={{ flex: 1 }}
                   />
                   <button type="submit" className="admin-btn admin-btn-primary" style={{ height: '42px' }} disabled={sending || !replyText.trim()}>
-                    {sending ? 'Sending...' : 'Send Reply'}
+                    <span className="btn-label-desktop">{sending ? 'Sending...' : 'Send Reply'}</span>
+                    <span className="btn-label-mobile">➔</span>
                   </button>
                 </form>
               </>
@@ -448,6 +474,72 @@ export default function MessagesTab() {
         .admin-main {
           display: flex;
           flex-direction: column;
+        }
+        
+        .admin-messenger-container {
+          height: calc(100vh - 12rem);
+          min-height: 480px;
+        }
+
+        .btn-label-mobile {
+          display: none;
+        }
+
+        .chat-bubble-admin {
+          border-radius: 18px 18px 4px 18px !important;
+          background: var(--a-accent) !important;
+          color: #0f1117 !important;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .chat-bubble-guest {
+          border-radius: 18px 18px 18px 4px !important;
+          background: #232836 !important;
+          color: var(--a-text) !important;
+          border: 1px solid rgba(255,255,255,0.03) !important;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        @media (max-width: 768px) {
+          .admin-messenger-container {
+            grid-template-columns: 1fr !important;
+            height: calc(100vh - 140px) !important;
+            min-height: auto !important;
+          }
+          
+          .messenger-threads-sidebar {
+            display: flex !important;
+            width: 100% !important;
+          }
+          
+          .messenger-chat-pane {
+            display: none !important;
+            width: 100% !important;
+          }
+          
+          .admin-messenger-container.has-active-thread .messenger-threads-sidebar {
+            display: none !important;
+          }
+          
+          .admin-messenger-container.has-active-thread .messenger-chat-pane {
+            display: flex !important;
+          }
+          
+          .admin-mobile-back-btn {
+            display: flex !important;
+          }
+          
+          .btn-label-desktop {
+            display: none !important;
+          }
+          
+          .btn-label-mobile {
+            display: inline-block !important;
+          }
+          
+          .admin-header-desktop-btn {
+            display: none !important;
+          }
         }
       `}</style>
     </div>
