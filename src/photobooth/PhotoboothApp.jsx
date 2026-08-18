@@ -30,6 +30,10 @@ export default function PhotoboothApp() {
   const [simulatorMode, setSimulatorMode] = useState(false)
   const [mirrorCamera, setMirrorCamera] = useState(false)
   
+  // Retake-specific state (capped at 3 per slot)
+  const [retakeCounts, setRetakeCounts] = useState({ 0: 0, 1: 0, 2: 0, 3: 0 })
+  const [activeRetakeSlot, setActiveRetakeSlot] = useState(null)
+  
   const videoRef = useRef(null)
   const streamRef = useRef(null)
   const canvasRef = useRef(null)
@@ -122,10 +126,14 @@ export default function PhotoboothApp() {
     return canvas.toDataURL('image/jpeg')
   }
 
-  const capturePhoto = () => {
+  const capturePhoto = (slotIndex = capturedPhotos.length) => {
     if (simulatorMode) {
-      const dataUrl = drawSimulatedPose(capturedPhotos.length)
-      setCapturedPhotos(prev => [...prev, dataUrl])
+      const dataUrl = drawSimulatedPose(slotIndex)
+      setCapturedPhotos(prev => {
+        const next = [...prev]
+        next[slotIndex] = dataUrl
+        return next
+      })
       triggerFlash()
       return
     }
@@ -143,7 +151,11 @@ export default function PhotoboothApp() {
       ctx.drawImage(videoRef.current, 0, 0, 640, 480)
       
       const dataUrl = canvas.toDataURL('image/jpeg')
-      setCapturedPhotos(prev => [...prev, dataUrl])
+      setCapturedPhotos(prev => {
+        const next = [...prev]
+        next[slotIndex] = dataUrl
+        return next
+      })
       triggerFlash()
     }
   }
@@ -160,6 +172,7 @@ export default function PhotoboothApp() {
     }
     setIsCapturing(true)
     setCapturedPhotos([])
+    setRetakeCounts({ 0: 0, 1: 0, 2: 0, 3: 0 })
     setCurrentSlot(0)
     runCaptureCycle(0)
   }
@@ -175,7 +188,7 @@ export default function PhotoboothApp() {
       } else {
         clearInterval(interval)
         setCountdown(null)
-        capturePhoto()
+        capturePhoto(slotIndex)
         
         const nextSlot = slotIndex + 1
         if (nextSlot < 4) {
@@ -187,6 +200,38 @@ export default function PhotoboothApp() {
             setCountdown(null)
           }, 1000)
         }
+      }
+    }, 1000)
+  }
+
+  // Handle a specific slot retake capture
+  const handleRetakeSlot = (slotIndex) => {
+    if (retakeCounts[slotIndex] >= 3) {
+      alert("You have reached the limit of 3 retakes for this shot!")
+      return
+    }
+    setActiveRetakeSlot(slotIndex)
+    setIsCapturing(true)
+    
+    let count = 3
+    setCountdown(count)
+    
+    const interval = setInterval(() => {
+      count--
+      if (count > 0) {
+        setCountdown(count)
+      } else {
+        clearInterval(interval)
+        setCountdown(null)
+        capturePhoto(slotIndex)
+        
+        setRetakeCounts(prev => ({
+          ...prev,
+          [slotIndex]: prev[slotIndex] + 1
+        }))
+        
+        setIsCapturing(false)
+        setActiveRetakeSlot(null)
       }
     }, 1000)
   }
@@ -315,6 +360,8 @@ export default function PhotoboothApp() {
   const handleStartNew = () => {
     setCapturedPhotos([])
     setFinalizedStrip(null)
+    setRetakeCounts({ 0: 0, 1: 0, 2: 0, 3: 0 })
+    setActiveRetakeSlot(null)
     setTab('camera')
   }
 
@@ -395,126 +442,161 @@ export default function PhotoboothApp() {
                 </div>
               </div>
             ) : (
-              /* Camera / Capture Phase */
-              <div className="ios-viewfinder-stack">
+              /* Camera / Capture Phase split into 2-columns (desktop) or stacked (mobile) */
+              <div className="ios-camera-layout-grid">
                 
-                {/* Viewfinder Window */}
-                <div className="ios-viewfinder">
-                  <div className={`pb-camera-flash ${flashActive ? 'flash-active' : ''}`} />
-                  
-                  {/* Grid Overlay lines (iPhone style!) */}
-                  <div className="ios-viewfinder-grid">
-                    <div className="grid-h grid-h-1" />
-                    <div className="grid-h grid-h-2" />
-                    <div className="grid-v grid-v-1" />
-                    <div className="grid-v grid-v-2" />
-                  </div>
-
-                  {isCapturing && countdown !== null && (
-                    <div className="ios-viewfinder-countdown">{countdown}</div>
-                  )}
-
-                  {/* Simulator Overlay */}
-                  {simulatorMode ? (
-                    <div className="pb-camera-placeholder" style={{ background: 'var(--pb-bg)' }}>
-                      <span style={{ fontSize: '3rem' }}>🤖</span>
-                      <div>
-                        <p style={{ fontWeight: 600, margin: '0 0 0.25rem 0', color: 'var(--pb-text)' }}>Simulator Mode Active</p>
-                        <p style={{ fontSize: '0.72rem', margin: 0, color: 'var(--pb-muted)', maxWidth: '220px' }}>
-                          Camera is inactive. Simulated wedding poses will compile on your final photo strip.
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <video 
-                      ref={videoRef} 
-                      className="pb-camera-video" 
-                      autoPlay 
-                      playsInline 
-                      muted 
-                      style={{ transform: mirrorCamera ? 'scaleX(-1)' : 'none' }}
-                    />
-                  )}
-
-                  {/* Mini thumbnail slots overlay (iPhone live preview style!) */}
-                  <div className="ios-mini-previews">
-                    {[0, 1, 2, 3].map(idx => (
-                      <div key={idx} className={`ios-mini-thumb ${currentSlot === idx && isCapturing ? 'active' : ''}`}>
-                        {capturedPhotos[idx] ? (
-                          <img src={capturedPhotos[idx]} alt="Snap" />
-                        ) : (
-                          <span style={{ fontSize: '0.65rem', opacity: 0.3 }}>{idx + 1}</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Nickname Input Bar */}
-                <div className="ios-input-bar">
-                  <input 
-                    type="text" 
-                    placeholder="Enter guest name..." 
-                    value={guestName}
-                    onChange={e => setGuestName(e.target.value)}
-                    disabled={isCapturing}
-                    className="ios-text-input"
-                  />
-                </div>
-
-                {/* Customizer Slider: Only active once 4 snaps are taken */}
-                {capturedPhotos.length === 4 && (
-                  <div className="ios-customizer-drawer">
-                    <div className="ios-drawer-header">
-                      <span>🎨 FRAME THEME</span>
-                    </div>
+                {/* Column 1: Viewfinder window */}
+                <div className="ios-camera-view-column">
+                  <div className="ios-viewfinder">
+                    <div className={`pb-camera-flash ${flashActive ? 'flash-active' : ''}`} />
                     
-                    {/* Swatches horizontal slider */}
-                    <div className="ios-swatches-slider">
-                      {THEMES.map(theme => (
-                        <button
-                          key={theme.id}
-                          className={`ios-swatch ${frameTheme.id === theme.id ? 'active' : ''}`}
-                          style={{ background: theme.bg }}
-                          onClick={() => setFrameTheme(theme)}
-                          title={theme.label}
-                        />
-                      ))}
+                    {/* Grid Overlay lines */}
+                    <div className="ios-viewfinder-grid">
+                      <div className="grid-h grid-h-1" />
+                      <div className="grid-h grid-h-2" />
+                      <div className="grid-v grid-v-1" />
+                      <div className="grid-v grid-v-2" />
                     </div>
 
-                    <div className="ios-drawer-compiled">
-                      <canvas ref={previewCanvasRef} className="ios-drawer-canvas" />
-                    </div>
-
-                    <div className="ios-drawer-actions">
-                      <button className="ios-action-btn ios-action-primary" onClick={handleFinalizeAndUpload} disabled={uploading}>
-                        {uploading ? 'Processing...' : 'Upload & Cast to Live Wall'}
-                      </button>
-                      <button className="ios-action-btn ios-action-secondary" onClick={handleDownloadLocally}>
-                        📥 Save Strip
-                      </button>
-                      <button className="ios-action-btn ios-action-ghost" onClick={handleStartNew}>
-                        Retake Snaps
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Bottom Camera Settings Info bar */}
-                <div className="ios-camera-info-bar">
-                  <span>{simulatorMode ? 'Simulator Active' : 'Real Camera Stream'}</span>
-                  <div style={{ display: 'flex', gap: '0.8rem' }}>
-                    {!simulatorMode && (
-                      <button onClick={() => setMirrorCamera(!mirrorCamera)} className="ios-bar-link">
-                        {mirrorCamera ? 'Unmirror Feed' : 'Mirror Feed'}
-                      </button>
+                    {isCapturing && countdown !== null && (
+                      <div className="ios-viewfinder-countdown">{countdown}</div>
                     )}
-                    {!cameraBlocked && (
-                      <button onClick={() => setSimulatorMode(!simulatorMode)} className="ios-bar-link">
-                        {simulatorMode ? 'Use Lens' : 'Use Simulator'}
-                      </button>
+
+                    {/* Simulator Overlay */}
+                    {simulatorMode ? (
+                      <div className="pb-camera-placeholder" style={{ background: 'var(--pb-bg)' }}>
+                        <span style={{ fontSize: '3rem' }}>🤖</span>
+                        <div>
+                          <p style={{ fontWeight: 600, margin: '0 0 0.25rem 0', color: 'var(--pb-text)' }}>
+                            {activeRetakeSlot !== null ? `Retaking Shot #${activeRetakeSlot + 1}` : 'Simulator Active'}
+                          </p>
+                          <p style={{ fontSize: '0.72rem', margin: 0, color: 'var(--pb-muted)', maxWidth: '220px' }}>
+                            {activeRetakeSlot !== null ? 'Posing for selected slot...' : 'Click Shutter to capture 4 simulated emoji wedding poses.'}
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <video 
+                        ref={videoRef} 
+                        className="pb-camera-video" 
+                        autoPlay 
+                        playsInline 
+                        muted 
+                        style={{ transform: mirrorCamera ? 'scaleX(-1)' : 'none' }}
+                      />
                     )}
                   </div>
+
+                  {/* Nickname Input Bar */}
+                  <div className="ios-input-bar" style={{ marginTop: '0.85rem' }}>
+                    <input 
+                      type="text" 
+                      placeholder="Enter guest name..." 
+                      value={guestName}
+                      onChange={e => setGuestName(e.target.value)}
+                      disabled={isCapturing}
+                      className="ios-text-input"
+                    />
+                  </div>
+
+                  {/* Bottom Settings bar */}
+                  <div className="ios-camera-info-bar" style={{ marginTop: '0.5rem' }}>
+                    <span>{simulatorMode ? 'Simulator Active' : 'Camera active'}</span>
+                    <div style={{ display: 'flex', gap: '0.8rem' }}>
+                      {!simulatorMode && (
+                        <button onClick={() => setMirrorCamera(!mirrorCamera)} className="ios-bar-link">
+                          {mirrorCamera ? 'Unmirror Feed' : 'Mirror Feed'}
+                        </button>
+                      )}
+                      {!cameraBlocked && (
+                        <button onClick={() => setSimulatorMode(!simulatorMode)} className="ios-bar-link">
+                          {simulatorMode ? 'Use Lens' : 'Use Simulator'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 2: 2x2 Snaps cockpit & customizer options */}
+                <div className="ios-camera-cockpit-column">
+                  <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--pb-muted)', margin: '0 0 0.75rem 0' }}>
+                    📸 Captured Poses (2x2 grid)
+                  </h3>
+
+                  {/* Snaps 2x2 Grid */}
+                  <div className="ios-grid-2x2">
+                    {[0, 1, 2, 3].map(idx => {
+                      const hasImg = !!capturedPhotos[idx];
+                      const isTargetRetake = activeRetakeSlot === idx;
+                      const countLeft = 3 - (retakeCounts[idx] || 0);
+
+                      return (
+                        <div 
+                          key={idx} 
+                          className={`ios-grid-slot ${currentSlot === idx && isCapturing && activeRetakeSlot === null ? 'active' : ''} ${isTargetRetake ? 'retaking' : ''}`}
+                        >
+                          {hasImg ? (
+                            <>
+                              <img src={capturedPhotos[idx]} alt={`Pose ${idx + 1}`} />
+                              <div className="ios-grid-slot-overlay">
+                                <span>R: {retakeCounts[idx]}/3</span>
+                                <button 
+                                  className="ios-retake-btn" 
+                                  onClick={() => handleRetakeSlot(idx)}
+                                  disabled={isCapturing || countLeft <= 0}
+                                  title={countLeft <= 0 ? 'No retakes left' : `Retake shot #${idx + 1}`}
+                                >
+                                  {countLeft <= 0 ? 'Capped' : '🔄 Retake'}
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="ios-slot-placeholder">
+                              <span style={{ fontSize: '1.5rem', opacity: 0.2 }}>📷</span>
+                              <span style={{ fontSize: '0.72rem', color: 'var(--pb-muted)', marginTop: '0.2rem' }}>Shot #{idx + 1}</span>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {/* Customizer Option slide-up (Only shows when all 4 snaps are populated) */}
+                  {capturedPhotos.length === 4 && (
+                    <div className="ios-customizer-drawer" style={{ marginTop: '1.25rem' }}>
+                      <div className="ios-drawer-header">
+                        <span>🎨 CHOOSE FRAME THEME</span>
+                      </div>
+                      
+                      <div className="ios-swatches-slider">
+                        {THEMES.map(theme => (
+                          <button
+                            key={theme.id}
+                            className={`ios-swatch ${frameTheme.id === theme.id ? 'active' : ''}`}
+                            style={{ background: theme.bg }}
+                            onClick={() => setFrameTheme(theme)}
+                            title={theme.label}
+                          />
+                        ))}
+                      </div>
+
+                      <div className="ios-drawer-compiled">
+                        <canvas ref={previewCanvasRef} className="ios-drawer-canvas" />
+                      </div>
+
+                      <div className="ios-drawer-actions">
+                        <button className="ios-action-btn ios-action-primary" onClick={handleFinalizeAndUpload} disabled={uploading}>
+                          {uploading ? 'Finalizing...' : 'Upload & Cast to Live Wall'}
+                        </button>
+                        <button className="ios-action-btn ios-action-secondary" onClick={handleDownloadLocally}>
+                          📥 Download My Strip
+                        </button>
+                        <button className="ios-action-btn ios-action-ghost" onClick={handleStartNew}>
+                          Discard &amp; Start Over
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
               </div>
@@ -526,7 +608,6 @@ export default function PhotoboothApp() {
       {/* iOS Bottom Native Mode Selector & Shutter bar */}
       {(!finalizedStrip || tab !== 'camera') && (
         <div className="ios-shutter-bar">
-          {/* Modes Switcher label slider */}
           <div className="ios-modes-switcher">
             <button className={tab === 'gallery' ? 'active' : ''} onClick={() => setTab('gallery')}>
               GALLERY
@@ -539,27 +620,24 @@ export default function PhotoboothApp() {
             </button>
           </div>
 
-          {/* Shutter row */}
           <div className="ios-shutter-row">
-            {/* Shutter Left: Last taken thumbnail roll preview */}
             <div className="ios-shutter-left">
               {galleryStrips[0] ? (
                 <div className="ios-roll-preview" onClick={() => setTab('gallery')}>
-                  <img src={galleryStrips[0].image_url} alt="Latest strip" />
+                  <img src={galleryStrips[0].image_url} alt="Latest roll" />
                 </div>
               ) : (
                 <div className="ios-roll-preview-empty" />
               )}
             </div>
 
-            {/* Shutter Center: Double ring capture button */}
             <div className="ios-shutter-center">
               {tab === 'camera' ? (
                 <button 
                   className={`ios-shutter-btn ${isCapturing ? 'capturing' : ''}`}
                   onClick={handleStartCapture}
                   disabled={isCapturing || !guestName.trim()}
-                  title={guestName.trim() ? 'Snap poses!' : 'Please enter your name first'}
+                  title={guestName.trim() ? 'Take 4 poses' : 'Enter name to start'}
                 >
                   <div className="ios-shutter-inner" />
                 </button>
@@ -570,7 +648,6 @@ export default function PhotoboothApp() {
               )}
             </div>
 
-            {/* Shutter Right: Toggle Simulator / Reset */}
             <div className="ios-shutter-right">
               {tab === 'camera' && (
                 <button 

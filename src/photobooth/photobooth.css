@@ -654,3 +654,136 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+/* Two-column layout grid for viewfinder and cockpit snaps */
+.ios-camera-layout-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 960px;
+  align-items: start;
+  margin: 0 auto;
+}
+
+.ios-camera-view-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ios-camera-cockpit-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--pb-border);
+  border-radius: 24px;
+  padding: 1.25rem;
+  box-sizing: border-box;
+}
+
+/* 2x2 grid of poses styles */
+.ios-grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ios-grid-slot {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(167, 139, 250, 0.04);
+  border: 2px solid var(--pb-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.ios-grid-slot.active {
+  border-color: var(--pb-accent);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+.ios-grid-slot.retaking {
+  border-color: var(--pb-danger);
+  animation: pulse-retake 1s infinite alternate;
+}
+
+.ios-grid-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ios-slot-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Overlay for retaking controls inside grid slots */
+.ios-grid-slot-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(66, 42, 92, 0.85);
+  color: #fff;
+  padding: 0.35rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  z-index: 10;
+}
+
+.ios-retake-btn {
+  background: var(--pb-accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.ios-retake-btn:hover:not(:disabled) {
+  background: #906ffa;
+  transform: scale(1.05);
+}
+
+.ios-retake-btn:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+}
+
+@keyframes pulse-retake {
+  from { box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2); }
+  to { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.45); }
+}
+
+/* Responsiveness for camera split grid columns */
+@media (max-width: 768px) {
+  .ios-camera-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
