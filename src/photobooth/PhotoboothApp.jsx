@@ -939,7 +939,7 @@ export default function PhotoboothApp() {
                 <button 
                   className={`ios-shutter-btn ${isCapturing ? 'capturing' : ''}`}
                   onClick={handleStartCapture}
-                  disabled={isCapturing || !guestName.trim()}
+                  disabled={isCapturing}
                   title={guestName.trim() ? 'Take 4 poses' : 'Enter name to start'}
                 >
                   <div className="ios-shutter-inner" />
