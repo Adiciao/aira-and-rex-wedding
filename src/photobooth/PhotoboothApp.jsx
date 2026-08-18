@@ -1040,9 +1040,6 @@ function LiveWallView({ strips, onClose }) {
             visibleStrips.map(strip => (
               <div key={strip.id} className="pb-live-strip-card">
                 <img src={strip.image_url} alt="Live projection" />
-                <div className="pb-live-strip-meta">
-                  <strong>{strip.guest_name}</strong>
-                </div>
               </div>
             ))
           )}

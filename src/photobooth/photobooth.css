@@ -1135,38 +1135,26 @@
 }
 
 .pb-live-strip-card {
-  background: var(--pb-surface);
-  border-radius: 20px;
-  padding: 12px 12px 16px 12px;
-  border: 1.5px solid var(--pb-border);
-  box-shadow: 0 16px 45px rgba(66, 42, 92, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
   max-height: 70vh;
   box-sizing: border-box;
   animation: slide-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-  width: 230px;
+  width: 215px;
   transition: transform 0.3s;
 }
 
 .pb-live-strip-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
 }
 
 .pb-live-strip-card img {
-  height: calc(100% - 30px);
+  height: 100%;
   width: 100%;
   object-fit: contain;
-  border-radius: 12px;
-}
-
-.pb-live-strip-meta {
-  font-size: 0.85rem;
-  color: var(--pb-text);
-  font-weight: 700;
-  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 12px 36px rgba(66, 42, 92, 0.16);
 }
 
 .pb-live-wall-empty {
