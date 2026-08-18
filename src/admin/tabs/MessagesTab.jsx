@@ -218,7 +218,7 @@ export default function MessagesTab() {
   const activeChat = threads.find(t => t.id === activeId)
 
   return (
-    <div style={{ height: 'calc(100vh - 8rem)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div>
         <h2 className="admin-page-title">Guest Messages</h2>
         <p className="admin-page-sub">Chat in real-time with guests. Edit and approve invitation request forms directly in the timeline.</p>
@@ -471,14 +471,17 @@ export default function MessagesTab() {
       )}
 
       <style>{`
-        .admin-main {
-          display: flex;
-          flex-direction: column;
+        .admin-main:has(.admin-messenger-container) {
+          height: 100vh !important;
+          overflow: hidden !important;
+          display: flex !important;
+          flex-direction: column !important;
+          padding: 2rem 2.5rem 1.5rem !important;
         }
         
         .admin-messenger-container {
-          height: calc(100vh - 12rem);
-          min-height: 480px;
+          flex: 1;
+          min-height: 0;
         }
 
         .btn-label-mobile {
@@ -501,10 +504,14 @@ export default function MessagesTab() {
         }
 
         @media (max-width: 768px) {
+          .admin-main:has(.admin-messenger-container) {
+            padding: 0 !important;
+            height: calc(100vh - 60px) !important;
+          }
+
           .admin-messenger-container {
             grid-template-columns: 1fr !important;
-            height: calc(100vh - 140px) !important;
-            min-height: auto !important;
+            height: 100% !important;
           }
           
           .messenger-threads-sidebar {
