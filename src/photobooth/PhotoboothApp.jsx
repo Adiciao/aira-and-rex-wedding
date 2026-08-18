@@ -584,9 +584,7 @@ export default function PhotoboothApp() {
 
         {/* Live Wall Mode */}
         {tab === 'live-wall' && (
-          <div className="ios-live-wall-overlay">
-            <LiveWallView strips={galleryStrips} onClose={() => setTab('camera')} />
-          </div>
+          <LiveWallView strips={galleryStrips} onClose={() => setTab('camera')} />
         )}
 
         {/* Camera Viewfinder (PHOTOBOOTH) Mode */}
@@ -985,27 +983,40 @@ function LiveWallView({ strips, onClose }) {
 
   return (
     <div className="pb-live-wall-container">
-      <button className="pb-live-wall-close" onClick={onClose}>✕ Close Projector</button>
-      
-      <div className="pb-live-wall-header">
-        <h2>AIRA &amp; REX'S LIVE WALL</h2>
-        <p>Live reception photostrips • Snap yours now!</p>
-      </div>
+      {/* Immersive Top Bar */}
+      <header className="ios-top-bar" style={{ background: 'rgba(255, 255, 255, 0.95)', position: 'relative', zIndex: 510 }}>
+        <button onClick={onClose} className="ios-back-link" style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          <span className="ios-arrow">‹</span> Back
+        </button>
+        <h1 className="ios-page-title">LIVE PROJECTION</h1>
+        <div style={{ width: '60px' }} />
+      </header>
 
-      <div className="pb-live-wall-display">
-        {strips.length === 0 ? (
-          <div className="pb-live-wall-empty">
-            <span style={{ fontSize: '4rem' }}>🎞</span>
-            <p>Waiting for guests to capture photostrips...</p>
-          </div>
-        ) : (
-          visibleStrips.map(strip => (
-            <div key={strip.id} className="pb-live-strip-card">
-              <img src={strip.image_url} alt="Live projection" />
+      <div className="pb-live-wall-content">
+        <div className="pb-live-wall-header">
+          <h2>AIRA &amp; REX'S LIVE WALL</h2>
+          <p>Live reception photostrips • Snap yours now!</p>
+        </div>
+
+        <div className="pb-live-wall-display">
+          {strips.length === 0 ? (
+            <div className="pb-live-wall-empty">
+              <span className="live-empty-icon">🎞</span>
+              <p>Waiting for guests to capture photostrips...</p>
             </div>
-          ))
-        )}
+          ) : (
+            visibleStrips.map(strip => (
+              <div key={strip.id} className="pb-live-strip-card">
+                <img src={strip.image_url} alt="Live projection" />
+                <div className="pb-live-strip-meta">
+                  <strong>{strip.guest_name}</strong>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   )
 }
+
