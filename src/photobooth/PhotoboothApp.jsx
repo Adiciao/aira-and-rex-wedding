@@ -542,10 +542,22 @@ export default function PhotoboothApp() {
     <div className="ios-shell">
       {/* iOS Status Top Bar */}
       <header className="ios-top-bar">
-        <a href="/" className="ios-back-link" onClick={handleBackStep} title="Back">
-          <span className="ios-arrow">‹</span> Back
-        </a>
-        <h1 className="ios-page-title">PHOTOBOOTH</h1>
+        {tab === 'camera' ? (
+          <a href="/" className="ios-back-link" title="Home">
+            <span className="ios-arrow">‹</span> Home
+          </a>
+        ) : (
+          <button 
+            onClick={() => setTab('camera')} 
+            className="ios-back-link" 
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          >
+            <span className="ios-arrow">‹</span> Camera
+          </button>
+        )}
+        <h1 className="ios-page-title">
+          {tab === 'camera' ? 'PHOTOBOOTH' : tab === 'gallery' ? 'GALLERY' : 'LIVE WALL'}
+        </h1>
         <div style={{ width: '60px' }} /> {/* Spacer */}
       </header>
 
@@ -555,6 +567,25 @@ export default function PhotoboothApp() {
         {/* Gallery Mode */}
         {tab === 'gallery' && (
           <div className="ios-gallery-panel">
+            <button 
+              className="ios-action-btn ios-action-secondary" 
+              style={{ 
+                marginBottom: '1rem', 
+                height: '36px', 
+                borderRadius: '18px', 
+                fontSize: '0.8rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.4rem',
+                width: 'auto',
+                padding: '0 1.2rem',
+                fontWeight: 600
+              }}
+              onClick={() => setTab('camera')}
+            >
+              📷 Back to Camera
+            </button>
             <div className="ios-gallery-header">
               <h2>Wedding Album</h2>
               <p>Captured moments by wedding guests</p>
