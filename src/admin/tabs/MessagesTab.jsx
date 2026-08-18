@@ -219,7 +219,7 @@ export default function MessagesTab() {
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div>
+      <div className="admin-messages-header">
         <h2 className="admin-page-title">Guest Messages</h2>
         <p className="admin-page-sub">Chat in real-time with guests. Edit and approve invitation request forms directly in the timeline.</p>
       </div>
@@ -482,6 +482,17 @@ export default function MessagesTab() {
         .admin-messenger-container {
           flex: 1;
           min-height: 0;
+          height: 100%;
+        }
+
+        .messenger-threads-sidebar {
+          height: 100% !important;
+          overflow-y: auto !important;
+        }
+
+        .messenger-chat-pane {
+          height: 100% !important;
+          overflow: hidden !important;
         }
 
         .btn-label-mobile {
@@ -504,6 +515,10 @@ export default function MessagesTab() {
         }
 
         @media (max-width: 768px) {
+          .admin-messages-header {
+            display: none !important;
+          }
+
           .admin-main:has(.admin-messenger-container) {
             padding: 0 !important;
             height: calc(100vh - 60px) !important;
