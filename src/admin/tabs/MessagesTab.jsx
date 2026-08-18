@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useWedding } from '../../context/WeddingContext'
 import { collection, doc, query, onSnapshot, addDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
@@ -6,7 +7,8 @@ import { db } from '../../firebase'
 export default function MessagesTab() {
   const [threads, setThreads] = useState([])
   const [loading, setLoading] = useState(true)
-  const [activeId, setActiveId] = useState(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeId = searchParams.get('chat')
   
   const [messages, setMessages] = useState([])
   const [replyText, setReplyText] = useState('')
@@ -14,34 +16,12 @@ export default function MessagesTab() {
 
   const chatEndRef = useRef(null)
 
-  // Sync state with browser history popstate event for mobile back gesture/button support
-  useEffect(() => {
-    const handlePopState = (e) => {
-      if (!e.state || e.state.type !== 'chat-thread') {
-        setActiveId(null)
-      } else if (e.state.type === 'chat-thread') {
-        setActiveId(e.state.threadId)
-      }
-    }
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [])
-
   const handleSelectThread = (id) => {
-    if (activeId) {
-      window.history.replaceState({ type: 'chat-thread', threadId: id }, '')
-    } else {
-      window.history.pushState({ type: 'chat-thread', threadId: id }, '')
-    }
-    setActiveId(id)
+    setSearchParams({ chat: id })
   }
 
   const handleGoBack = () => {
-    if (window.history.state?.type === 'chat-thread') {
-      window.history.back()
-    } else {
-      setActiveId(null)
-    }
+    setSearchParams({})
   }
 
   const GUESTS_REF = collection(db, 'invited_guests')

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useWedding } from '../context/WeddingContext'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -22,6 +23,7 @@ export default function AdminDashboard({ onLogout }) {
   const [tab, setTab] = useState('rsvp')
   const [unreadChats, setUnreadChats] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [, setSearchParams] = useSearchParams()
 
   const attending = rsvps.filter(r => r.attending === 'yes').length
 
@@ -78,7 +80,7 @@ export default function AdminDashboard({ onLogout }) {
             <button
               key={t.id}
               className={`admin-nav-btn ${tab === t.id ? 'active' : ''}`}
-              onClick={() => { setTab(t.id); setSidebarOpen(false) }}
+              onClick={() => { setTab(t.id); setSidebarOpen(false); setSearchParams({}); }}
             >
               <span className="icon">{t.icon}</span>
               {t.label}
@@ -113,7 +115,7 @@ export default function AdminDashboard({ onLogout }) {
           </div>
           <button
             className="admin-btn admin-btn-ghost admin-btn-sm"
-            onClick={() => { sessionStorage.removeItem('wedding_admin'); onLogout(); setSidebarOpen(false) }}
+            onClick={() => { sessionStorage.removeItem('wedding_admin'); onLogout(); setSidebarOpen(false); setSearchParams({}); }}
             style={{ width: '100%', justifyContent: 'center' }}
           >
             Sign Out
