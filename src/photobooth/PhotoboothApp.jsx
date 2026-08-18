@@ -73,29 +73,26 @@ export default function PhotoboothApp() {
     pinkCrownImgRef.current = img2
   }, [])
 
-  // Load MediaPipe Face Detection script dynamically with pinned stable versions
+  // Initialize face tracking once the static window.FaceDetection library is ready
   useEffect(() => {
     if (window.FaceDetection) {
       initFaceDetection()
       return
     }
 
-    const script = document.createElement('script')
-    script.src = 'https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4.1646425229/face_detection.js'
-    script.crossOrigin = 'anonymous'
-    script.async = true
-    script.onload = () => {
-      initFaceDetection()
-    }
-    document.head.appendChild(script)
-
-    return () => {
-      try {
-        document.head.removeChild(script)
-      } catch (e) {
-        // Script might already be removed
+    let attempts = 0
+    const checkExist = setInterval(() => {
+      attempts++
+      if (window.FaceDetection) {
+        clearInterval(checkExist)
+        initFaceDetection()
+      } else if (attempts > 60) { // Stop polling after 6 seconds
+        clearInterval(checkExist)
+        console.warn('MediaPipe FaceDetection script took too long to load statically.')
       }
-    }
+    }, 100)
+
+    return () => clearInterval(checkExist)
   }, [])
 
   // Initialize face tracking options
