@@ -1,4 +1,4 @@
-/* Photobooth Application Styling */
+/* iOS Styled Premium Wedding Photobooth CSS */
 
 :root {
   --pb-bg: #f5f0fa;          /* Soft pastel purple page background */
@@ -12,161 +12,89 @@
   --pb-success: #10b981;
 }
 
-.photobooth-shell {
+/* Base Body container reset for iOS App feel */
+.ios-shell {
   display: flex;
+  flex-direction: column;
   height: 100vh;
+  width: 100vw;
   background: var(--pb-bg);
   color: var(--pb-text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
-}
-
-/* Sidebar navigation */
-.pb-sidebar {
-  width: 250px;
-  background: var(--pb-surface);
-  border-right: 1px solid var(--pb-border);
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem;
   box-sizing: border-box;
 }
 
-.pb-logo {
-  margin-bottom: 2.5rem;
-}
-
-.pb-logo h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  font-weight: 300;
-  color: var(--pb-accent);
-  line-height: 1.2;
-  margin-bottom: 0.2rem;
-}
-
-.pb-logo p {
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--pb-muted);
-}
-
-.pb-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-}
-
-.pb-nav-btn {
+/* Header Top Bar */
+.ios-top-bar {
+  height: 60px;
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.85rem 1.1rem;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  color: var(--pb-text);
-  font-size: 0.9rem;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  justify-content: space-between;
+  padding: 0 1rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--pb-border);
+  z-index: 100;
+  position: relative;
+}
+
+.ios-back-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--pb-accent);
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
-.pb-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.03);
+.ios-arrow {
+  font-size: 1.8rem;
+  line-height: 1;
+  margin-right: 0.2rem;
+  margin-top: -0.2rem;
 }
 
-.pb-nav-btn.active {
-  background: var(--pb-active-bg);
-  color: var(--pb-accent);
-  border-color: rgba(201, 169, 110, 0.2);
-}
-
-.pb-nav-btn .icon {
-  font-size: 1.2rem;
-}
-
-.pb-sidebar-footer {
-  margin-top: auto;
-  border-top: 1px solid var(--pb-border);
-  padding-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* Main Area */
-.pb-main {
-  flex: 1;
-  padding: 2.5rem;
-  overflow-y: auto;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.pb-title-bar {
-  margin-bottom: 0.5rem;
-}
-
-.pb-title-bar h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
-  font-weight: 300;
-  color: var(--pb-accent);
-}
-
-.pb-title-bar p {
-  color: var(--pb-muted);
-  font-size: 0.88rem;
-  margin-top: 0.2rem;
-}
-
-/* Layout Grid splits */
-.pb-grid-2 {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 2rem;
-  align-items: start;
-}
-
-/* Cards & Containers */
-.pb-card {
-  background: var(--pb-surface);
-  border: 1px solid var(--pb-border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  box-sizing: border-box;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-}
-
-.pb-card-title {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--pb-accent);
-  font-weight: 600;
-  border-bottom: 1px solid var(--pb-border);
-  padding-bottom: 0.75rem;
+.ios-page-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--pb-text);
   margin: 0;
+  text-transform: uppercase;
 }
 
-/* Camera viewport box */
-.pb-camera-viewport {
+/* Viewport Scroll container */
+.ios-content-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1rem;
+  box-sizing: border-box;
+  padding-bottom: 160px; /* Leave space for bottom shutter bar */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Viewfinder Section */
+.ios-viewfinder-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.ios-viewfinder {
   position: relative;
   width: 100%;
   aspect-ratio: 4/3;
-  background: #000;
-  border-radius: 8px;
+  border-radius: 24px;
   overflow: hidden;
-  border: 1px solid var(--pb-border);
+  background: #000;
+  border: 4px solid var(--pb-surface);
+  box-shadow: 0 12px 30px rgba(66, 42, 92, 0.12);
 }
 
 .pb-camera-video {
@@ -175,6 +103,36 @@
   object-fit: cover;
 }
 
+.ios-viewfinder-countdown {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 7.5rem;
+  font-weight: bold;
+  color: #fff;
+  z-index: 10;
+  animation: scale-up 0.5s ease-out infinite alternate;
+}
+
+/* Flash anim */
+.pb-camera-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.pb-camera-flash.flash-active {
+  animation: flash-animation 0.3s ease-out forwards;
+}
+
+/* Camera Placeholder fallback style */
 .pb-camera-placeholder {
   position: absolute;
   inset: 0;
@@ -182,396 +140,511 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  color: var(--pb-muted);
+  gap: 0.75rem;
+  color: var(--pb-text);
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
-.pb-camera-overlay-countdown {
+/* iPhone camera viewfinder lines overlay */
+.ios-viewfinder-grid {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 8rem;
-  color: var(--pb-accent);
-  font-weight: bold;
-  animation: scale-up 0.5s ease-out infinite alternate;
-  z-index: 10;
-}
-
-.pb-camera-flash {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  opacity: 0;
   pointer-events: none;
-  z-index: 20;
+  z-index: 5;
 }
 
-.pb-camera-flash.flash-active {
-  animation: flash-animation 0.4s ease-out forwards;
+.ios-viewfinder-grid .grid-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
-/* Photostrip previews thumbnails */
-.pb-camera-zone {
-  display: grid;
-  grid-template-columns: 1fr 100px;
-  gap: 1.25rem;
+.ios-viewfinder-grid .grid-h-1 { top: 33.3%; }
+.ios-viewfinder-grid .grid-h-2 { top: 66.6%; }
+
+.ios-viewfinder-grid .grid-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.pb-sidebar-thumbs {
+.ios-viewfinder-grid .grid-v-1 { left: 33.3%; }
+.ios-viewfinder-grid .grid-v-2 { left: 66.6%; }
+
+/* Small iPhone thumbs stack inside viewfinder */
+.ios-mini-previews {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  overflow-y: auto;
+  gap: 0.35rem;
+  z-index: 15;
 }
 
-.pb-thumb-slot {
-  width: 100%;
-  aspect-ratio: 4/3;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed var(--pb-border);
+.ios-mini-thumb {
+  width: 42px;
+  height: 31px;
   border-radius: 6px;
   overflow: hidden;
-  position: relative;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-.pb-thumb-slot img {
+.ios-mini-thumb.active {
+  border-color: var(--pb-accent);
+  transform: scale(1.1);
+}
+
+.ios-mini-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.pb-thumb-slot .slot-num {
-  position: absolute;
-  bottom: 0.25rem;
-  right: 0.25rem;
-  font-size: 0.65rem;
-  background: rgba(0,0,0,0.5);
-  padding: 0.1rem 0.3rem;
-  border-radius: 3px;
-  color: var(--pb-muted);
+/* Nickname input bar */
+.ios-input-bar {
+  width: 100%;
+  max-width: 480px;
 }
 
-/* Buttons */
-.pb-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1.5rem;
-  border-radius: 8px;
+.ios-text-input {
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  border: 1px solid var(--pb-border);
+  background: var(--pb-surface);
+  color: var(--pb-text);
   font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  border: none;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0 1.25rem;
   outline: none;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(66, 42, 92, 0.05);
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
 
-.pb-btn-primary {
-  background: var(--pb-accent);
-  color: #0f1117;
+.ios-text-input:focus {
+  border-color: var(--pb-accent);
+  box-shadow: 0 4px 18px rgba(167, 139, 250, 0.15);
 }
 
-.pb-btn-primary:hover {
-  background: #dbb97d;
-  box-shadow: 0 4px 15px rgba(201, 169, 110, 0.3);
-}
-
-.pb-btn-primary:disabled {
-  background: rgba(201, 169, 110, 0.3);
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.pb-btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--pb-text);
+/* Customizer drawer panel */
+.ios-customizer-drawer {
+  width: 100%;
+  max-width: 480px;
+  background: var(--pb-surface);
+  border-radius: 24px;
   border: 1px solid var(--pb-border);
-}
-
-.pb-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.pb-btn-danger {
-  background: var(--pb-danger);
-  color: white;
-}
-
-.pb-btn-danger:hover {
-  background: #dc2626;
-}
-
-.pb-btn-ghost {
-  background: transparent;
-  color: var(--pb-muted);
-  border: 1px solid var(--pb-border);
-}
-
-.pb-btn-ghost:hover {
-  color: var(--pb-text);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-/* Customize Swatches */
-.swatch-group {
+  padding: 1.5rem;
+  box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 10px 30px rgba(66, 42, 92, 0.08);
 }
 
-.swatch-circle {
+.ios-drawer-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--pb-muted);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.ios-swatches-slider {
+  display: flex;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.25rem 0;
+}
+
+.ios-swatch {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   cursor: pointer;
-  position: relative;
-  transition: transform 0.2s;
   border: 2px solid transparent;
+  transition: transform 0.2s, border-color 0.2s;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
 }
 
-.swatch-circle:hover {
-  transform: scale(1.1);
+.ios-swatch.active {
+  border-color: var(--pb-text);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.25);
 }
 
-.swatch-circle.selected {
-  border-color: var(--pb-accent);
-  transform: scale(1.08);
-}
-
-/* Photo Strip live Canvas Card Preview styling */
-.pb-strip-preview-box {
+/* Preview Canvas Container */
+.ios-drawer-compiled {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 16px;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid var(--pb-border);
-  min-height: 420px;
+  border: 1px dashed var(--pb-border);
 }
 
-.pb-strip-canvas {
+.ios-drawer-canvas {
   max-width: 100%;
-  max-height: 500px;
-  border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  background: #fff;
+  max-height: 380px;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 
-/* Recently Uploaded Strips list */
-.pb-recent-strips-list {
+/* iOS action buttons */
+.ios-drawer-actions {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  max-height: 240px;
-  overflow-y: auto;
+  gap: 0.6rem;
 }
 
-.pb-recent-item {
+.ios-action-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.65rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 6px;
+  justify-content: center;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.ios-action-btn:active {
+  transform: scale(0.98);
+}
+
+.ios-action-primary {
+  background: var(--pb-accent);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(167, 139, 250, 0.35);
+}
+
+.ios-action-secondary {
+  background: var(--pb-active-bg);
+  color: var(--pb-text);
   border: 1px solid var(--pb-border);
 }
 
-.pb-recent-item img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.05);
-}
-
-.pb-recent-info {
-  flex: 1;
-}
-
-.pb-recent-info h4 {
-  margin: 0 0 0.15rem 0;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.pb-recent-info p {
-  margin: 0;
-  font-size: 0.72rem;
+.ios-action-ghost {
+  background: transparent;
   color: var(--pb-muted);
 }
 
-/* Gallery tab styles */
-.pb-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
+/* Footer camera bar (Unmirror/Simulator toggle) */
+.ios-camera-info-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--pb-muted);
+  font-weight: 500;
+  padding: 0 0.5rem;
+}
+
+.ios-bar-link {
+  background: none;
+  border: none;
+  color: var(--pb-accent);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.72rem;
+}
+
+/* Shutter Row bar (Bottom fixed navigation panel) */
+.ios-shutter-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 145px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--pb-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.65rem;
+  z-index: 100;
+}
+
+/* Mode switcher labels slider */
+.ios-modes-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 1.75rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0.25rem 0;
+}
+
+.ios-modes-switcher::-webkit-scrollbar {
+  display: none;
+}
+
+.ios-modes-switcher button {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--pb-muted);
+  cursor: pointer;
+  transition: color 0.25s, transform 0.25s;
+  padding: 0.2rem 0;
+}
+
+.ios-modes-switcher button.active {
+  color: var(--pb-text);
+  transform: scale(1.08);
+  border-bottom: 2px solid var(--pb-accent);
+}
+
+.ios-shutter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  box-sizing: border-box;
   width: 100%;
 }
 
-.pb-gallery-card {
-  background: var(--pb-surface);
-  border: 1px solid var(--pb-border);
-  border-radius: 10px;
-  padding: 0.85rem;
+.ios-shutter-left,
+.ios-shutter-right {
+  width: 50px;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  text-align: center;
-  transition: transform 0.25s;
+  justify-content: center;
+}
+
+/* Circle shutter buttons styling */
+.ios-shutter-btn {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 4px solid var(--pb-accent);
+  background: none;
+  padding: 3px;
+  box-sizing: border-box;
   cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.pb-gallery-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(201, 169, 110, 0.2);
+.ios-shutter-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--pb-accent);
+  transition: transform 0.2s, border-radius 0.2s;
 }
 
-.pb-gallery-img-container {
-  aspect-ratio: 1/3;
-  overflow: hidden;
+.ios-shutter-btn:active .ios-shutter-inner {
+  transform: scale(0.9);
+}
+
+.ios-shutter-btn.capturing .ios-shutter-inner {
+  transform: scale(0.65);
   border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.05);
 }
 
-.pb-gallery-img-container img {
+/* Roll preview thumbnail icon */
+.ios-roll-preview {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid var(--pb-border);
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(66,42,92,0.15);
+}
+
+.ios-roll-preview img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
 }
 
-.pb-gallery-card:hover .pb-gallery-img-container img {
-  transform: scale(1.03);
-}
-
-.pb-gallery-card p {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--pb-accent);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.pb-gallery-card span {
-  font-size: 0.65rem;
-  color: var(--pb-muted);
-}
-
-/* Projector Live Wall Display styles */
-.pb-live-wall-container {
-  position: fixed;
-  inset: 0;
-  background: #090b0e;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
-  box-sizing: border-box;
-}
-
-.pb-live-wall-header {
-  position: absolute;
-  top: 2rem;
-  text-align: center;
-  z-index: 10;
-}
-
-.pb-live-wall-header h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: var(--pb-accent);
-  margin: 0 0 0.25rem 0;
-  letter-spacing: 0.05em;
-}
-
-.pb-live-wall-header p {
-  color: var(--pb-muted);
-  font-size: 0.9rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.pb-live-wall-close {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--pb-border);
-  color: var(--pb-text);
-  font-size: 1.5rem;
+.ios-roll-preview-empty {
   width: 44px;
   height: 44px;
+  border-radius: 10px;
+  border: 1.5px dashed var(--pb-border);
+  background: var(--pb-bg);
+}
+
+.ios-flip-btn {
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid var(--pb-border);
+  color: var(--pb-text);
+  font-size: 1.25rem;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 20;
-  transition: background 0.25s;
 }
 
-.pb-live-wall-close:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-.pb-live-wall-display {
-  display: flex;
-  gap: 3rem;
-  align-items: center;
-  justify-content: center;
+/* Gallery Mode Layout styles */
+.ios-gallery-panel {
   width: 100%;
-  max-width: 1200px;
-  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.pb-live-strip-card {
-  width: 280px;
+.ios-gallery-header {
+  text-align: center;
+}
+
+.ios-gallery-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: var(--pb-text);
+  margin: 0 0 0.2rem 0;
+}
+
+.ios-gallery-header p {
+  color: var(--pb-muted);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.ios-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+}
+
+.ios-gallery-card {
+  background: var(--pb-surface);
+  border: 1px solid var(--pb-border);
+  border-radius: 16px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(66,42,92,0.05);
+}
+
+.ios-gallery-card-img {
+  width: 100%;
   aspect-ratio: 1/3;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.8);
   border-radius: 8px;
   overflow: hidden;
-  background: #fff;
-  border: 1px solid rgba(255,255,255,0.1);
-  transform: rotate(-2deg);
-  animation: slide-in-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  background: #090b0e;
 }
 
-.pb-live-strip-card img {
+.ios-gallery-card-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.pb-live-strip-card:nth-child(even) {
-  transform: rotate(3deg);
-}
-
-.pb-live-wall-empty {
+.ios-gallery-card-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  color: var(--pb-muted);
-  font-size: 1.2rem;
-  font-style: italic;
-  font-family: 'Cormorant Garamond', serif;
+  text-align: center;
+  font-size: 0.75rem;
 }
 
-/* Keyframe animations */
+.ios-gallery-card-footer strong {
+  color: var(--pb-text);
+}
+
+.ios-gallery-card-footer span {
+  color: var(--pb-muted);
+  font-size: 0.65rem;
+  margin-top: 0.1rem;
+}
+
+/* Success download layout split */
+.ios-success-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.ios-success-card {
+  background: var(--pb-surface);
+  border: 1px solid var(--pb-border);
+  border-radius: 24px;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(66,42,92,0.08);
+}
+
+.ios-success-checkmark {
+  font-size: 2.2rem;
+  color: var(--pb-success);
+  background: rgba(16, 185, 129, 0.1);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.ios-success-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.ios-success-preview img {
+  max-height: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+}
+
+/* Projector Live Wall */
+.ios-live-wall-overlay {
+  position: fixed;
+  inset: 0;
+  background: #11141c;
+  z-index: 1000;
+}
+
+/* Animations keys */
 @keyframes scale-up {
   from { transform: scale(0.9); }
   to { transform: scale(1.05); }
@@ -580,113 +653,4 @@
 @keyframes flash-animation {
   0% { opacity: 1; }
   100% { opacity: 0; }
-}
-
-@keyframes slide-in-fade {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.pb-nav-new-btn-mobile {
-  display: none !important;
-}
-
-/* Mobile responsive media overrides */
-@media (max-width: 768px) {
-  .pb-nav-new-btn-mobile {
-    display: flex !important;
-  }
-
-  .photobooth-shell {
-    flex-direction: column;
-    overflow-y: auto;
-  }
-
-  .pb-sidebar {
-    width: 100%;
-    height: auto;
-    padding: 0.85rem 1rem;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    border-right: none;
-    border-bottom: 1px solid var(--pb-border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .pb-logo {
-    margin-bottom: 0;
-  }
-
-  .pb-logo h1 {
-    font-size: 1.1rem;
-  }
-
-  .pb-logo p {
-    display: none;
-  }
-
-  .pb-nav {
-    flex-direction: row;
-    gap: 0.25rem;
-    flex: initial;
-  }
-
-  .pb-nav-btn {
-    padding: 0.5rem 0.65rem;
-    font-size: 0.8rem;
-    gap: 0.35rem;
-  }
-
-  .pb-nav-btn span:not(.icon) {
-    display: none; /* Hide button text labels on small mobile nav headers */
-  }
-
-  .pb-sidebar-footer {
-    display: none;
-  }
-
-  .pb-main {
-    padding: 1.25rem 1rem;
-    overflow-y: visible;
-  }
-
-  .pb-title-bar h2 {
-    font-size: 1.6rem;
-  }
-
-  .pb-grid-2 {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem;
-  }
-
-  .pb-camera-zone {
-    grid-template-columns: 1fr !important;
-  }
-
-  .pb-sidebar-thumbs {
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    height: 80px;
-    margin-top: 0.5rem;
-  }
-
-  .pb-thumb-slot {
-    width: 80px;
-    flex-shrink: 0;
-  }
-
-  .pb-strip-preview-box {
-    padding: 1rem;
-    min-height: auto;
-  }
 }
