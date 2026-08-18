@@ -5,12 +5,12 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import './photobooth.css'
 
 const THEMES = [
-  { id: 'cloud-white', bg: '#fbfbfb', border: '#e2e8f0', text: '#1e293b', label: 'Cloud White' },
-  { id: 'charcoal', bg: '#1c1f26', border: '#2d3748', text: '#f3f4f6', label: 'Charcoal' },
-  { id: 'pastel-butter', bg: '#faf6e8', border: '#e8dcba', text: '#8c6d23', label: 'Pastel Butter' },
-  { id: 'soft-matcha', bg: '#eef7f2', border: '#cce6d6', text: '#2d6a4f', label: 'Soft Matcha' },
-  { id: 'soft-lavender', bg: '#f6f2fb', border: '#e4d6f3', text: '#623193', label: 'Soft Lavender' },
-  { id: 'silvery', bg: '#eef1f6', border: '#cbd5e1', text: '#475569', label: 'Silvery' },
+  { id: 'lavender-light', bg: '#f7f2fc', border: '#e9dbf7', text: '#5a2d82', label: 'Light Lavender' },
+  { id: 'lilac-medium', bg: '#eee4f5', border: '#dbcaec', text: '#4e1a70', label: 'Classic Lilac' },
+  { id: 'wisteria-soft', bg: '#e4d5f2', border: '#ccafe3', text: '#3c0d5c', label: 'Wisteria' },
+  { id: 'amethyst-rich', bg: '#7c5295', border: '#623c78', text: '#ffffff', label: 'Rich Amethyst' },
+  { id: 'plum-deep', bg: '#4d2e43', border: '#3a2032', text: '#f7f2fc', label: 'Deep Plum' },
+  { id: 'midnight-purple', bg: '#23182b', border: '#170e1e', text: '#eedef7', label: 'Midnight Purple' },
 ]
 
 export default function PhotoboothApp() {
@@ -336,9 +336,12 @@ export default function PhotoboothApp() {
     <div className="photobooth-shell">
       {/* Sidebar Navigation */}
       <aside className="pb-sidebar">
-        <div className="pb-logo">
-          <h1>Aira &amp; Rex</h1>
-          <p>Wedding Photobooth</p>
+        <div className="pb-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+          <a href="/" title="Back to Invitation" style={{ textDecoration: 'none', color: 'var(--pb-accent)', fontSize: '1.45rem', lineHeight: 1, padding: '0.15rem' }}>←</a>
+          <div>
+            <h1>Aira &amp; Rex</h1>
+            <p>Wedding Photobooth</p>
+          </div>
         </div>
 
         <nav className="pb-nav">
@@ -362,6 +365,15 @@ export default function PhotoboothApp() {
           >
             <span className="icon">📺</span>
             <span>Live Wall</span>
+          </button>
+          <button 
+            className="pb-nav-btn pb-nav-new-btn-mobile"
+            onClick={handleStartNew}
+            style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'var(--pb-border)' }}
+            title="Start New Strip"
+          >
+            <span className="icon">➕</span>
+            <span>Start New</span>
           </button>
         </nav>
 
