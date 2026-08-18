@@ -64,7 +64,7 @@ export default function Entourage() {
           gap: '3rem',
           alignItems: 'start',
         }}>
-          {/* Bridesmaids */}
+          {/* Groomsmen */}
           <div>
             <motion.h3
               initial={{ opacity: 0 }}
@@ -80,10 +80,10 @@ export default function Entourage() {
                 marginBottom: '2rem',
               }}
             >
-              Bridesmaids
+              Groomsmen
             </motion.h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              {ENTOURAGE.bridesmaids.map((p, i) => (
+              {ENTOURAGE.groomsmen.map((p, i) => (
                 <PersonCard key={p.name} person={p} index={i} inView={inView} delay={0.4} />
               ))}
             </div>
@@ -122,7 +122,7 @@ export default function Entourage() {
             <div style={{ width: 1, height: 60, background: 'linear-gradient(to bottom, var(--champagne), transparent)', marginTop: '1rem' }} />
           </motion.div>
 
-          {/* Groomsmen */}
+          {/* Bridesmaids */}
           <div>
             <motion.h3
               initial={{ opacity: 0 }}
@@ -138,10 +138,10 @@ export default function Entourage() {
                 marginBottom: '2rem',
               }}
             >
-              Groomsmen
+              Bridesmaids
             </motion.h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              {ENTOURAGE.groomsmen.map((p, i) => (
+              {ENTOURAGE.bridesmaids.map((p, i) => (
                 <PersonCard key={p.name} person={p} index={i} inView={inView} delay={0.5} />
               ))}
             </div>
