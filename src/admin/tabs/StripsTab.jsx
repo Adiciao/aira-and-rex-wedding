@@ -137,7 +137,7 @@ export default function StripsTab() {
               <div style={{ display: 'flex', gap: '0.4rem', width: '100%', marginTop: '0.25rem' }}>
                 <a 
                   href={strip.image_url} 
-                  download={`aira_rex_strip_${strip.guest_name}.png`} 
+                  download={`rex_aira_strip_${strip.guest_name}.png`} 
                   target="_blank" 
                   rel="noreferrer"
                   className="admin-btn admin-btn-ghost admin-btn-sm" 

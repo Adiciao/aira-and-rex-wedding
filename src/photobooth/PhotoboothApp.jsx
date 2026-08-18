@@ -147,17 +147,7 @@ export default function PhotoboothApp() {
 
     ctx.fillStyle = 'rgba(66, 42, 92, 0.4)'
     ctx.font = 'italic 16px serif'
-    ctx.fillText('Aira & Rex Wedding Photobooth', 320, 360)
-
-    // Burn selected crown filter overlay onto simulator canvas statically
-    if (activeFilter === 'hearts-purple' || activeFilter === 'hearts-pink') {
-      const crownImg = activeFilter === 'hearts-purple' 
-        ? purpleCrownImgRef.current 
-        : pinkCrownImgRef.current
-      if (crownImg && crownImg.complete) {
-        ctx.drawImage(crownImg, 320 - 150, 45, 300, 135)
-      }
-    }
+    ctx.fillText('Rex & Aira Wedding Photobooth', 320, 360)
 
     return canvas.toDataURL('image/jpeg')
   }
@@ -335,7 +325,7 @@ export default function PhotoboothApp() {
     ctx.textAlign = 'center'
     
     ctx.font = 'bold 22px "Cormorant Garamond", serif'
-    ctx.fillText('AIRA & REX', 200, 1095)
+    ctx.fillText('REX & AIRA', 200, 1095)
     
     ctx.font = '11px sans-serif'
     ctx.letterSpacing = '3px'
@@ -348,7 +338,7 @@ export default function PhotoboothApp() {
     const barcodeHeight = 25
     ctx.fillStyle = themeText
 
-    let xOffset = 90
+    let xOffset = 137 // Centered barcode starting offset
     const lineWeights = [1, 2, 4, 1, 3, 1, 4, 2, 1, 2, 3, 1, 4, 1, 2, 1, 3, 4, 1, 2, 1, 4, 2, 1, 3, 1, 2, 4, 1, 2]
     lineWeights.forEach((w) => {
       ctx.fillRect(xOffset, barcodeY, w, barcodeHeight)
@@ -357,7 +347,7 @@ export default function PhotoboothApp() {
 
     ctx.font = '9px sans-serif'
     ctx.letterSpacing = '1px'
-    ctx.fillText('AIRA-REX-2026', 200, 1188)
+    ctx.fillText('REX-AIRA-2026', 200, 1188)
   }
 
   const handleFinalizeAndUpload = async () => {
@@ -400,7 +390,7 @@ export default function PhotoboothApp() {
     if (!previewCanvasRef.current) return
     const url = previewCanvasRef.current.toDataURL('image/png')
     const link = document.createElement('a')
-    link.download = `aira_rex_photostrip_${guestName || 'guest'}.png`
+    link.download = `rex_aira_photostrip_${guestName || 'guest'}.png`
     link.href = url
     link.click()
   }
@@ -876,7 +866,7 @@ function LiveWallView({ strips, onClose }) {
 
       <div className="pb-live-wall-content">
         <div className="pb-live-wall-header">
-          <h2>AIRA &amp; REX'S LIVE WALL</h2>
+          <h2>REX &amp; AIRA'S LIVE WALL</h2>
           <p>Live reception photostrips • Snap yours now!</p>
         </div>
 

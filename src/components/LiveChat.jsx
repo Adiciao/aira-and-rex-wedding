@@ -189,7 +189,7 @@ export default function LiveChat() {
               /* Name setup screen */
               <form onSubmit={handleStartChat} style={{ margin: 'auto 0', textAlign: 'center', padding: '1rem' }}>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-soft)', marginBottom: '1.5rem', lineHeight: 1.5 }}>
-                  Names not matching? Or have questions? Enter your name to chat with Aira & Rex's team.
+                  Names not matching? Or have questions? Enter your name to chat with Rex & Aira's team.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   <input

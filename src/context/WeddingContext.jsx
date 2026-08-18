@@ -57,7 +57,7 @@ export const DEFAULTS = {
   heroSubtitle: 'October 17, 2026  ·  San Miguel, Bulacan',
 
   story: [
-    "It began in the familiar streets of San Miguel, Bulacan — a small town where everyone knows everyone, and yet somehow, Aira and Rex found each other as if for the very first time.",
+    "It began in the familiar streets of San Miguel, Bulacan — a small town where everyone knows everyone, and yet somehow, Rex and Aira found each other as if for the very first time.",
     "Through fiestas and quiet evenings, through laughter and every ordinary Tuesday — they built something extraordinary. Two hearts from the same place, choosing the same forever.",
     "Now, surrounded by the warmth of their hometown and the people they love most, they invite you to be part of the most beautiful chapter yet.",
   ],
