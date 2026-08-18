@@ -18,7 +18,7 @@ export default function Gallery() {
           <motion.h2 initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} style={{ textAlign: 'center', fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 300, color: 'var(--text)', marginBottom: '4rem' }}>
             Our <span style={{ color: 'var(--taupe)' }}>Gallery</span>
           </motion.h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gridTemplateRows: 'auto', gap: '1rem' }}>
+          <div className="gallery-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gridTemplateRows: 'auto', gap: '1rem' }}>
             {images.gallery.map((img, i) => (
               <GalleryCard key={i} img={img} index={i} inView={inView} onClick={() => setActive(img)} gridArea={GRID_AREAS[i] ?? 'span 4 / span 4'} />
             ))}
@@ -44,7 +44,7 @@ export default function Gallery() {
 function GalleryCard({ img, index, inView, onClick, gridArea }) {
   const [hovered, setHovered] = useState(false)
   return (
-    <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.2 + index * 0.1, ease: [0.16, 1, 0.3, 1] }} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ gridArea, position: 'relative', overflow: 'hidden', cursor: 'pointer', borderRadius: '2px', minHeight: 220 }}>
+    <motion.div className="gallery-card" initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.2 + index * 0.1, ease: [0.16, 1, 0.3, 1] }} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ gridArea, position: 'relative', overflow: 'hidden', cursor: 'pointer', borderRadius: '2px', minHeight: 220 }}>
       <img src={img.src} alt={img.label} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transform: hovered ? 'scale(1.06)' : 'scale(1)', transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)' }} />
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)', opacity: hovered ? 1 : 0, transition: 'opacity 0.4s ease', display: 'flex', alignItems: 'flex-end', padding: '1.5rem' }}>
         <span style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.2rem', fontWeight: 300, color: 'white', transform: hovered ? 'translateY(0)' : 'translateY(10px)', transition: 'transform 0.4s ease' }}>{img.label}</span>

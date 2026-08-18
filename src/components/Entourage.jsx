@@ -58,7 +58,7 @@ export default function Entourage() {
           Wedding <span style={{ color: 'var(--taupe)' }}>Party</span>
         </motion.h2>
 
-        <div style={{
+        <div className="entourage-grid" style={{
           display: 'grid',
           gridTemplateColumns: '1fr auto 1fr',
           gap: '3rem',
@@ -91,6 +91,7 @@ export default function Entourage() {
 
           {/* Center monogram */}
           <motion.div
+            className="entourage-monogram"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ delay: 0.5, duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
@@ -150,8 +151,12 @@ export default function Entourage() {
 
       <style>{`
         @media (max-width: 700px) {
-          #entourage > div > div:last-child {
+          .entourage-grid {
             grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+          .entourage-monogram {
+            display: none !important;
           }
         }
       `}</style>

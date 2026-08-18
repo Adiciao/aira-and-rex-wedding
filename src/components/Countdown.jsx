@@ -31,12 +31,12 @@ export default function Countdown() {
       <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '3rem', marginTop: '1rem' }}>
         Until {bride} &amp; {groom} Say I Do
       </p>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(1rem, 3vw, 3.5rem)', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(0.5rem, 2vw, 3.5rem)', flexWrap: 'wrap' }}>
         {units.map((u, i) => (
-          <div key={u.label} style={{ display: 'flex', alignItems: 'center', gap: 'clamp(1rem, 3vw, 3.5rem)' }}>
+          <div key={u.label} className="countdown-item-container" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.5rem, 2vw, 3.5rem)' }}>
             <FlipUnit val={u.val} label={u.label} />
             {i < units.length - 1 && (
-              <span style={{ fontFamily: 'var(--ff-serif)', fontSize: 'clamp(2rem, 6vw, 5rem)', color: 'var(--champagne)', lineHeight: 1, marginBottom: '1.4rem', fontWeight: 300 }}>:</span>
+              <span className="countdown-colon" style={{ fontFamily: 'var(--ff-serif)', fontSize: 'clamp(1.5rem, 5vw, 5rem)', color: 'var(--champagne)', lineHeight: 1, marginBottom: '1.4rem', fontWeight: 300 }}>:</span>
             )}
           </div>
         ))}
@@ -57,7 +57,7 @@ function FlipUnit({ val, label }) {
   }, [val])
   return (
     <div style={{ textAlign: 'center' }}>
-      <span style={{ display: 'block', fontFamily: 'var(--ff-serif)', fontSize: 'clamp(3.5rem, 8vw, 7rem)', fontWeight: 300, color: 'var(--text)', lineHeight: 1, letterSpacing: '-0.03em', transition: 'transform 0.3s ease, opacity 0.3s ease', transform: flipping ? 'translateY(-8px)' : 'translateY(0)', opacity: flipping ? 0 : 1, fontVariantNumeric: 'tabular-nums' }}>{val}</span>
+      <span style={{ display: 'block', fontFamily: 'var(--ff-serif)', fontSize: 'clamp(2rem, 8vw, 7rem)', fontWeight: 300, color: 'var(--text)', lineHeight: 1, letterSpacing: '-0.03em', transition: 'transform 0.3s ease, opacity 0.3s ease', transform: flipping ? 'translateY(-8px)' : 'translateY(0)', opacity: flipping ? 0 : 1, fontVariantNumeric: 'tabular-nums' }}>{val}</span>
       <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-soft)', marginTop: '0.5rem', fontWeight: 300 }}>{label}</span>
     </div>
   )

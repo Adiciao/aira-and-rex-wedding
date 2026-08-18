@@ -22,6 +22,17 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
   const navClick = (e, href) => {
     e.preventDefault()
     setMenuOpen(false)
@@ -70,7 +81,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Links */}
-        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+        <div className="nav-desktop-links" style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
           {links.slice(0, -1).map(link => (
             <a
               key={link.href}
@@ -197,7 +208,7 @@ export default function Navbar() {
       <style>{`
         @media (max-width: 768px) {
           #hamburger-btn { display: flex !important; }
-          nav > div:nth-child(2) { display: none !important; }
+          .nav-desktop-links { display: none !important; }
         }
       `}</style>
     </>

@@ -95,3 +95,87 @@ body.admin-mode input[type="datetime-local"],
 body.admin-mode textarea {
   cursor: text !important;
 }
+
+/* ---- Mobile Responsiveness Adjustments ---- */
+@media (max-width: 768px) {
+  .schedule-timeline-line {
+    left: 22px !important;
+  }
+  
+  .schedule-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.8rem !important;
+    padding-left: 55px !important;
+    margin-bottom: 3.5rem !important;
+  }
+
+  .schedule-row.is-left-row {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+  }
+  
+  .schedule-row.is-right-row {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .schedule-timeline-node {
+    position: absolute !important;
+    left: 0px !important;
+    top: 0px !important;
+    order: 0 !important;
+  }
+
+  .schedule-left-side,
+  .schedule-right-side {
+    text-align: left !important;
+    width: 100% !important;
+    order: 1 !important;
+  }
+
+  .schedule-left-side div,
+  .schedule-right-side div {
+    text-align: left !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .countdown-colon {
+    display: none !important;
+  }
+  .story-date-badge {
+    left: -0.5rem !important;
+    bottom: -1rem !important;
+    padding: 1rem 1.25rem !important;
+  }
+  .gallery-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .gallery-card {
+    grid-area: auto !important;
+    grid-column: span 12 !important;
+    min-height: 250px !important;
+  }
+  .rsvp-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+  }
+  .rsvp-modal-body {
+    padding: 1.5rem !important;
+  }
+  .live-chat-container {
+    bottom: 1rem !important;
+    right: 1rem !important;
+  }
+  .live-chat-window {
+    bottom: 72px !important;
+    right: 0 !important;
+    width: calc(100vw - 2rem) !important;
+    max-width: 330px !important;
+    height: 420px !important;
+  }
+}
+

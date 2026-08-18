@@ -21,6 +21,7 @@ export default function AdminDashboard({ onLogout }) {
   const { bride, groom, rsvps } = useWedding()
   const [tab, setTab] = useState('rsvp')
   const [unreadChats, setUnreadChats] = useState(0)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const attending = rsvps.filter(r => r.attending === 'yes').length
 
@@ -35,11 +36,41 @@ export default function AdminDashboard({ onLogout }) {
 
   return (
     <div className="admin-shell">
+      {/* Mobile Header Bar */}
+      <div className="admin-mobile-header">
+        <button 
+          className="admin-mobile-menu-toggle" 
+          onClick={() => setSidebarOpen(true)}
+        >
+          ☰
+        </button>
+        <span className="admin-mobile-header-title">{bride} &amp; {groom} Admin</span>
+      </div>
+
+      {/* Backdrop for mobile */}
+      {sidebarOpen && (
+        <div 
+          className="admin-sidebar-backdrop" 
+          onClick={() => setSidebarOpen(false)} 
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="admin-sidebar">
+      <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="admin-logo">
-          <h1>{bride} &amp; {groom}</h1>
-          <p>Admin Dashboard</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <h1>{bride} &amp; {groom}</h1>
+              <p>Admin Dashboard</p>
+            </div>
+            <button 
+              className="admin-sidebar-close" 
+              onClick={() => setSidebarOpen(false)}
+              style={{ display: 'none', background: 'none', border: 'none', color: 'var(--a-muted)', fontSize: '1.25rem', cursor: 'pointer' }}
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
         <nav className="admin-nav">
@@ -47,7 +78,7 @@ export default function AdminDashboard({ onLogout }) {
             <button
               key={t.id}
               className={`admin-nav-btn ${tab === t.id ? 'active' : ''}`}
-              onClick={() => setTab(t.id)}
+              onClick={() => { setTab(t.id); setSidebarOpen(false) }}
             >
               <span className="icon">{t.icon}</span>
               {t.label}
@@ -68,7 +99,7 @@ export default function AdminDashboard({ onLogout }) {
 
           <hr style={{ border: 'none', borderTop: '1px solid var(--a-border)', margin: '1rem 0' }} />
 
-          <a href="/" target="_blank" className="admin-nav-btn" style={{ textDecoration: 'none', color: 'var(--a-muted)' }}>
+          <a href="/" target="_blank" className="admin-nav-btn" style={{ textDecoration: 'none', color: 'var(--a-muted)' }} onClick={() => setSidebarOpen(false)}>
             <span className="icon">↗</span>
             View Live Site
           </a>
@@ -82,7 +113,7 @@ export default function AdminDashboard({ onLogout }) {
           </div>
           <button
             className="admin-btn admin-btn-ghost admin-btn-sm"
-            onClick={() => { sessionStorage.removeItem('wedding_admin'); onLogout() }}
+            onClick={() => { sessionStorage.removeItem('wedding_admin'); onLogout(); setSidebarOpen(false) }}
             style={{ width: '100%', justifyContent: 'center' }}
           >
             Sign Out

@@ -122,7 +122,7 @@ export default function LiveChat() {
   }
 
   return (
-    <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999, fontFamily: 'var(--ff-sans)' }}>
+    <div className="live-chat-container" style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999, fontFamily: 'var(--ff-sans)' }}>
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -163,7 +163,7 @@ export default function LiveChat() {
 
       {/* Chat Widget Window */}
       {isOpen && (
-        <div style={{
+        <div className="live-chat-window" style={{
           position: 'absolute', bottom: 76, right: 0,
           width: 'clamp(300px, 90vw, 360px)',
           height: 480,

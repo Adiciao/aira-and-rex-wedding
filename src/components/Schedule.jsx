@@ -16,7 +16,7 @@ export default function Schedule() {
           Schedule <span style={{ color: 'var(--taupe)' }}>of Events</span>
         </motion.h2>
         <div style={{ position: 'relative' }}>
-          <motion.div initial={{ scaleY: 0 }} animate={inView ? { scaleY: 1 } : {}} transition={{ duration: 1.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: 'linear-gradient(to bottom, transparent, var(--champagne) 15%, var(--champagne) 85%, transparent)', transformOrigin: 'top', zIndex: 0 }} />
+          <motion.div className="schedule-timeline-line" initial={{ scaleY: 0 }} animate={inView ? { scaleY: 1 } : {}} transition={{ duration: 1.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: 'linear-gradient(to bottom, transparent, var(--champagne) 15%, var(--champagne) 85%, transparent)', transformOrigin: 'top', zIndex: 0 }} />
           {schedule.map((ev, i) => <ScheduleItem key={i} event={ev} index={i} inView={inView} />)}
         </div>
       </div>
@@ -27,12 +27,12 @@ export default function Schedule() {
 function ScheduleItem({ event, index, inView }) {
   const isLeft = index % 2 === 0
   return (
-    <motion.div initial={{ opacity: 0, x: isLeft ? -50 : 50 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.9, delay: 0.5 + index * 0.15, ease: [0.16, 1, 0.3, 1] }} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '2rem', alignItems: 'center', marginBottom: '4rem', position: 'relative', zIndex: 1 }}>
-      <div style={{ textAlign: isLeft ? 'right' : 'left', order: isLeft ? 0 : 2 }}>{isLeft ? <EventCard event={event} /> : <TimeTag time={event.time} attire={event.attire} />}</div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', order: 1 }}>
+    <motion.div className={`schedule-row ${isLeft ? 'is-left-row' : 'is-right-row'}`} initial={{ opacity: 0, x: isLeft ? -50 : 50 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.9, delay: 0.5 + index * 0.15, ease: [0.16, 1, 0.3, 1] }} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '2rem', alignItems: 'center', marginBottom: '4rem', position: 'relative', zIndex: 1 }}>
+      <div className="schedule-left-side" style={{ textAlign: isLeft ? 'right' : 'left', order: isLeft ? 0 : 2 }}>{isLeft ? <EventCard event={event} /> : <TimeTag time={event.time} attire={event.attire} />}</div>
+      <div className="schedule-timeline-node" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', order: 1 }}>
         <motion.div initial={{ scale: 0 }} animate={inView ? { scale: 1 } : {}} transition={{ delay: 0.6 + index * 0.15, duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }} style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--cream)', border: '1px solid var(--champagne)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--ff-serif)', fontSize: '0.75rem', color: 'var(--taupe)', boxShadow: '0 0 0 6px var(--cream), 0 0 0 7px rgba(201,185,160,0.3)', flexShrink: 0 }}>{event.icon}</motion.div>
       </div>
-      <div style={{ textAlign: isLeft ? 'left' : 'right', order: isLeft ? 2 : 0 }}>{isLeft ? <TimeTag time={event.time} attire={event.attire} /> : <EventCard event={event} />}</div>
+      <div className="schedule-right-side" style={{ textAlign: isLeft ? 'left' : 'right', order: isLeft ? 2 : 0 }}>{isLeft ? <TimeTag time={event.time} attire={event.attire} /> : <EventCard event={event} />}</div>
     </motion.div>
   )
 }

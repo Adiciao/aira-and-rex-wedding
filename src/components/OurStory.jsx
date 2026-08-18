@@ -41,7 +41,7 @@ export default function OurStory() {
             </div>
           </TiltCard>
 
-          <motion.div initial={{ opacity: 0, scale: 0.7, rotate: -10 }} animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}} transition={{ duration: 0.8, delay: 0.9, ease: [0.34, 1.56, 0.64, 1] }} style={{ position: 'absolute', bottom: '-2rem', left: '-2.5rem', background: 'var(--cream-light)', border: '1px solid var(--blush)', padding: '1.4rem 1.8rem', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.1)', zIndex: 2 }}>
+          <motion.div className="story-date-badge" initial={{ opacity: 0, scale: 0.7, rotate: -10 }} animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}} transition={{ duration: 0.8, delay: 0.9, ease: [0.34, 1.56, 0.64, 1] }} style={{ position: 'absolute', bottom: '-2rem', left: '-2.5rem', background: 'var(--cream-light)', border: '1px solid var(--blush)', padding: '1.4rem 1.8rem', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.1)', zIndex: 2 }}>
             <span style={{ display: 'block', fontFamily: 'var(--ff-serif)', fontSize: '3rem', fontWeight: 300, lineHeight: 1 }}>{day}</span>
             <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--taupe)', marginTop: '0.2rem' }}>{month} {year}</span>
           </motion.div>

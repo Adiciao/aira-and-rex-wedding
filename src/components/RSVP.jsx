@@ -121,13 +121,13 @@ export default function RSVP() {
               </motion.div>
             ) : (
               <motion.form key="form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                <div className="rsvp-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                   <Label text="First Name" id="rsvp-first"><input id="rsvp-first" type="text" required value={form.first_name} onChange={e=>upd('first_name',e.target.value)} placeholder="Aira" style={FIELD} onFocus={focus} onBlur={blur}/></Label>
                   <Label text="Last Name" id="rsvp-last"><input id="rsvp-last" type="text" required value={form.last_name} onChange={e=>upd('last_name',e.target.value)} placeholder="Dela Cruz" style={FIELD} onFocus={focus} onBlur={blur}/></Label>
                 </div>
                 <Label text="Email Address" id="rsvp-email"><input id="rsvp-email" type="email" required value={form.email} onChange={e=>upd('email',e.target.value)} placeholder="you@example.com" style={FIELD} onFocus={focus} onBlur={blur}/></Label>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', alignItems: 'center' }}>
+                <div className="rsvp-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', alignItems: 'center' }}>
                   <Label text="Number of Guests" id="rsvp-guests">
                     <select id="rsvp-guests" value={form.guests} onChange={e=>upd('guests',e.target.value)} style={FIELD} onFocus={focus} onBlur={blur}>
                       {['1','2','3','4','5'].map(n => <option key={n} value={n}>{n}</option>)}
@@ -158,7 +158,6 @@ export default function RSVP() {
           </AnimatePresence>
         </motion.div>
       </div>
-      <style>{`@media(max-width:600px){#rsvp form>div:first-child{grid-template-columns:1fr!important;}}`}</style>
 
       {/* ── INVITATION REQUEST MODAL ───────────────────────────────────── */}
       <AnimatePresence>
@@ -175,6 +174,7 @@ export default function RSVP() {
             
             {/* Modal Body */}
             <motion.div
+              className="rsvp-modal-body"
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -230,7 +230,7 @@ export default function RSVP() {
                     </p>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div className="rsvp-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                       <label style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-soft)' }}>First Name</label>
                       <input type="text" required value={reqForm.first_name} onChange={e=>updReq('first_name',e.target.value)} style={{ ...FIELD, padding: '0.75rem 1rem' }} onFocus={focus} onBlur={blur} />
