@@ -66,7 +66,7 @@ export default function PhotoboothApp() {
     try {
       setCameraBlocked(false)
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 640, height: 480, facingMode: 'user' },
+        video: { facingMode: 'user' },
         audio: false
       })
       streamRef.current = stream
@@ -139,16 +139,20 @@ export default function PhotoboothApp() {
     }
 
     if (videoRef.current) {
+      const video = videoRef.current
       const canvas = document.createElement('canvas')
-      canvas.width = 640
-      canvas.height = 480
+      const w = video.videoWidth || 640
+      const h = video.videoHeight || 480
+      canvas.width = w
+      canvas.height = h
       const ctx = canvas.getContext('2d')
       
+      // Draw video frame to canvas
       if (mirrorCamera) {
-        ctx.translate(640, 0)
-        ctx.scale(-1, 1)
+        ctx.translate(w, 0)
+        ctx.scale(-1, 1) // Mirror flip if mirror mode is enabled
       }
-      ctx.drawImage(videoRef.current, 0, 0, 640, 480)
+      ctx.drawImage(video, 0, 0, w, h)
       
       const dataUrl = canvas.toDataURL('image/jpeg')
       setCapturedPhotos(prev => {
@@ -476,14 +480,29 @@ export default function PhotoboothApp() {
                         </div>
                       </div>
                     ) : (
-                      <video 
-                        ref={videoRef} 
-                        className="pb-camera-video" 
-                        autoPlay 
-                        playsInline 
-                        muted 
-                        style={{ transform: mirrorCamera ? 'scaleX(-1)' : 'none' }}
-                      />
+                      <div 
+                        className="ios-video-wrapper" 
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          transform: mirrorCamera ? 'scaleX(-1)' : 'none',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        <video 
+                          ref={videoRef} 
+                          className="pb-camera-video" 
+                          autoPlay 
+                          playsInline 
+                          muted 
+                          style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            objectFit: 'cover',
+                            display: 'block'
+                          }}
+                        />
+                      </div>
                     )}
                   </div>
 

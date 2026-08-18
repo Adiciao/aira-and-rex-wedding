@@ -98,9 +98,17 @@
 }
 
 .pb-camera-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.ios-video-wrapper {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  overflow: hidden;
+  position: relative;
 }
 
 .ios-viewfinder-countdown {
