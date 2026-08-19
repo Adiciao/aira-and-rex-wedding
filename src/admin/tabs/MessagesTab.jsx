@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useWedding } from '../../context/WeddingContext'
-import { collection, doc, query, onSnapshot, addDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
+import { collection, doc, query, onSnapshot, addDoc, updateDoc, deleteDoc, serverTimestamp, getDocs, writeBatch } from 'firebase/firestore'
 import { db } from '../../firebase'
 
 export default function MessagesTab() {
@@ -127,12 +127,32 @@ export default function MessagesTab() {
 
   // Delete chat thread
   const handleDeleteThread = async (id, name) => {
-    if (!confirm(`Delete chat thread with ${name}? All conversation history will be lost.`)) return
+    // Confirmation 1
+    const confirm1 = confirm(`Are you sure you want to delete the chat history with ${name}? This will permanently remove all messages.`)
+    if (!confirm1) return
+
+    // Confirmation 2
+    const confirm2 = confirm(`Are you ABSOLUTELY sure? This action cannot be undone. All messages in this thread will be permanently deleted from the database.`)
+    if (!confirm2) return
+
     try {
-      if (activeId === id) setActiveId(null)
+      // 1. Fetch and delete sub-messages
+      const msgsRef = collection(db, 'chats', id, 'messages')
+      const snap = await getDocs(msgsRef)
+      const batch = writeBatch(db)
+      snap.forEach(d => {
+        batch.delete(doc(db, 'chats', id, 'messages', d.id))
+      })
+      await batch.commit()
+
+      // 2. Delete parent thread
       await deleteDoc(doc(db, 'chats', id))
+
+      // 3. Reset params / close view
+      handleGoBack()
+      alert(`Chat with ${name} was successfully deleted.`)
     } catch (err) {
-      alert('Failed to delete thread: ' + err.message)
+      alert('Failed to delete chat: ' + err.message)
     }
   }
 
@@ -223,6 +243,8 @@ export default function MessagesTab() {
       alert('Decline failed: ' + err.message)
     }
   }
+
+
 
   const activeChat = threads.find(t => t.id === activeId)
 
