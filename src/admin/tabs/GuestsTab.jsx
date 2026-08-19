@@ -10,15 +10,20 @@ export default function GuestsTab() {
   const [guests, setGuests] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // Invitation Requests states
+  const [requests, setRequests] = useState([])
+  const [loadingRequests, setLoadingRequests] = useState(true)
+
   // Add form states
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [bulkInput, setBulkInput] = useState('')
   
   const [search, setSearch] = useState('')
-  const [tab, setTab] = useState('list') // list | add | bulk
+  const [tab, setTab] = useState('list') // list | requests | add | bulk
 
   const GUESTS_REF = collection(db, 'invited_guests')
+  const REQUESTS_REF = collection(db, 'invitation_requests')
 
   // Load allowed whitelist guests in real-time
   useEffect(() => {
@@ -37,6 +42,44 @@ export default function GuestsTab() {
     })
     return unsub
   }, [])
+
+  // Load invitation requests in real-time
+  useEffect(() => {
+    const unsub = onSnapshot(REQUESTS_REF, (snap) => {
+      const list = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      list.sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))
+      setRequests(list)
+      setLoadingRequests(false)
+    }, (err) => {
+      console.error(err)
+      setLoadingRequests(false)
+    })
+    return unsub
+  }, [])
+
+  const handleApprove = async (req) => {
+    try {
+      await addDoc(GUESTS_REF, {
+        first_name: req.first_name.trim(),
+        last_name: req.last_name.trim(),
+        name_lowercase: `${req.first_name.trim().toLowerCase()} ${req.last_name.trim().toLowerCase()}`,
+        added_at: new Date().toISOString()
+      })
+      await deleteDoc(doc(db, 'invitation_requests', req.id))
+      alert(`Approved ${req.first_name} ${req.last_name} and added them to the whitelist successfully!`)
+    } catch (err) {
+      alert('Approval failed: ' + err.message)
+    }
+  }
+
+  const handleDecline = async (req) => {
+    if (!confirm(`Ignore request from ${req.first_name} ${req.last_name}?`)) return
+    try {
+      await deleteDoc(doc(db, 'invitation_requests', req.id))
+    } catch (err) {
+      alert('Delete request failed: ' + err.message)
+    }
+  }
 
   // Add single guest
   const handleAddSingle = async (e) => {
@@ -121,6 +164,9 @@ export default function GuestsTab() {
           <button className={`admin-btn ${tab === 'list' ? 'admin-btn-primary' : 'admin-btn-ghost'} admin-btn-sm`} onClick={() => setTab('list')}>
             📋 Whitelist ({guests.length})
           </button>
+          <button className={`admin-btn ${tab === 'requests' ? 'admin-btn-primary' : 'admin-btn-ghost'} admin-btn-sm`} onClick={() => setTab('requests')}>
+            ✉️ Requests ({requests.length})
+          </button>
           <button className={`admin-btn ${tab === 'add' ? 'admin-btn-primary' : 'admin-btn-ghost'} admin-btn-sm`} onClick={() => setTab('add')}>
             ➕ Add Single
           </button>
@@ -188,6 +234,74 @@ export default function GuestsTab() {
                               >
                                 Remove
                               </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Requests Tab */}
+          {tab === 'requests' && (
+            <div>
+              <div className="admin-card" style={{ padding: 0, overflow: 'hidden' }}>
+                {requests.length === 0 ? (
+                  <div className="admin-empty">
+                    <div className="admin-empty-icon">✉️</div>
+                    <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '1.3rem', marginBottom: '0.5rem' }}>
+                      No pending requests
+                    </p>
+                    <p style={{ fontSize: '0.8rem', maxWidth: 380, margin: '0 auto' }}>
+                      All guest request submissions have been processed.
+                    </p>
+                  </div>
+                ) : (
+                  <div style={{ overflowX: 'auto' }}>
+                    <table className="admin-table">
+                      <thead>
+                        <tr>
+                          <th>Guest Name</th>
+                          <th>Email Address</th>
+                          <th>Relationship</th>
+                          <th>Note / Message</th>
+                          <th>Date Submitted</th>
+                          <th style={{ width: 180 }}></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {requests.map(req => (
+                          <tr key={req.id}>
+                            <td style={{ fontWeight: 500 }}>{req.first_name} {req.last_name}</td>
+                            <td>{req.email}</td>
+                            <td style={{ color: 'var(--a-muted)', fontSize: '0.85rem' }}>{req.relationship}</td>
+                            <td style={{ maxWidth: 220 }}>
+                              {req.message ? (
+                                <span title={req.message} style={{ color: 'var(--a-muted)', fontSize: '0.8rem', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{req.message}</span>
+                              ) : <span style={{ color: 'rgba(255,255,255,0.15)' }}>—</span>}
+                            </td>
+                            <td style={{ color: 'var(--a-muted)', fontSize: '0.78rem' }}>
+                              {req.submitted_at ? new Date(req.submitted_at).toLocaleDateString('en', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : ''}
+                            </td>
+                            <td>
+                              <div style={{ display: 'flex', gap: '0.35rem' }}>
+                                <button 
+                                  className="admin-btn admin-btn-sm"
+                                  style={{ background: '#10b981', color: 'white' }}
+                                  onClick={() => handleApprove(req)}
+                                >
+                                  ✓ Approve
+                                </button>
+                                <button 
+                                  className="admin-btn admin-btn-danger admin-btn-sm"
+                                  onClick={() => handleDecline(req)}
+                                >
+                                  Decline
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}

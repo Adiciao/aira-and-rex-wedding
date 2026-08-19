@@ -2,13 +2,12 @@ import { useState } from 'react'
 import { useWedding } from '../../context/WeddingContext'
 
 function exportCSV(rsvps) {
-  const headers = ['Name','Email','Guests','Attending','Dietary','Message','Submitted']
+  const headers = ['Name','Email','Guests','Attending','Message','Submitted']
   const rows = rsvps.map(r => [
     `${r.first_name} ${r.last_name}`,
     r.email,
     r.guests,
     r.attending,
-    r.dietary || '—',
     (r.message || '—').replace(/,/g,'；'),
     new Date(r.submitted_at).toLocaleString(),
   ])
@@ -100,7 +99,6 @@ export default function RSVPTab() {
                   <th>Email</th>
                   <th>Attending</th>
                   <th>Guests</th>
-                  <th>Dietary</th>
                   <th>Message</th>
                   <th>Submitted</th>
                   <th></th>
@@ -117,7 +115,6 @@ export default function RSVPTab() {
                       </span>
                     </td>
                     <td style={{ textAlign: 'center' }}>{r.guests}</td>
-                    <td style={{ color: 'var(--a-muted)', fontSize: '0.8rem', maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.dietary || '—'}</td>
                     <td style={{ maxWidth: 200 }}>
                       {r.message ? (
                         <span title={r.message} style={{ color: 'var(--a-muted)', fontSize: '0.8rem', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 180 }}>{r.message}</span>

@@ -165,7 +165,6 @@ export default function MessagesTab() {
         email: email.toLowerCase().trim(),
         guests: guests,
         attending: 'yes',
-        dietary: '',
         message: note || 'Approved via live chat request.',
         submitted_at: serverTimestamp()
       })

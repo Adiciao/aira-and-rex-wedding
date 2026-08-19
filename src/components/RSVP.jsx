@@ -18,7 +18,7 @@ export default function RSVP() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
   
   // RSVP Form States
-  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', guests: '1', attending: 'yes', dietary: '', message: '' })
+  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', guests: '1', attending: 'yes', message: '' })
   const [status, setStatus] = useState(() => {
     return localStorage.getItem('rsvp_completed') === 'true' ? 'success' : 'idle'
   })
@@ -60,6 +60,11 @@ export default function RSVP() {
 
       // Check if blocked by whitelist
       if (err.message.includes('not on the guest list')) {
+        if (localStorage.getItem('invitation_request_sent') === 'true') {
+          alert('You have already submitted an invitation request. The couple is currently reviewing it.')
+          setStatus('idle')
+          return
+        }
         // Pre-populate name & email into the request form
         setReqForm({
           first_name: form.first_name,
@@ -89,6 +94,7 @@ export default function RSVP() {
         message: reqForm.message,
         submitted_at: new Date().toISOString(),
       })
+      localStorage.setItem('invitation_request_sent', 'true')
       setReqStatus('success')
     } catch (err) {
       alert('Failed to send request: ' + err.message)
@@ -148,7 +154,6 @@ export default function RSVP() {
                     </div>
                   </div>
                 </div>
-                <Label text="Dietary Requirements" id="rsvp-dietary"><input id="rsvp-dietary" type="text" value={form.dietary} onChange={e=>upd('dietary',e.target.value)} placeholder="e.g. Vegetarian, Gluten-free..." style={FIELD} onFocus={focus} onBlur={blur}/></Label>
                 <Label text="Message to the Couple" id="rsvp-message"><textarea id="rsvp-message" rows={3} value={form.message} onChange={e=>upd('message',e.target.value)} placeholder="Share your well-wishes..." style={{...FIELD,resize:'vertical',minHeight:90}} onFocus={focus} onBlur={blur}/></Label>
                 <motion.button id="rsvp-submit-btn" type="submit" disabled={status==='loading'} whileHover={status!=='loading'?{scale:1.02,y:-1}:{}} whileTap={status!=='loading'?{scale:0.98}:{}} style={{ width:'100%',padding:'1.1rem',background:status==='loading'?'var(--champagne)':'var(--taupe)',color:'white',border:'none',fontFamily:'var(--ff-sans)',fontSize:'0.7rem',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:400,cursor:status==='loading'?'not-allowed':'pointer',transition:'background 0.3s',borderRadius:'1px',marginTop:'0.5rem' }}>
                   {status==='loading'?'Sending...':'Send Your RSVP ✦'}
