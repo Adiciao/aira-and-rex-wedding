@@ -3,13 +3,15 @@ import { motion, useInView, AnimatePresence } from 'framer-motion'
 
 const ENTOURAGE = {
   bridesmaids: [
-    { name: 'Bianca Reyes',     role: 'Maid of Honour', initial: 'B' },
-    { name: 'Camille Santos',   role: 'Bridesmaid',     initial: 'C' },
-    { name: 'Trisha Dela Cruz', role: 'Bridesmaid',     initial: 'T' },
-    { name: 'Nicole Flores',    role: 'Bridesmaid',     initial: 'N' },
+    { name: 'Janine Cao',       role: 'Maid of Honor',   initial: 'J' },
+    { name: 'Almira De Jesus',  role: 'Matron of Honor', initial: 'A' },
+    { name: 'Camille Santos',   role: 'Bridesmaid',      initial: 'C' },
+    { name: 'Trisha Dela Cruz', role: 'Bridesmaid',      initial: 'T' },
+    { name: 'Nicole Flores',    role: 'Bridesmaid',      initial: 'N' },
   ],
   groomsmen: [
-    { name: 'Marco Garcia',     role: 'Best Man',   initial: 'M' },
+    { name: 'Jonas Mellona',    role: 'Best Man',   initial: 'J' },
+    { name: 'Angelo De Jesus',  role: 'Best Man',   initial: 'A' },
     { name: 'Luis Ramos',       role: 'Groomsman',  initial: 'L' },
     { name: 'Paolo Mendoza',    role: 'Groomsman',  initial: 'P' },
     { name: 'Jeric Bautista',   role: 'Groomsman',  initial: 'J' },
