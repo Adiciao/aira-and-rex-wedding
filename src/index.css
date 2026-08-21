@@ -3,19 +3,19 @@
    ================================================================ */
 
 :root {
-  --cream:       #f8f3eb;
-  --cream-light: #fdfaf5;
-  --champagne:   #c9b99a;
-  --blush:       #e8d4c4;
-  --blush-deep:  #d4a898;
-  --taupe:       #8b7355;
-  --taupe-dark:  #6b5640;
-  --gold:        #c9a96e;
-  --gold-bright: #e2c077;
-  --noir:        #0f0d0b;
-  --noir-mid:    #1e1b18;
-  --text:        #2d2820;
-  --text-soft:   #7a6e62;
+  --cream:       #d1c9dc; /* Light gray-purple */
+  --cream-light: #eae5f0; /* Very soft lavender-white */
+  --champagne:   #b7a0d7; /* Soft lavender border/line */
+  --blush:       #c2b1d8; /* Light lavender card bg */
+  --blush-deep:  #b7a0d8; /* Medium lavender accent */
+  --taupe:       #9e87bd; /* Rich purple labels */
+  --taupe-dark:  #644e88; /* Deep rich purple titles */
+  --gold:        #b6a0d7; /* Highlight lavender */
+  --gold-bright: #b69fd8; /* Bright lavender */
+  --noir:        #150e1f; /* Deepest violet black */
+  --noir-mid:    #221832; /* Deep violet dark background */
+  --text:        #291f3b; /* Deep violet body text */
+  --text-soft:   #644e88; /* Soft purple text */
   --white:       #ffffff;
 
   --ff-serif: 'Cormorant Garamond', Georgia, serif;
