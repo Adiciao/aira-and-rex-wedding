@@ -2,20 +2,29 @@ import { useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 
 const ENTOURAGE = {
-  bridesmaids: [
-    { name: 'Janine Cao',       role: 'Maid of Honor',   initial: 'J' },
-    { name: 'Almira De Jesus',  role: 'Matron of Honor', initial: 'A' },
-    { name: 'Camille Santos',   role: 'Bridesmaid',      initial: 'C' },
-    { name: 'Trisha Dela Cruz', role: 'Bridesmaid',      initial: 'T' },
-    { name: 'Nicole Flores',    role: 'Bridesmaid',      initial: 'N' },
+  groomsmenGroups: [
+    {
+      header: 'Best Men',
+      members: [
+        { name: 'Jonas Mellona',    role: 'Best Man',   initial: 'J' },
+        { name: 'Angelo De Jesus',  role: 'Best Man',   initial: 'A' },
+      ]
+    }
   ],
-  groomsmen: [
-    { name: 'Jonas Mellona',    role: 'Best Man',   initial: 'J' },
-    { name: 'Angelo De Jesus',  role: 'Best Man',   initial: 'A' },
-    { name: 'Luis Ramos',       role: 'Groomsman',  initial: 'L' },
-    { name: 'Paolo Mendoza',    role: 'Groomsman',  initial: 'P' },
-    { name: 'Jeric Bautista',   role: 'Groomsman',  initial: 'J' },
-  ],
+  bridesmaidsGroups: [
+    {
+      header: 'Maid of Honor',
+      members: [
+        { name: 'Janine Cao',       role: 'Maid of Honor',   initial: 'J' },
+      ]
+    },
+    {
+      header: 'Matron of Honor',
+      members: [
+        { name: 'Almira De Jesus',  role: 'Matron of Honor', initial: 'A' },
+      ]
+    }
+  ]
 }
 
 export default function Entourage() {
@@ -66,29 +75,33 @@ export default function Entourage() {
           gap: '3rem',
           alignItems: 'start',
         }}>
-          {/* Groomsmen */}
+          {/* Groomsmen Column */}
           <div>
-            <motion.h3
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.3 }}
-              style={{
-                fontFamily: 'var(--ff-serif)',
-                fontStyle: 'italic',
-                fontSize: '1.4rem',
-                fontWeight: 400,
-                color: 'var(--taupe)',
-                textAlign: 'center',
-                marginBottom: '2rem',
-              }}
-            >
-              Groomsmen
-            </motion.h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              {ENTOURAGE.groomsmen.map((p, i) => (
-                <PersonCard key={p.name} person={p} index={i} inView={inView} delay={0.4} />
-              ))}
-            </div>
+            {ENTOURAGE.groomsmenGroups.map((group, gIdx) => (
+              <div key={group.header} style={{ marginBottom: gIdx < ENTOURAGE.groomsmenGroups.length - 1 ? '2.5rem' : 0 }}>
+                <motion.h3
+                  initial={{ opacity: 0 }}
+                  animate={inView ? { opacity: 1 } : {}}
+                  transition={{ delay: 0.3 }}
+                  style={{
+                    fontFamily: 'var(--ff-serif)',
+                    fontStyle: 'italic',
+                    fontSize: '1.4rem',
+                    fontWeight: 400,
+                    color: 'var(--taupe)',
+                    textAlign: 'center',
+                    marginBottom: '1.5rem',
+                  }}
+                >
+                  {group.header}
+                </motion.h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                  {group.members.map((p, i) => (
+                    <PersonCard key={p.name} person={p} index={i} inView={inView} delay={0.4} />
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Center monogram */}
@@ -124,29 +137,33 @@ export default function Entourage() {
             <div style={{ width: 1, height: 60, background: 'linear-gradient(to bottom, var(--champagne), transparent)', marginTop: '1rem' }} />
           </motion.div>
 
-          {/* Bridesmaids */}
+          {/* Bridesmaids Column */}
           <div>
-            <motion.h3
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.3 }}
-              style={{
-                fontFamily: 'var(--ff-serif)',
-                fontStyle: 'italic',
-                fontSize: '1.4rem',
-                fontWeight: 400,
-                color: 'var(--taupe)',
-                textAlign: 'center',
-                marginBottom: '2rem',
-              }}
-            >
-              Bridesmaids
-            </motion.h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              {ENTOURAGE.bridesmaids.map((p, i) => (
-                <PersonCard key={p.name} person={p} index={i} inView={inView} delay={0.5} />
-              ))}
-            </div>
+            {ENTOURAGE.bridesmaidsGroups.map((group, gIdx) => (
+              <div key={group.header} style={{ marginBottom: gIdx < ENTOURAGE.bridesmaidsGroups.length - 1 ? '2.5rem' : 0 }}>
+                <motion.h3
+                  initial={{ opacity: 0 }}
+                  animate={inView ? { opacity: 1 } : {}}
+                  transition={{ delay: 0.3 }}
+                  style={{
+                    fontFamily: 'var(--ff-serif)',
+                    fontStyle: 'italic',
+                    fontSize: '1.4rem',
+                    fontWeight: 400,
+                    color: 'var(--taupe)',
+                    textAlign: 'center',
+                    marginBottom: '1.5rem',
+                  }}
+                >
+                  {group.header}
+                </motion.h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                  {group.members.map((p, i) => (
+                    <PersonCard key={p.name} person={p} index={i} inView={inView} delay={0.5} />
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
