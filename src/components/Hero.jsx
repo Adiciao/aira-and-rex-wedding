@@ -4,14 +4,32 @@ import gsap from 'gsap'
 import { useWedding } from '../context/WeddingContext'
 import heroBg from '../assets/wedding-hero-bg.png'
 
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+function scrambleText(el, finalText, duration = 1.2) {
+  let iterations = 0
+  const total = Math.floor(duration * 60)
+  const interval = setInterval(() => {
+    el.textContent = finalText.split('').map((char, i) => {
+      if (char === ' ') return ' '
+      if (iterations / total > i / finalText.length) return char
+      return CHARS[Math.floor(Math.random() * CHARS.length)]
+    }).join('')
+    if (iterations >= total) { el.textContent = finalText; clearInterval(interval) }
+    iterations++
+  }, 1000 / 60)
+}
+
 export default function Hero() {
   const { bride, groom, weddingDate, location, heroSubtitle } = useWedding()
+  const dateRef   = useRef(null)
   const scrollRef = useRef(null)
 
   // Generate dynamic date/location subtitle
   const dateObj = new Date(weddingDate)
   const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
   const shortMonthDay = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }).toUpperCase()
+  const subtitleText = location ? `${formattedDate}  ·  ${location}` : heroSubtitle
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.3 })
@@ -32,13 +50,14 @@ export default function Hero() {
       { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 1, ease: 'power3.out' }, '-=0.5'
     )
     .fromTo('.hero-info-col',
-      { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6'
+      { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6'
     )
+    .call(() => { if (dateRef.current) scrambleText(dateRef.current, subtitleText, 1.4) }, null, '-=0.5')
     .fromTo('.hero-scroll', { opacity: 0 }, { opacity: 1, duration: 0.8 }, '-=0.3')
     .fromTo('.hero-rsvp-pill', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.5)' }, '-=0.4')
 
     gsap.to(scrollRef.current, { y: 8, repeat: -1, yoyo: true, duration: 1.5, ease: 'sine.inOut', delay: 2 })
-  }, [])
+  }, [subtitleText])
 
   const scrollTo = (href) => (e) => {
     e.preventDefault()
@@ -113,16 +132,17 @@ export default function Hero() {
         }} />
 
         {/* Date and Location Subtitle */}
-        <p className="hero-info-col" style={{
+        <p ref={dateRef} className="hero-info-col" style={{
           fontFamily: 'var(--ff-sans)',
           fontSize: 'clamp(0.78rem, 1.6vw, 0.95rem)',
           fontWeight: 400,
           letterSpacing: '0.15em',
           color: 'var(--text-soft)',
           opacity: 0,
-          marginTop: '0.5rem'
+          marginTop: '0.5rem',
+          fontVariantNumeric: 'tabular-nums'
         }}>
-          {formattedDate} &nbsp;·&nbsp; {location}
+          &nbsp;
         </p>
       </div>
 
