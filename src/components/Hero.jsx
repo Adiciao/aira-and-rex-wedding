@@ -112,34 +112,18 @@ export default function Hero() {
           transformOrigin: 'center'
         }} />
 
-        {/* Info Columns */}
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'clamp(1.5rem, 4vw, 3.5rem)',
-          background: 'rgba(255, 255, 255, 0.15)',
-          backdropFilter: 'blur(8px)',
-          padding: '0.8rem 2.2rem',
-          border: '1px solid rgba(255, 255, 255, 0.25)',
-          borderRadius: '4px',
-          boxShadow: '0 4px 20px rgba(100, 78, 136, 0.05)'
+        {/* Date and Location Subtitle */}
+        <p className="hero-info-col" style={{
+          fontFamily: 'var(--ff-sans)',
+          fontSize: 'clamp(0.78rem, 1.6vw, 0.95rem)',
+          fontWeight: 400,
+          letterSpacing: '0.15em',
+          color: 'var(--text-soft)',
+          opacity: 0,
+          marginTop: '0.5rem'
         }}>
-          {/* Date */}
-          <div className="hero-info-col" style={{ opacity: 0, textAlign: 'left' }}>
-            <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.58rem', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-soft)', marginBottom: '0.2rem' }}>Date</span>
-            <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.82rem', fontWeight: 400, color: 'var(--text)' }}>{formattedDate}</span>
-          </div>
-
-          {/* Vertical Divider */}
-          <div className="hero-info-col" style={{ opacity: 0, width: '1px', height: '30px', background: 'rgba(100, 78, 136, 0.2)' }} />
-
-          {/* Location */}
-          <div className="hero-info-col" style={{ opacity: 0, textAlign: 'left' }}>
-            <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.58rem', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-soft)', marginBottom: '0.2rem' }}>Location</span>
-            <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.82rem', fontWeight: 400, color: 'var(--text)' }}>{location}</span>
-          </div>
-        </div>
+          {formattedDate} &nbsp;·&nbsp; {location}
+        </p>
       </div>
 
       {/* Floating RSVP Pill Button */}
