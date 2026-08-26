@@ -225,6 +225,17 @@ export default function Entourage() {
             To carry our symbol of Love, Treasure and Faith
           </motion.p>
 
+          {/* Bearers Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <p style={{
+              fontFamily: 'var(--ff-serif)',
+              fontStyle: 'italic',
+              fontSize: '1.4rem',
+              color: 'var(--taupe)',
+              letterSpacing: '0.03em',
+            }}>Bearers</p>
+          </div>
+
           {/* Bearers Grid */}
           <div className="bearers-grid" style={{
             display: 'grid',
