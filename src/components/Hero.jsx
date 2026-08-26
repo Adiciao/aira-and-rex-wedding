@@ -135,7 +135,7 @@ export default function Hero() {
         <p ref={dateRef} className="hero-info-col" style={{
           fontFamily: 'var(--ff-sans)',
           fontSize: 'clamp(0.95rem, 2vw, 1.2rem)',
-          fontWeight: 500,
+          fontWeight: 400,
           letterSpacing: '0.15em',
           color: 'var(--text)',
           opacity: 0,
