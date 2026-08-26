@@ -86,16 +86,16 @@ export default function Hero() {
         background: 'linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, rgba(234,229,240,0.3) 40%, rgba(255,255,255,0.85) 85%, #ffffff 100%)'
       }} />
 
-      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 1.5rem', width: '100%', maxWidth: 800 }}>
+      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 2rem', width: '100%', maxWidth: 1000 }}>
         {/* Eyebrow */}
         <p className="hero-eyebrow" style={{
           fontFamily: 'var(--ff-sans)',
-          fontSize: '0.72rem',
+          fontSize: 'clamp(0.8rem, 1.5vw, 1rem)',
           fontWeight: 400,
-          letterSpacing: '0.3em',
+          letterSpacing: '0.35em',
           textTransform: 'uppercase',
           color: 'var(--text-soft)',
-          marginBottom: '1.5rem',
+          marginBottom: '2rem',
           opacity: 0
         }}>
           Joining for the Union of
@@ -106,27 +106,28 @@ export default function Hero() {
           fontFamily: 'var(--ff-serif)',
           fontStyle: 'italic',
           fontWeight: 300,
-          fontSize: 'clamp(2.8rem, 7.5vw, 6rem)',
+          fontSize: 'clamp(4rem, 10vw, 8.5rem)',
           color: 'var(--text)',
-          lineHeight: 1.1,
-          marginBottom: '1.8rem',
-          letterSpacing: '-0.01em',
+          lineHeight: 1.0,
+          marginBottom: '2rem',
+          letterSpacing: '-0.02em',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          gap: '0.15em',
           flexWrap: 'wrap'
         }}>
           <span className="hero-name-groom" style={{ opacity: 0 }}>{groom}</span>
-          <span className="hero-amp" style={{ opacity: 0, color: 'var(--taupe)', margin: '0 0.3em', fontSize: '0.85em', fontWeight: 300 }}>&amp;</span>
+          <span className="hero-amp" style={{ opacity: 0, color: 'var(--taupe)', margin: '0 0.2em', fontSize: '0.6em', fontWeight: 300, alignSelf: 'center' }}>&amp;</span>
           <span className="hero-name-bride" style={{ opacity: 0 }}>{bride}</span>
         </h1>
 
         {/* Horizontal Divider Line */}
         <div className="hero-divider" style={{
-          width: '120px',
+          width: '160px',
           height: '1px',
-          background: 'rgba(100, 78, 136, 0.25)',
-          margin: '0 auto 2rem',
+          background: 'rgba(100, 78, 136, 0.3)',
+          margin: '0 auto 2.5rem',
           opacity: 0,
           transformOrigin: 'center'
         }} />
@@ -134,9 +135,9 @@ export default function Hero() {
         {/* Date and Location Subtitle */}
         <p ref={dateRef} className="hero-info-col" style={{
           fontFamily: 'var(--ff-sans)',
-          fontSize: 'clamp(0.78rem, 1.6vw, 0.95rem)',
+          fontSize: 'clamp(0.95rem, 2vw, 1.2rem)',
           fontWeight: 400,
-          letterSpacing: '0.15em',
+          letterSpacing: '0.18em',
           color: 'var(--text-soft)',
           opacity: 0,
           marginTop: '0.5rem',
