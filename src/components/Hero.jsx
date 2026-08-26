@@ -89,11 +89,11 @@ export default function Hero() {
         {/* Eyebrow */}
         <p className="hero-eyebrow" style={{
           fontFamily: 'var(--ff-sans)',
-          fontSize: 'clamp(0.8rem, 1.5vw, 1rem)',
-          fontWeight: 400,
-          letterSpacing: '0.35em',
+          fontSize: 'clamp(0.9rem, 1.8vw, 1.1rem)',
+          fontWeight: 500,
+          letterSpacing: '0.3em',
           textTransform: 'uppercase',
-          color: 'var(--text-soft)',
+          color: 'var(--text)',
           marginBottom: '2rem',
           opacity: 0
         }}>
@@ -117,7 +117,7 @@ export default function Hero() {
           flexWrap: 'wrap'
         }}>
           <span className="hero-name-groom" style={{ opacity: 0 }}>{groom}</span>
-          <span className="hero-amp" style={{ opacity: 0, color: 'var(--taupe)', margin: '0 0.2em', fontSize: '0.6em', fontWeight: 300, alignSelf: 'center' }}>&amp;</span>
+          <span className="hero-amp" style={{ opacity: 0, color: 'var(--taupe-dark)', margin: '0 0.25em', fontSize: '0.75em', fontWeight: 400, alignSelf: 'center' }}>&amp;</span>
           <span className="hero-name-bride" style={{ opacity: 0 }}>{bride}</span>
         </h1>
 
