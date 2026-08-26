@@ -299,40 +299,28 @@ function BearerCard({ bearer, index, inView }) {
   const [hovered, setHovered] = useState(false)
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, x: -20 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem 1.5rem',
-        background: hovered ? 'rgba(255, 255, 255, 0.65)' : 'rgba(255, 255, 255, 0.35)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: `1px solid ${hovered ? 'rgba(100, 78, 136, 0.25)' : 'rgba(255, 255, 255, 0.45)'}`,
-        borderRadius: '16px',
-        transition: 'all 0.35s var(--ease-smooth)',
-        boxShadow: hovered ? '0 12px 30px rgba(100, 78, 136, 0.08)' : '0 4px 20px rgba(0,0,0,0.01)',
-        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        gap: '1rem',
+        padding: '0.9rem 1.2rem',
+        background: hovered ? 'rgba(255, 255, 255, 0.55)' : 'rgba(255, 255, 255, 0.2)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        border: `1px solid ${hovered ? 'rgba(100, 78, 136, 0.2)' : 'rgba(255, 255, 255, 0.35)'}`,
+        borderRadius: '12px',
+        transition: 'all 0.3s ease',
+        boxShadow: hovered ? '0 10px 30px rgba(100, 78, 136, 0.06)' : 'none',
+        transform: hovered ? 'translateX(4px)' : 'translateX(0)',
       }}
     >
-      <span style={{
-        fontFamily: 'var(--ff-sans)',
-        fontSize: '0.62rem',
-        letterSpacing: '0.22em',
-        textTransform: 'uppercase',
-        fontWeight: 500,
-        color: 'var(--text-soft)',
-        marginBottom: '1.2rem',
-      }}>
-        {bearer.title}
-      </span>
       <div style={{
-        width: 46, height: 46,
+        width: 42, height: 42,
         borderRadius: '50%',
         background: 'linear-gradient(135deg, var(--blush), var(--champagne))',
         display: 'flex',
@@ -340,24 +328,18 @@ function BearerCard({ bearer, index, inView }) {
         justifyContent: 'center',
         fontFamily: 'var(--ff-serif)',
         fontStyle: 'italic',
-        fontSize: '1.2rem',
-        fontWeight: 400,
+        fontSize: '1.1rem',
         color: 'var(--taupe-dark)',
-        marginBottom: '1rem',
+        flexShrink: 0,
         transition: 'transform 0.3s ease',
-        transform: hovered ? 'scale(1.08)' : 'scale(1)',
+        transform: hovered ? 'scale(1.1)' : 'scale(1)',
       }}>
         {bearer.initial}
       </div>
-      <p style={{
-        fontWeight: 500,
-        fontSize: '0.92rem',
-        color: 'var(--text)',
-        textAlign: 'center',
-        letterSpacing: '0.01em',
-      }}>
-        {bearer.name}
-      </p>
+      <div style={{ textAlign: 'left' }}>
+        <p style={{ fontWeight: 500, fontSize: '0.88rem', color: 'var(--text)' }}>{bearer.name}</p>
+        <p style={{ fontSize: '0.72rem', color: 'var(--text-soft)', letterSpacing: '0.05em' }}>{bearer.title}</p>
+      </div>
     </motion.div>
   )
 }
