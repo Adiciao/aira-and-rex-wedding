@@ -1,25 +1,26 @@
 /* ================================================================
-   GLOBAL DESIGN SYSTEM — Evelyn & Julian Wedding Invitation
+   GLOBAL DESIGN SYSTEM — Aira & Rex Wedding Invitation
    ================================================================ */
 
 :root {
-  --cream: #f8f3eb;
-  --cream-light: #fdfaf5;
-  --champagne: #c9b99a;
-  --blush: #e8d4c4;
-  --blush-deep: #d4a898;
-  --taupe: #8b7355;
-  --taupe-dark: #6b5640;
-  --gold: #c9a96e;
-  --gold-bright: #e2c077;
-  --noir: #0f0d0b;
-  --noir-mid: #1e1b18;
-  --text: #2d2820;
-  --text-soft: #7a6e62;
-  --white: #ffffff;
+  /* ── Purple / Lavender Palette ─────────────────────────────── */
+  --cream:        #eae5f0;   /* soft lavender — main bg tint      */
+  --cream-light:  #f5f2fa;   /* near-white lavender — page bg     */
+  --champagne:    #c2b1d8;   /* muted mauve — borders, accents    */
+  --blush:        #d1c9dc;   /* light purple — subtle fills       */
+  --blush-deep:   #b7a0d8;   /* medium lavender — deeper fills    */
+  --taupe:        #9e87bd;   /* mid purple — soft CTAs            */
+  --taupe-dark:   #644e88;   /* deep purple — primary CTAs/links  */
+  --gold:         #b7a0d8;   /* lavender accent (was gold)        */
+  --gold-bright:  #c2b1d8;   /* light lavender accent             */
+  --noir:         #1a1020;   /* deep plum-black                   */
+  --noir-mid:     #2d1f40;   /* dark plum mid                     */
+  --text:         #291f3b;   /* primary text — dark plum          */
+  --text-soft:    #7a6e8c;   /* secondary text — muted purple     */
+  --white:        #ffffff;
 
   --ff-serif: 'Cormorant Garamond', Georgia, serif;
-  --ff-sans: 'Outfit', 'Helvetica Neue', sans-serif;
+  --ff-sans:  'Outfit', 'Helvetica Neue', sans-serif;
 
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
