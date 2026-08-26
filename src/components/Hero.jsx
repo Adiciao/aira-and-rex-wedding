@@ -54,6 +54,7 @@ export default function Hero() {
     )
     .call(() => { if (dateRef.current) scrambleText(dateRef.current, subtitleText, 1.4) }, null, '-=0.5')
     .fromTo('.hero-scroll', { opacity: 0 }, { opacity: 1, duration: 0.8 }, '-=0.3')
+    .fromTo('.hero-rsvp-pill', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.5)' }, '-=0.4')
 
     gsap.to(scrollRef.current, { y: 8, repeat: -1, yoyo: true, duration: 1.5, ease: 'sine.inOut', delay: 2 })
   }, [subtitleText])
@@ -146,7 +147,38 @@ export default function Hero() {
         </p>
       </div>
 
-
+      {/* Floating RSVP Pill Button (Stay in Hero section, not sticky!) */}
+      <motion.a
+        href="#rsvp"
+        onClick={scrollTo('#rsvp')}
+        className="hero-rsvp-pill"
+        whileHover={{ scale: 1.05, y: -2 }}
+        whileTap={{ scale: 0.98 }}
+        style={{
+          position: 'absolute',
+          bottom: '2.5rem',
+          right: '2.5rem',
+          background: 'var(--taupe-dark)',
+          color: 'white',
+          borderRadius: '30px',
+          padding: '0.8rem 1.8rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.85rem',
+          boxShadow: '0 8px 25px rgba(100, 78, 136, 0.18)',
+          fontSize: '0.7rem',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          fontWeight: 400,
+          zIndex: 10,
+          opacity: 0,
+          border: '1px solid rgba(255,255,255,0.05)'
+        }}
+      >
+        <span>RSVP</span>
+        <span style={{ width: '1px', height: '12px', background: 'rgba(255, 255, 255, 0.3)' }} />
+        <span>{shortMonthDay}</span>
+      </motion.a>
 
       {/* Scroll indicator */}
       <div ref={scrollRef} className="hero-scroll" style={{ position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', opacity: 0, zIndex: 2 }}>
