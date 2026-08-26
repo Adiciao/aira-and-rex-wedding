@@ -206,7 +206,7 @@ export default function Entourage() {
         </div>
 
         {/* Bearers & Flower Girls Section */}
-        <div style={{ marginTop: '5rem', borderTop: '1px dashed var(--champagne)', paddingTop: '4rem' }}>
+        <div style={{ marginTop: '6rem', borderTop: '1px dashed var(--champagne)', paddingTop: '5rem' }}>
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -216,9 +216,10 @@ export default function Entourage() {
               textAlign: 'center',
               fontFamily: 'var(--ff-serif)',
               fontStyle: 'italic',
-              fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
-              color: 'var(--taupe)',
-              marginBottom: '3rem',
+              fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
+              color: 'var(--text)',
+              marginBottom: '3.5rem',
+              letterSpacing: '0.02em',
             }}
           >
             To carry our symbol of Love, Treasure and Faith
@@ -229,47 +230,14 @@ export default function Entourage() {
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '2rem',
-            marginBottom: '4rem',
+            marginBottom: '4.5rem',
           }}>
             {[
               { title: 'Ring Bearer', name: 'Ram Chester Caling', initial: 'R' },
               { title: 'Bible Bearer', name: 'King Santiago', initial: 'K' },
               { title: 'Coin Bearer', name: 'Paulo Gyle Ponce', initial: 'P' }
             ].map((bearer, idx) => (
-              <div key={bearer.title} style={{ textAlign: 'center' }}>
-                <p style={{
-                  fontFamily: 'var(--ff-serif)',
-                  fontStyle: 'italic',
-                  fontSize: '1.25rem',
-                  color: 'var(--taupe)',
-                  marginBottom: '0.8rem'
-                }}>{bearer.title}</p>
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.8rem',
-                  padding: '0.8rem 1.2rem',
-                  background: 'var(--cream-light)',
-                  border: '1px solid var(--blush)',
-                  borderRadius: '0px'
-                }}>
-                  <div style={{
-                    width: 32, height: 32,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, var(--blush), var(--champagne))',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'var(--ff-serif)',
-                    fontStyle: 'italic',
-                    fontSize: '0.9rem',
-                    color: 'var(--taupe-dark)'
-                  }}>
-                    {bearer.initial}
-                  </div>
-                  <span style={{ fontWeight: 500, fontSize: '0.88rem', color: 'var(--text)' }}>{bearer.name}</span>
-                </div>
-              </div>
+              <BearerCard key={bearer.title} bearer={bearer} index={idx} inView={inView} />
             ))}
           </div>
 
@@ -280,44 +248,20 @@ export default function Entourage() {
               fontStyle: 'italic',
               fontSize: '1.4rem',
               color: 'var(--taupe)',
-              marginBottom: '1.5rem'
+              marginBottom: '2rem',
+              letterSpacing: '0.03em',
             }}>Flower Girls</p>
             <div className="flower-girls-grid" style={{
-              display: 'inline-flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: '1.5rem',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '2rem',
             }}>
               {[
                 { name: 'Celine Iris Meriballes', initial: 'C' },
                 { name: 'Ashrielle Kaye Dizon', initial: 'A' },
                 { name: 'Ayesha Jay Dizon', initial: 'A' }
-              ].map((girl) => (
-                <div key={girl.name} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.8rem',
-                  padding: '0.8rem 1.2rem',
-                  background: 'var(--cream-light)',
-                  border: '1px solid var(--blush)',
-                  borderRadius: '0px'
-                }}>
-                  <div style={{
-                    width: 32, height: 32,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, var(--blush), var(--champagne))',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'var(--ff-serif)',
-                    fontStyle: 'italic',
-                    fontSize: '0.9rem',
-                    color: 'var(--taupe-dark)'
-                  }}>
-                    {girl.initial}
-                  </div>
-                  <span style={{ fontWeight: 500, fontSize: '0.88rem', color: 'var(--text)' }}>{girl.name}</span>
-                </div>
+              ].map((girl, idx) => (
+                <BearerCard key={girl.name} bearer={{ title: 'Flower Girl', name: girl.name, initial: girl.initial }} index={idx + 3} inView={inView} />
               ))}
             </div>
           </div>
@@ -334,25 +278,85 @@ export default function Entourage() {
             display: none !important;
           }
         }
-        @media (max-width: 768px) {
-          .bearers-grid {
+        @media (max-width: 850px) {
+          .bearers-grid,
+          .flower-girls-grid {
             grid-template-columns: 1fr !important;
-            gap: 2rem !important;
+            gap: 1.5rem !important;
+            max-width: 320px;
+            margin: 0 auto 3rem !important;
           }
           .flower-girls-grid {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            width: 100% !important;
-          }
-          .flower-girls-grid > div {
-            width: 100% !important;
-            max-width: 280px !important;
-            justify-content: center !important;
+            margin-bottom: 0 !important;
           }
         }
       `}</style>
     </section>
+  )
+}
+
+function BearerCard({ bearer, index, inView }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2rem 1.5rem',
+        background: hovered ? 'var(--cream-light)' : 'rgba(255, 255, 255, 0.35)',
+        border: `1px solid ${hovered ? 'var(--champagne)' : 'var(--blush)'}`,
+        borderRadius: '4px',
+        transition: 'all 0.35s var(--ease-smooth)',
+        boxShadow: hovered ? '0 12px 30px rgba(100, 78, 136, 0.08)' : 'none',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+      }}
+    >
+      <span style={{
+        fontFamily: 'var(--ff-sans)',
+        fontSize: '0.62rem',
+        letterSpacing: '0.22em',
+        textTransform: 'uppercase',
+        fontWeight: 500,
+        color: 'var(--text-soft)',
+        marginBottom: '1.2rem',
+      }}>
+        {bearer.title}
+      </span>
+      <div style={{
+        width: 46, height: 46,
+        borderRadius: '50%',
+        background: 'linear-gradient(135deg, var(--blush), var(--champagne))',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'var(--ff-serif)',
+        fontStyle: 'italic',
+        fontSize: '1.2rem',
+        fontWeight: 400,
+        color: 'var(--taupe-dark)',
+        marginBottom: '1rem',
+        transition: 'transform 0.3s ease',
+        transform: hovered ? 'scale(1.08)' : 'scale(1)',
+      }}>
+        {bearer.initial}
+      </div>
+      <p style={{
+        fontWeight: 500,
+        fontSize: '0.92rem',
+        color: 'var(--text)',
+        textAlign: 'center',
+        letterSpacing: '0.01em',
+      }}>
+        {bearer.name}
+      </p>
+    </motion.div>
   )
 }
 
