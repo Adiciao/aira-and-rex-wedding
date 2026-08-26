@@ -9,6 +9,17 @@ const ENTOURAGE = {
         { name: 'Jonas Mellona',    role: 'Best Man',   initial: 'J' },
         { name: 'Angelo De Jesus',  role: 'Best Man',   initial: 'A' },
       ]
+    },
+    {
+      header: 'Groomsmen',
+      members: [
+        { name: 'John Paolo Balabbo',        role: 'Candle Sponsor',   initial: 'J' },
+        { name: 'John Bryan Javier',         role: 'Candle Sponsor',   initial: 'J' },
+        { name: 'Adrian Bernardo',           role: 'Veil Sponsor',     initial: 'A' },
+        { name: 'John Louie Dizon',          role: 'Veil Sponsor',     initial: 'J' },
+        { name: 'Aldrich Salas',             role: 'Cord Sponsor',     initial: 'A' },
+        { name: 'Bryan Quintero',            role: 'Cord Sponsor',     initial: 'B' }
+      ]
     }
   ],
   bridesmaidsGroups: [
@@ -22,6 +33,17 @@ const ENTOURAGE = {
       header: 'Matron of Honor',
       members: [
         { name: 'Almira De Jesus',  role: 'Matron of Honor', initial: 'A' },
+      ]
+    },
+    {
+      header: 'Bridesmaids',
+      members: [
+        { name: 'Shandy Shanine Del Rosario', role: 'Candle Sponsor',   initial: 'S' },
+        { name: 'Ninna Balabbo',              role: 'Candle Sponsor',   initial: 'N' },
+        { name: 'Rhaine Danielle Caling',     role: 'Veil Sponsor',     initial: 'R' },
+        { name: 'Jilian Leigh Linao',         role: 'Veil Sponsor',     initial: 'J' },
+        { name: 'Robinett Caling',            role: 'Cord Sponsor',     initial: 'R' },
+        { name: 'Elaine Quintero',            role: 'Cord Sponsor',     initial: 'E' }
       ]
     }
   ]
