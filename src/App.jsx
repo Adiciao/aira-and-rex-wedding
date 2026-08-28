@@ -34,11 +34,11 @@ export default function App() {
         <OurStory />
         <Schedule />
         <QuoteSection />
+        <DressCode />
         <Venue />
         <Gallery />
         <Entourage />
         <RSVP />
-        <DressCode />
       </main>
       <Footer />
     </>
