@@ -32,12 +32,12 @@ export default function App() {
         <Hero />
         <Countdown />
         <OurStory />
+        <Entourage />
         <Schedule />
         <QuoteSection />
         <DressCode />
         <Venue />
         <Gallery />
-        <Entourage />
         <RSVP />
       </main>
       <Footer />
