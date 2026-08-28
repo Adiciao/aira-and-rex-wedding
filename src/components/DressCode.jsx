@@ -2,15 +2,6 @@ import { motion } from 'framer-motion'
 import { useRef } from 'react'
 import { useInView } from 'framer-motion'
 
-/* ─── Color Palette swatches matching the image ─── */
-const PALETTE = [
-  { color: '#D4788A', label: 'Rose' },
-  { color: '#C26E89', label: 'Mauve Rose' },
-  { color: '#B89EC4', label: 'Lavender' },
-  { color: '#9B72B0', label: 'Lilac' },
-  { color: '#6B3F7A', label: 'Deep Plum' },
-]
-
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -68,16 +59,14 @@ export default function DressCode() {
           <path d="M 55 10 L 95 10" stroke="#c9a96e" strokeWidth="0.8" />
         </svg>
 
-        {/* Two columns: Principal Sponsors | Dear Guests */}
+        {/* Centered Dress Code Card */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr auto 1fr',
-          gap: '2rem',
-          alignItems: 'start',
+          display: 'flex',
+          justifyContent: 'center',
           marginBottom: '5rem',
-        }} className="dresscode-grid">
+        }}>
 
-          {/* Left — Principal Sponsors */}
+          {/* Principal Sponsors Card */}
           <motion.div
             custom={2} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
             style={{
@@ -85,20 +74,23 @@ export default function DressCode() {
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(194,177,216,0.4)',
               borderRadius: '16px',
-              padding: '2rem 1.5rem',
+              padding: '2.5rem 2rem',
               textAlign: 'center',
               position: 'relative',
+              width: '100%',
+              maxWidth: '480px',
+              boxShadow: '0 8px 32px rgba(100, 78, 136, 0.05)',
             }}
           >
             <div style={{
               position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)',
-              background: 'var(--cream-light)', padding: '0 1rem',
-              fontFamily: 'var(--ff-sans)', fontSize: '0.58rem', letterSpacing: '0.22em',
+              background: 'var(--cream-light)', padding: '0 1.2rem',
+              fontFamily: 'var(--ff-sans)', fontSize: '0.62rem', letterSpacing: '0.24em',
               textTransform: 'uppercase', color: '#7a5f8a', whiteSpace: 'nowrap'
             }}>
               For Principal Sponsors
             </div>
-            <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '0.95rem', color: 'var(--text)', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+            <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'var(--text)', lineHeight: 1.8, marginBottom: '2rem' }}>
               Men: Barong &amp; Black Pants<br />
               Women: Beige Long Dress
             </p>
@@ -109,84 +101,13 @@ export default function DressCode() {
                 alt="Men: Barong & Black Pants, Women: Beige Long Dress"
                 style={{
                   width: '100%',
-                  maxWidth: '220px',
+                  maxWidth: '260px',
                   height: 'auto',
                   display: 'block',
                   margin: '0 auto',
                   filter: 'drop-shadow(0 4px 12px rgba(100,78,136,0.1))'
                 }}
               />
-            </div>
-
-          </motion.div>
-
-          {/* Center vertical divider */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '3rem' }}>
-            <div style={{ width: 1, height: 260, background: 'linear-gradient(to bottom, transparent, rgba(194,177,216,0.6), transparent)' }} />
-            <div style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1rem', color: 'var(--taupe)', margin: '0.6rem 0', whiteSpace: 'nowrap' }}>&amp;</div>
-            <div style={{ width: 1, height: 60, background: 'linear-gradient(to bottom, rgba(194,177,216,0.6), transparent)' }} />
-          </div>
-
-          {/* Right — Dear Guest */}
-          <motion.div
-            custom={3} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-            style={{
-              background: 'rgba(255,255,255,0.55)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(194,177,216,0.4)',
-              borderRadius: '16px',
-              padding: '2rem 1.5rem',
-              textAlign: 'center',
-              position: 'relative',
-            }}
-          >
-            <div style={{
-              position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)',
-              background: 'var(--cream-light)', padding: '0 1rem',
-              fontFamily: 'var(--ff-sans)', fontSize: '0.58rem', letterSpacing: '0.22em',
-              textTransform: 'uppercase', color: '#7a5f8a', whiteSpace: 'nowrap'
-            }}>
-              For Dear Guest
-            </div>
-
-            {/* Color swatches in petal arrangement */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.5rem', maxWidth: 180, margin: '0 auto' }}>
-              {/* Top row — 2 */}
-              <div style={{ display: 'flex', gap: '0.5rem', width: '100%', justifyContent: 'center' }}>
-                {PALETTE.slice(0, 2).map(({ color, label }) => (
-                  <motion.div
-                    key={label}
-                    whileHover={{ scale: 1.15, y: -3 }}
-                    title={label}
-                    style={{
-                      width: 52, height: 52, borderRadius: '50%',
-                      background: color,
-                      boxShadow: `0 4px 14px ${color}55`,
-                      border: '2px solid rgba(255,255,255,0.6)',
-                      cursor: 'default',
-                      transition: 'box-shadow 0.3s ease'
-                    }}
-                  />
-                ))}
-              </div>
-              {/* Bottom row — 3 */}
-              <div style={{ display: 'flex', gap: '0.5rem', width: '100%', justifyContent: 'center' }}>
-                {PALETTE.slice(2).map(({ color, label }) => (
-                  <motion.div
-                    key={label}
-                    whileHover={{ scale: 1.15, y: -3 }}
-                    title={label}
-                    style={{
-                      width: 52, height: 52, borderRadius: '50%',
-                      background: color,
-                      boxShadow: `0 4px 14px ${color}55`,
-                      border: '2px solid rgba(255,255,255,0.6)',
-                      cursor: 'default',
-                      transition: 'box-shadow 0.3s ease'
-                    }}
-                  />
-                ))}
-              </div>
             </div>
           </motion.div>
         </div>
