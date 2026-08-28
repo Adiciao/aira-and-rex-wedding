@@ -8,12 +8,13 @@ export default function QuoteSection() {
   const bgY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
 
   const PALETTE = [
-    { color: '#c9b99a', name: 'Champagne' },
-    { color: '#e8d4c4', name: 'Blush'     },
-    { color: '#8b7355', name: 'Taupe'     },
-    { color: '#0f0d0b', name: 'Noir'      },
-    { color: '#c9a96e', name: 'Gold'      },
+    { color: '#D4788A', name: 'Rose'       },
+    { color: '#C26E89', name: 'Mauve Rose' },
+    { color: '#B89EC4', name: 'Lavender'   },
+    { color: '#9B72B0', name: 'Lilac'      },
+    { color: '#6B3F7A', name: 'Deep Plum'  },
   ]
+
 
   return (
     <section ref={ref} style={{
@@ -124,7 +125,7 @@ export default function QuoteSection() {
             color: 'rgba(255,255,255,0.3)',
             marginBottom: '1.2rem',
           }}>
-            Wedding Palette
+            Color Palette
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
             {PALETTE.map((p, i) => (
