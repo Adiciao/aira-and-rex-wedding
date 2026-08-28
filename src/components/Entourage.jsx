@@ -337,13 +337,13 @@ export default function Entourage() {
             margin: '0 auto'
           }}>
             <div>
-              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.25rem', color: 'var(--taupe)', marginBottom: '0.6rem', fontWeight: 500 }}>Parents of the Groom</h3>
+              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe)', marginBottom: '0.6rem', fontWeight: 700 }}>Parents of the Groom</h3>
               {ENTOURAGE.parents.groom.map((name, idx) => (
                 <ParentName key={name} name={name} index={idx} />
               ))}
             </div>
             <div>
-              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.25rem', color: 'var(--taupe)', marginBottom: '0.6rem', fontWeight: 500 }}>Parents of the Bride</h3>
+              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe)', marginBottom: '0.6rem', fontWeight: 700 }}>Parents of the Bride</h3>
               {ENTOURAGE.parents.bride.map((name, idx) => (
                 <ParentName key={name} name={name} index={idx + 2} />
               ))}
@@ -427,7 +427,7 @@ export default function Entourage() {
 
           {/* Best Men Centered Row */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2.5rem' }}>
-            <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.25rem', color: 'var(--taupe)', marginBottom: '0.8rem', fontWeight: 500 }}>Best Men</h3>
+            <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe)', marginBottom: '0.8rem', fontWeight: 700 }}>Best Men</h3>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '640px', width: '100%' }}>
               {ENTOURAGE.bestMen.map((p, idx) => (
                 <PersonCard key={p.name} person={p} index={idx + 28} inView={inView} delay={0.3} />
@@ -438,11 +438,11 @@ export default function Entourage() {
           {/* Maid of Honor & Matron of Honor Row */}
           <div className="parents-desktop-grid" style={{ maxWidth: '820px', margin: '0 auto' }}>
             <div style={{ marginBottom: '2rem' }}>
-              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.25rem', color: 'var(--taupe)', marginBottom: '0.8rem', fontWeight: 500 }}>Maid of Honor</h3>
+              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe)', marginBottom: '0.8rem', fontWeight: 700 }}>Maid of Honor</h3>
               <PersonCard person={ENTOURAGE.maidOfHonor} index={30} inView={inView} delay={0.4} />
             </div>
             <div style={{ marginBottom: '2rem' }}>
-              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.25rem', color: 'var(--taupe)', marginBottom: '0.8rem', fontWeight: 500 }}>Matron of Honor</h3>
+              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe)', marginBottom: '0.8rem', fontWeight: 700 }}>Matron of Honor</h3>
               <PersonCard person={ENTOURAGE.matronOfHonor} index={31} inView={inView} delay={0.5} />
             </div>
           </div>
@@ -482,8 +482,9 @@ export default function Entourage() {
                 textAlign: 'center',
                 fontFamily: 'var(--ff-serif)', 
                 fontStyle: 'italic', 
-                fontSize: '1.1rem', 
-                color: 'var(--text-soft)', 
+                fontSize: '1.25rem', 
+                fontWeight: 700,
+                color: 'var(--taupe-dark)', 
                 marginBottom: '1.8rem' 
               }}>{category.subhead}</p>
 
@@ -543,9 +544,9 @@ export default function Entourage() {
               <h3 style={{
                 fontFamily: 'var(--ff-serif)',
                 fontStyle: 'italic',
-                fontSize: '1.4rem',
-                fontWeight: 400,
-                color: 'var(--taupe)',
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                color: 'var(--taupe-dark)',
                 textAlign: 'center',
                 marginBottom: '1.2rem',
               }}>
@@ -590,9 +591,9 @@ export default function Entourage() {
               <h3 style={{
                 fontFamily: 'var(--ff-serif)',
                 fontStyle: 'italic',
-                fontSize: '1.4rem',
-                fontWeight: 400,
-                color: 'var(--taupe)',
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                color: 'var(--taupe-dark)',
                 textAlign: 'center',
                 marginBottom: '1.2rem',
               }}>
@@ -638,8 +639,9 @@ export default function Entourage() {
             <p style={{
               fontFamily: 'var(--ff-serif)',
               fontStyle: 'italic',
-              fontSize: '1.4rem',
-              color: 'var(--taupe)',
+              fontSize: '1.5rem',
+              fontWeight: 700,
+              color: 'var(--taupe-dark)',
               letterSpacing: '0.03em',
             }}>Bearers</p>
           </div>
@@ -665,8 +667,9 @@ export default function Entourage() {
             <p style={{
               fontFamily: 'var(--ff-serif)',
               fontStyle: 'italic',
-              fontSize: '1.4rem',
-              color: 'var(--taupe)',
+              fontSize: '1.5rem',
+              fontWeight: 700,
+              color: 'var(--taupe-dark)',
               marginBottom: '2rem',
               letterSpacing: '0.03em',
             }}>Flower Girls</p>
