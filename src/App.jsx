@@ -10,7 +10,6 @@ import Venue        from './components/Venue'
 import Gallery      from './components/Gallery'
 import Entourage    from './components/Entourage'
 import RSVP         from './components/RSVP'
-import DressCode    from './components/DressCode'
 import Footer       from './components/Footer'
 
 export default function App() {
@@ -34,7 +33,6 @@ export default function App() {
         <OurStory />
         <Entourage />
         <Schedule />
-        <DressCode />
         <QuoteSection />
         <Venue />
         <Gallery />

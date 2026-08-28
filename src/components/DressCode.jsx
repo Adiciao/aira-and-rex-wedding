@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { useRef } from 'react'
 import { useInView } from 'framer-motion'
 
-
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: (i = 0) => ({
@@ -17,37 +16,28 @@ export default function DressCode() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section
+    <div
       ref={ref}
       id="dresscode"
       style={{
-        background: 'linear-gradient(180deg, var(--blush) 0%, var(--cream-light) 100%)',
-        padding: 'clamp(4rem, 8vw, 8rem) clamp(1rem, 4vw, 3rem)',
         position: 'relative',
-        overflow: 'hidden',
+        width: '100%',
+        marginTop: '4rem',
       }}
     >
-      {/* Subtle background floral watermark */}
-      <div style={{
-        position: 'absolute', bottom: 0, right: 0,
-        width: 320, height: 320,
-        backgroundImage: 'radial-gradient(circle, rgba(162,137,185,0.15) 0%, transparent 70%)',
-        pointerEvents: 'none'
-      }} />
-
       <div style={{ maxWidth: 820, margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
         {/* ── DRESS CODE ── */}
         <motion.p
           custom={0} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-          style={{ textAlign: 'center', fontFamily: 'var(--ff-sans)', fontSize: '0.62rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '0.5rem' }}
+          style={{ textAlign: 'center', fontFamily: 'var(--ff-sans)', fontSize: '0.62rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--champagne)', opacity: 0.5, marginBottom: '0.5rem' }}
         >
           Attire & Details
         </motion.p>
 
         <motion.h2
           custom={1} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-          style={{ textAlign: 'center', fontFamily: 'var(--ff-serif)', fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: 300, color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.6rem' }}
+          style={{ textAlign: 'center', fontFamily: 'var(--ff-serif)', fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: 300, color: 'rgba(253,250,245,0.95)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.6rem' }}
         >
           Dress Code
         </motion.h2>
@@ -70,27 +60,27 @@ export default function DressCode() {
           <motion.div
             custom={2} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
             style={{
-              background: 'rgba(255,255,255,0.55)',
+              background: 'rgba(255,255,255,0.06)',
               backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(194,177,216,0.4)',
+              border: '1px solid rgba(255,255,255,0.08)',
               borderRadius: '16px',
               padding: '2.5rem 2rem',
               textAlign: 'center',
               position: 'relative',
               width: '100%',
               maxWidth: '480px',
-              boxShadow: '0 8px 32px rgba(100, 78, 136, 0.05)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
             }}
           >
             <div style={{
               position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)',
-              background: 'var(--cream-light)', padding: '0 1.2rem',
+              background: '#0f0d0b', padding: '0 1.2rem',
               fontFamily: 'var(--ff-sans)', fontSize: '0.62rem', letterSpacing: '0.24em',
-              textTransform: 'uppercase', color: '#7a5f8a', whiteSpace: 'nowrap'
+              textTransform: 'uppercase', color: 'var(--champagne)', whiteSpace: 'nowrap'
             }}>
               For Principal Sponsors
             </div>
-            <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'var(--text)', lineHeight: 1.8, marginBottom: '2rem' }}>
+            <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, marginBottom: '2rem' }}>
               Men: Barong &amp; Black Pants<br />
               Women: Beige Long Dress
             </p>
@@ -105,7 +95,7 @@ export default function DressCode() {
                   height: 'auto',
                   display: 'block',
                   margin: '0 auto',
-                  filter: 'drop-shadow(0 4px 12px rgba(100,78,136,0.1))'
+                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))'
                 }}
               />
             </div>
@@ -117,20 +107,21 @@ export default function DressCode() {
           custom={5} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
           style={{
             textAlign: 'center',
-            background: 'rgba(255,255,255,0.55)',
+            background: 'rgba(255,255,255,0.06)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(194,177,216,0.4)',
+            border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '16px',
             padding: '2.5rem 2rem',
             marginBottom: '3.5rem',
             position: 'relative',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
           }}
         >
           <div style={{
             position: 'absolute', top: '-18px', left: '50%', transform: 'translateX(-50%)',
-            background: 'var(--cream-light)', padding: '0 1.2rem',
+            background: '#0f0d0b', padding: '0 1.2rem',
             fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.4rem',
-            color: 'var(--taupe-dark)', whiteSpace: 'nowrap'
+            color: 'var(--champagne)', whiteSpace: 'nowrap'
           }}>
             A Note on Gift
           </div>
@@ -148,7 +139,7 @@ export default function DressCode() {
           <p style={{
             fontFamily: 'var(--ff-serif)', fontStyle: 'italic',
             fontSize: 'clamp(1rem, 2.2vw, 1.15rem)',
-            color: 'var(--text)', lineHeight: 1.85,
+            color: 'rgba(255,255,255,0.85)', lineHeight: 1.85,
             maxWidth: 520, margin: '0 auto'
           }}>
             Your presence on our wedding is enough. However, if you wish to give us something, monetary gift will be greatly appreciated.
@@ -160,19 +151,20 @@ export default function DressCode() {
           custom={6} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
           style={{
             textAlign: 'center',
-            background: 'rgba(255,255,255,0.55)',
+            background: 'rgba(255,255,255,0.06)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(194,177,216,0.4)',
+            border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '16px',
             padding: '2.5rem 2rem',
             position: 'relative',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
           }}
         >
           <div style={{
             position: 'absolute', top: '-18px', left: '50%', transform: 'translateX(-50%)',
-            background: 'var(--cream-light)', padding: '0 1.2rem',
+            background: '#0f0d0b', padding: '0 1.2rem',
             fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.4rem',
-            color: 'var(--taupe-dark)', whiteSpace: 'nowrap'
+            color: 'var(--champagne)', whiteSpace: 'nowrap'
           }}>
             Snap and Share
           </div>
@@ -191,7 +183,7 @@ export default function DressCode() {
           <p style={{
             fontFamily: 'var(--ff-serif)', fontStyle: 'italic',
             fontSize: 'clamp(0.95rem, 2vw, 1.05rem)',
-            color: 'var(--text)', lineHeight: 1.8,
+            color: 'rgba(255,255,255,0.85)', lineHeight: 1.8,
             marginBottom: '1.2rem'
           }}>
             Help us document our special day by sharing our captured moments using our official hashtag
@@ -204,7 +196,7 @@ export default function DressCode() {
               fontStyle: 'italic',
               fontSize: 'clamp(1.3rem, 3.5vw, 1.9rem)',
               fontWeight: 600,
-              background: 'linear-gradient(135deg, #9B72B0, #c9a96e)',
+              background: 'linear-gradient(135deg, #b89ec4, #c9a96e)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -218,18 +210,6 @@ export default function DressCode() {
         </motion.div>
 
       </div>
-
-      <style>{`
-        @media (max-width: 680px) {
-          .dresscode-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2.5rem !important;
-          }
-          .dresscode-divider {
-            display: none !important;
-          }
-        }
-      `}</style>
-    </section>
+    </div>
   )
 }

@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import DressCode from './DressCode'
 
 export default function QuoteSection() {
   const ref = useRef(null)
@@ -14,7 +15,6 @@ export default function QuoteSection() {
     { color: '#9B72B0', name: 'Lilac'      },
     { color: '#6B3F7A', name: 'Deep Plum'  },
   ]
-
 
   return (
     <section ref={ref} style={{
@@ -45,6 +45,8 @@ export default function QuoteSection() {
       }} />
 
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: 820, margin: '0 auto' }}>
+        <DressCode />
+
         {/* Giant quote mark */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
