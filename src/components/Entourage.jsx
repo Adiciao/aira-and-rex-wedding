@@ -261,24 +261,6 @@ export default function Entourage() {
       <FloatingConfetti />
 
       <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative', zIndex: 2 }}>
-
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          style={{
-            textAlign: 'center',
-            fontFamily: 'var(--ff-sans)',
-            fontSize: '0.62rem',
-            letterSpacing: '0.28em',
-            textTransform: 'uppercase',
-            color: 'var(--taupe)',
-            marginBottom: '0.8rem',
-            position: 'relative',
-            zIndex: 1
-          }}
-        >
-          Our Beloved
-        </motion.p>
         
         <motion.h2
           initial={{ opacity: 0, y: 25 }}
