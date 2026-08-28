@@ -28,7 +28,7 @@ export default function Countdown() {
   return (
     <section style={{ background: 'var(--cream)', padding: '5rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '1px', height: '60px', background: 'linear-gradient(to bottom, transparent, var(--champagne))' }} />
-      <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '3rem', marginTop: '1rem' }}>
+      <p style={{ fontFamily: 'var(--ff-sans)', fontSize: 'clamp(0.95rem, 2.2vw, 1.2rem)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--taupe-dark)', marginBottom: '3rem', marginTop: '1rem' }}>
         Until {groom} &amp; {bride} Say I Do
       </p>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(0.5rem, 2vw, 3.5rem)', flexWrap: 'wrap' }}>
