@@ -148,9 +148,7 @@ export default function DressCode() {
             }}>
               For Dear Guest
             </div>
-            <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '0.95rem', color: 'var(--text)', lineHeight: 1.7, marginBottom: '2rem' }}>
-              Please wear formal or semi-formal attire matching the color palette below.
-            </p>
+
             {/* Color swatches in petal arrangement */}
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.5rem', maxWidth: 180, margin: '0 auto' }}>
               {/* Top row — 2 */}
