@@ -34,8 +34,8 @@ export default function App() {
         <OurStory />
         <Entourage />
         <Schedule />
-        <QuoteSection />
         <DressCode />
+        <QuoteSection />
         <Venue />
         <Gallery />
         <RSVP />
