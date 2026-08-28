@@ -227,19 +227,26 @@ export default function Entourage() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
-  // Pre-initialize audio context on first scroll interaction to prevent browser blocking
+  // Pre-initialize audio context on first scroll/interaction to prevent browser blocking
   useEffect(() => {
     const handleGesture = () => {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (AudioContext && !window.weddingAudioCtx) {
         window.weddingAudioCtx = new AudioContext();
       }
+      if (window.weddingAudioCtx && window.weddingAudioCtx.state === 'suspended') {
+        window.weddingAudioCtx.resume();
+      }
     };
     window.addEventListener('scroll', handleGesture, { once: true });
     window.addEventListener('click', handleGesture, { once: true });
+    window.addEventListener('touchstart', handleGesture, { once: true });
+    window.addEventListener('mousemove', handleGesture, { once: true });
     return () => {
       window.removeEventListener('scroll', handleGesture);
       window.removeEventListener('click', handleGesture);
+      window.removeEventListener('touchstart', handleGesture);
+      window.removeEventListener('mousemove', handleGesture);
     };
   }, []);
 
