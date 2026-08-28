@@ -72,14 +72,17 @@ export default function DressCode() {
               boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
             }}
           >
-            <div style={{
-              position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)',
-              background: '#0f0d0b', padding: '0 1.2rem',
-              fontFamily: 'var(--ff-sans)', fontSize: '0.62rem', letterSpacing: '0.24em',
-              textTransform: 'uppercase', color: 'var(--champagne)', whiteSpace: 'nowrap'
+            <h3 style={{
+              fontFamily: 'var(--ff-serif)',
+              fontSize: '1.5rem',
+              fontStyle: 'italic',
+              fontWeight: 400,
+              color: 'var(--gold)',
+              marginBottom: '1.2rem',
+              letterSpacing: '0.04em'
             }}>
               For Principal Sponsors
-            </div>
+            </h3>
             <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, marginBottom: '2rem' }}>
               Men: Barong &amp; Black Pants<br />
               Women: Beige Long Dress
