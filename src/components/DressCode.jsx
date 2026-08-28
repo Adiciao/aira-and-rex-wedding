@@ -11,56 +11,6 @@ const PALETTE = [
   { color: '#6B3F7A', label: 'Deep Plum' },
 ]
 
-/* ─── Silhouette SVGs ─── */
-function ManSilhouette() {
-  return (
-    <svg width="90" height="180" viewBox="0 0 90 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Head */}
-      <ellipse cx="45" cy="22" rx="14" ry="16" fill="#4a3728" />
-      {/* Neck */}
-      <rect x="40" y="36" width="10" height="10" fill="#4a3728" />
-      {/* Barong body */}
-      <path d="M20 50 Q45 44 70 50 L75 110 Q45 118 15 110 Z" fill="#e8dcc8" />
-      {/* Barong collar details */}
-      <path d="M40 50 L45 75 L50 50" fill="none" stroke="#c8b89a" strokeWidth="1.5" />
-      {/* Arms */}
-      <path d="M20 55 L5 105" stroke="#4a3728" strokeWidth="12" strokeLinecap="round" />
-      <path d="M70 55 L85 105" stroke="#4a3728" strokeWidth="12" strokeLinecap="round" />
-      {/* Black pants */}
-      <path d="M22 108 L35 178 L45 178 L45 135 L45 135 L45 178 L55 178 L68 108 Z" fill="#2a2a2a" />
-      {/* Shoes */}
-      <ellipse cx="35" cy="182" rx="11" ry="6" fill="#1a1a1a" />
-      <ellipse cx="55" cy="182" rx="11" ry="6" fill="#1a1a1a" />
-    </svg>
-  )
-}
-
-function WomanSilhouette() {
-  return (
-    <svg width="90" height="190" viewBox="0 0 90 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Head */}
-      <ellipse cx="45" cy="20" rx="13" ry="16" fill="#4a3728" />
-      {/* Hair */}
-      <path d="M32 14 Q28 5 38 3 Q45 0 52 3 Q62 5 58 14" fill="#2a1a10" />
-      <path d="M32 14 Q25 22 28 34" fill="#2a1a10" stroke="#2a1a10" strokeWidth="3" />
-      <path d="M58 14 Q65 22 62 34" fill="#2a1a10" stroke="#2a1a10" strokeWidth="3" />
-      {/* Neck */}
-      <rect x="40" y="34" width="10" height="10" fill="#4a3728" />
-      {/* Beige dress bodice */}
-      <path d="M25 46 Q45 40 65 46 L68 95 Q45 100 22 95 Z" fill="#d4c4a0" />
-      {/* Dress skirt flare */}
-      <path d="M22 95 Q10 130 8 185 Q45 195 82 185 Q80 130 68 95 Q45 100 22 95 Z" fill="#c8b48a" />
-      {/* Dress details — waist band */}
-      <path d="M22 95 Q45 100 68 95" stroke="#b8a47a" strokeWidth="2" fill="none" />
-      {/* Arms */}
-      <path d="M25 50 L8 92" stroke="#4a3728" strokeWidth="10" strokeLinecap="round" />
-      <path d="M65 50 L82 92" stroke="#4a3728" strokeWidth="10" strokeLinecap="round" />
-      {/* Shoes */}
-      <ellipse cx="32" cy="190" rx="10" ry="5" fill="#8a7460" />
-      <ellipse cx="58" cy="190" rx="10" ry="5" fill="#8a7460" />
-    </svg>
-  )
-}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -152,11 +102,22 @@ export default function DressCode() {
               Men: Barong &amp; Black Pants<br />
               Women: Beige Long Dress
             </p>
-            {/* Silhouettes side by side */}
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '0.5rem' }}>
-              <ManSilhouette />
-              <WomanSilhouette />
+            {/* Attire illustration image */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+              <img
+                src="/dresscode_attire.png"
+                alt="Men: Barong & Black Pants, Women: Beige Long Dress"
+                style={{
+                  width: '100%',
+                  maxWidth: '220px',
+                  height: 'auto',
+                  display: 'block',
+                  margin: '0 auto',
+                  filter: 'drop-shadow(0 4px 12px rgba(100,78,136,0.1))'
+                }}
+              />
             </div>
+
           </motion.div>
 
           {/* Center vertical divider */}
