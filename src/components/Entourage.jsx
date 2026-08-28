@@ -448,108 +448,6 @@ export default function Entourage() {
           </div>
         </div>
 
-        {/* Groomsmen & Bridesmaids section - Box Container */}
-        <div style={{ 
-          border: '1px solid rgba(194, 177, 216, 0.45)', 
-          borderRadius: '16px', 
-          padding: '2.5rem clamp(1rem, 3vw, 2rem) 3.5rem clamp(1rem, 3vw, 2rem)', 
-          background: 'rgba(255,255,255,0.12)', 
-          position: 'relative', 
-          marginBottom: '3.5rem',
-          zIndex: 1
-        }}>
-          {/* Arched Top Header Frame */}
-          <div style={{ 
-            position: 'absolute', 
-            top: '-18px', 
-            left: '50%', 
-            transform: 'translateX(-50%)', 
-            background: 'var(--cream-light)', 
-            padding: '0 1.2rem', 
-            fontFamily: 'var(--ff-serif)', 
-            fontStyle: 'italic', 
-            fontSize: '1.35rem', 
-            color: 'var(--taupe-dark)',
-            whiteSpace: 'nowrap'
-          }}>
-            Wedding Attendants
-          </div>
-
-          <div className="entourage-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr auto 1fr',
-            gap: '2.5rem',
-            alignItems: 'start'
-          }}>
-            {/* Groomsmen / Left Column */}
-            <div>
-              <h3 style={{
-                fontFamily: 'var(--ff-serif)',
-                fontStyle: 'italic',
-                fontSize: '1.4rem',
-                fontWeight: 400,
-                color: 'var(--taupe)',
-                textAlign: 'center',
-                marginBottom: '1.2rem',
-              }}>
-                Groomsmen
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                {ENTOURAGE.groomsmen.map((p, i) => (
-                  <PersonCard key={p.name} person={p} index={i + 32} inView={inView} delay={0.4} />
-                ))}
-              </div>
-            </div>
-
-            {/* Center Monogram Branch Divider with Gold Accents */}
-            <div className="entourage-monogram" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', minHeight: '300px' }}>
-              {/* Upper vine */}
-              <div style={{ flex: 1, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='150' viewBox='0 0 60 150'%3E%3Cpath d='M 30 150 C 20 120, 20 120, 30 90 C 40 60, 40 60, 30 30 C 20 0, 20 0, 30 -30' fill='none' stroke='%23c2b1d8' stroke-width='1.5'/%3E%3Cpath d='M 27 100 C 18 95, 15 85, 22 85 C 27 85, 30 95, 27 100 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 33 50 C 42 45, 45 35, 38 35 C 33 35, 30 45, 33 50 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 22 115 Q 12 120 18 128' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3Cpath d='M 38 65 Q 48 70 42 78' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat-y', width: 40, opacity: 0.7 }} />
-              
-              {/* R&A Monogram Badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.6 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.4, duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
-                style={{ margin: '1rem 0', position: 'relative', width: 80, height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}
-              >
-                <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 80 80">
-                  <circle cx="40" cy="40" r="38" fill="none" stroke="#c9a96e" strokeWidth="0.8" strokeDasharray="3,3" opacity="0.6" />
-                  <circle cx="40" cy="40" r="34" fill="none" stroke="#c9a96e" strokeWidth="1.2" />
-                  <path d="M 18 40 C 16 30, 24 20, 35 17" fill="none" stroke="#c9a96e" strokeWidth="1" />
-                  <path d="M 62 40 C 64 30, 56 20, 45 17" fill="none" stroke="#c9a96e" strokeWidth="1" />
-                  <path d="M 18 40 C 16 50, 24 60, 35 63" fill="none" stroke="#c9a96e" strokeWidth="1" />
-                  <path d="M 62 40 C 64 50, 56 60, 45 63" fill="none" stroke="#c9a96e" strokeWidth="1" />
-                </svg>
-                <span style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.45rem', fontWeight: 300, color: '#a38144' }}>R&A</span>
-              </motion.div>
-
-              {/* Lower vine */}
-              <div style={{ flex: 1, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='150' viewBox='0 0 60 150'%3E%3Cpath d='M 30 0 C 20 30, 20 30, 30 60 C 40 90, 40 90, 30 120 C 20 150, 20 150, 30 180' fill='none' stroke='%23c2b1d8' stroke-width='1.5'/%3E%3Cpath d='M 27 40 C 18 35, 15 25, 22 25 C 27 25, 30 35, 27 40 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 33 100 C 42 95, 45 85, 38 85 C 33 85, 30 95, 33 100 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 22 55 Q 12 60 18 68' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3Cpath d='M 38 115 Q 48 120 42 128' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat-y', width: 40, opacity: 0.7 }} />
-            </div>
-
-            {/* Bridesmaids / Right Column */}
-            <div>
-              <h3 style={{
-                fontFamily: 'var(--ff-serif)',
-                fontStyle: 'italic',
-                fontSize: '1.4rem',
-                fontWeight: 400,
-                color: 'var(--taupe)',
-                textAlign: 'center',
-                marginBottom: '1.2rem',
-              }}>
-                Bridesmaids
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                {ENTOURAGE.bridesmaids.map((p, i) => (
-                  <PersonCard key={p.name} person={p} index={i + 35} inView={inView} delay={0.5} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Secondary Sponsors section - Box Container */}
         <div style={{ 
           border: '1px solid rgba(194, 177, 216, 0.45)', 
@@ -598,13 +496,115 @@ export default function Entourage() {
               }}>
                 {category.couples.map((couple, cIdx) => (
                   <div key={cIdx} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'center', width: '100%' }}>
-                    <PersonCard person={couple.left} index={catIdx * 4 + cIdx * 2 + 38} inView={inView} delay={0.4} />
-                    <PersonCard person={couple.right} index={catIdx * 4 + cIdx * 2 + 39} inView={inView} delay={0.5} />
+                    <PersonCard person={couple.left} index={catIdx * 4 + cIdx * 2 + 32} inView={inView} delay={0.4} />
+                    <PersonCard person={couple.right} index={catIdx * 4 + cIdx * 2 + 33} inView={inView} delay={0.5} />
                   </div>
                 ))}
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Groomsmen & Bridesmaids section (Wedding Attendants) - Box Container */}
+        <div style={{ 
+          border: '1px solid rgba(194, 177, 216, 0.45)', 
+          borderRadius: '16px', 
+          padding: '2.5rem clamp(1rem, 3vw, 2rem) 3.5rem clamp(1rem, 3vw, 2rem)', 
+          background: 'rgba(255,255,255,0.12)', 
+          position: 'relative', 
+          marginBottom: '3.5rem',
+          zIndex: 1
+        }}>
+          {/* Arched Top Header Frame */}
+          <div style={{ 
+            position: 'absolute', 
+            top: '-18px', 
+            left: '50%', 
+            transform: 'translateX(-50%)', 
+            background: 'var(--cream-light)', 
+            padding: '0 1.2rem', 
+            fontFamily: 'var(--ff-serif)', 
+            fontStyle: 'italic', 
+            fontSize: '1.35rem', 
+            color: 'var(--taupe-dark)',
+            whiteSpace: 'nowrap'
+          }}>
+            Wedding Attendants
+          </div>
+
+          <div className="entourage-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr auto 1fr',
+            gap: '2.5rem',
+            alignItems: 'start'
+          }}>
+            {/* Groomsmen / Left Column */}
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--ff-serif)',
+                fontStyle: 'italic',
+                fontSize: '1.4rem',
+                fontWeight: 400,
+                color: 'var(--taupe)',
+                textAlign: 'center',
+                marginBottom: '1.2rem',
+              }}>
+                Groomsmen
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                {ENTOURAGE.groomsmen.map((p, i) => (
+                  <PersonCard key={p.name} person={p} index={i + 44} inView={inView} delay={0.4} />
+                ))}
+              </div>
+            </div>
+
+            {/* Center Monogram Branch Divider with Gold Accents */}
+            <div className="entourage-monogram" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', minHeight: '300px' }}>
+              {/* Upper vine */}
+              <div style={{ flex: 1, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='150' viewBox='0 0 60 150'%3E%3Cpath d='M 30 150 C 20 120, 20 120, 30 90 C 40 60, 40 60, 30 30 C 20 0, 20 0, 30 -30' fill='none' stroke='%23c2b1d8' stroke-width='1.5'/%3E%3Cpath d='M 27 100 C 18 95, 15 85, 22 85 C 27 85, 30 95, 27 100 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 33 50 C 42 45, 45 35, 38 35 C 33 35, 30 45, 33 50 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 22 115 Q 12 120 18 128' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3Cpath d='M 38 65 Q 48 70 42 78' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat-y', width: 40, opacity: 0.7 }} />
+              
+              {/* R&A Monogram Badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.4, duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
+                style={{ margin: '1rem 0', position: 'relative', width: 80, height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}
+              >
+                <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="38" fill="none" stroke="#c9a96e" strokeWidth="0.8" strokeDasharray="3,3" opacity="0.6" />
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="#c9a96e" strokeWidth="1.2" />
+                  <path d="M 18 40 C 16 30, 24 20, 35 17" fill="none" stroke="#c9a96e" strokeWidth="1" />
+                  <path d="M 62 40 C 64 30, 56 20, 45 17" fill="none" stroke="#c9a96e" strokeWidth="1" />
+                  <path d="M 18 40 C 16 50, 24 60, 35 63" fill="none" stroke="#c9a96e" strokeWidth="1" />
+                  <path d="M 62 40 C 64 50, 56 60, 45 63" fill="none" stroke="#c9a96e" strokeWidth="1" />
+                </svg>
+                <span style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.45rem', fontWeight: 300, color: '#a38144' }}>R&A</span>
+              </motion.div>
+
+              {/* Lower vine */}
+              <div style={{ flex: 1, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='150' viewBox='0 0 60 150'%3E%3Cpath d='M 30 0 C 20 30, 20 30, 30 60 C 40 90, 40 90, 30 120 C 20 150, 20 150, 30 180' fill='none' stroke='%23c2b1d8' stroke-width='1.5'/%3E%3Cpath d='M 27 40 C 18 35, 15 25, 22 25 C 27 25, 30 35, 27 40 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 33 100 C 42 95, 45 85, 38 85 C 33 85, 30 95, 33 100 Z' fill='%23c2b1d8'/%3E%3Cpath d='M 22 55 Q 12 60 18 68' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3Cpath d='M 38 115 Q 48 120 42 128' fill='none' stroke='%23c2b1d8' stroke-width='1'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat-y', width: 40, opacity: 0.7 }} />
+            </div>
+
+            {/* Bridesmaids / Right Column */}
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--ff-serif)',
+                fontStyle: 'italic',
+                fontSize: '1.4rem',
+                fontWeight: 400,
+                color: 'var(--taupe)',
+                textAlign: 'center',
+                marginBottom: '1.2rem',
+              }}>
+                Bridesmaids
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                {ENTOURAGE.bridesmaids.map((p, i) => (
+                  <PersonCard key={p.name} person={p} index={i + 47} inView={inView} delay={0.5} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Bearers & Flower Girls Section - Box Container */}
