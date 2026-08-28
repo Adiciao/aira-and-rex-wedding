@@ -6,6 +6,7 @@ import Countdown    from './components/Countdown'
 import OurStory     from './components/OurStory'
 import Schedule     from './components/Schedule'
 import QuoteSection from './components/QuoteSection'
+import GiftAndHashtag from './components/GiftAndHashtag'
 import Venue        from './components/Venue'
 import Gallery      from './components/Gallery'
 import Entourage    from './components/Entourage'
@@ -34,6 +35,7 @@ export default function App() {
         <Entourage />
         <Schedule />
         <QuoteSection />
+        <GiftAndHashtag />
         <Venue />
         <Gallery />
         <RSVP />
