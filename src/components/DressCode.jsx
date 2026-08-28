@@ -73,13 +73,13 @@ export default function DressCode() {
             }}
           >
             <h3 style={{
-              fontFamily: 'var(--ff-serif)',
-              fontSize: '1.5rem',
-              fontStyle: 'italic',
-              fontWeight: 400,
-              color: 'var(--gold)',
+              fontFamily: 'var(--ff-sans)',
+              fontSize: '1.85rem',
+              fontWeight: 800,
+              color: '#f5e5c9',
               marginBottom: '1.2rem',
-              letterSpacing: '0.04em'
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
             }}>
               For Principal Sponsors
             </h3>
