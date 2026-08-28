@@ -821,10 +821,9 @@ function ParentName({ name, index }) {
       }}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily: 'var(--ff-serif)',
-        textTransform: 'uppercase',
-        letterSpacing: '0.05em',
-        fontSize: '0.98rem',
+        fontFamily: 'var(--ff-sans)',
+        fontWeight: 500,
+        fontSize: '0.92rem',
         color: hovered ? '#c9a96e' : 'var(--text)',
         margin: '0.35rem 0',
         transition: 'color 0.25s ease',
@@ -851,10 +850,9 @@ function SponsorCouple({ pair, index }) {
           }}
           onMouseLeave={() => setHoveredMale(false)}
           style={{
-            fontFamily: 'var(--ff-serif)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            fontSize: '0.95rem',
+            fontFamily: 'var(--ff-sans)',
+            fontWeight: 500,
+            fontSize: '0.9rem',
             color: hoveredMale ? '#c9a96e' : 'var(--text)',
             transition: 'color 0.25s ease',
             cursor: 'default'
@@ -871,10 +869,9 @@ function SponsorCouple({ pair, index }) {
           }}
           onMouseLeave={() => setHoveredFemale(false)}
           style={{
-            fontFamily: 'var(--ff-serif)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            fontSize: '0.95rem',
+            fontFamily: 'var(--ff-sans)',
+            fontWeight: 500,
+            fontSize: '0.9rem',
             color: hoveredFemale ? '#c9a96e' : 'var(--text)',
             transition: 'color 0.25s ease',
             cursor: 'default'
