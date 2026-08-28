@@ -295,7 +295,7 @@ export default function Entourage() {
             zIndex: 1
           }}
         >
-          Wedding <span style={{ color: 'var(--taupe)', fontStyle: 'italic' }}>Party</span>
+          The <span style={{ color: 'var(--taupe)', fontStyle: 'italic' }}>Entourage</span>
         </motion.h2>
 
         {/* Decorative calligraphic loops in elegant gold */}
