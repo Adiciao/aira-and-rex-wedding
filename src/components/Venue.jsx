@@ -15,8 +15,8 @@ export default function Venue() {
           <motion.h2 initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 300, color: 'var(--text)', marginBottom: '2.5rem' }}>The <span style={{ color: 'var(--taupe)' }}>Venues</span></motion.h2>
 
           {[
-            { tag: 'Ceremony',  name: ceremonyVenueName,  addr: ceremonyVenueAddress,  delay: 0.25, mainImg: '/church_exterior.jpg',    smallImg: '/church_qr.png',          smallAlt: 'QR Code – Church Directions',   smallLabel: 'Scan for Directions' },
-            { tag: 'Reception', name: receptionVenueName, addr: receptionVenueAddress, delay: 0.35, mainImg: '/reception_exterior.jpg', smallImg: '/reception_interior.jpg', smallAlt: 'Reception Venue Interior',      smallLabel: null },
+            { tag: 'Ceremony',  name: ceremonyVenueName,  addr: ceremonyVenueAddress,  delay: 0.25, mainImg: '/church_exterior.jpg',    smallImg: '/church_qr.png',     smallAlt: 'QR Code – Church Directions',     smallLabel: 'Scan for Directions' },
+            { tag: 'Reception', name: '5A\'s Private Place & Resort', addr: 'Tibagan San Miguel, Bulacan', delay: 0.35, mainImg: '/reception_exterior.jpg', smallImg: '/reception_qr.png', smallAlt: 'QR Code – Reception Directions', smallLabel: 'Scan for Directions' },
           ].map(v => (
             <motion.div key={v.tag} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: v.delay }} style={{ background: 'var(--cream)', border: '1px solid var(--blush)', padding: '1.5rem 2rem', marginBottom: '1rem', borderRadius: '4px' }}>
               <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '0.4rem' }}>{v.tag}</p>
