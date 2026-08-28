@@ -638,7 +638,7 @@ export default function Entourage() {
             {[
               { title: 'Ring Bearer', name: 'Ram Chester Caling', initial: 'R' },
               { title: 'Bible Bearer', name: 'King Santiago', initial: 'K' },
-              { title: 'Coin Bearer', name: 'Paulo Gyle Ponco', initial: 'P' }
+              { title: 'Coin Bearer', name: 'Paulo Gyle Ponce', initial: 'P' }
             ].map((bearer, idx) => (
               <BearerCard key={bearer.title} bearer={bearer} index={idx + 50} inView={inView} />
             ))}
