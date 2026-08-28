@@ -64,18 +64,18 @@ export const DEFAULTS = {
 
   schedule: [
     { time: '9:00 AM',  title: 'Holy Matrimony',     venue: 'San Miguel Parish Church',    desc: 'The exchange of sacred vows before God and loved ones. Kindly be seated by 8:45 AM.', attire: 'Formal Attire', icon: '◆' },
-    { time: '12:00 PM', title: 'Cocktail Hour',       venue: 'Hacienda Royale, San Miguel', desc: 'Sip on refreshments and mingle in the lush gardens while the newlyweds capture their first moments.', attire: 'Garden Formal', icon: '◇' },
-    { time: '1:30 PM',  title: 'Wedding Reception',   venue: 'Hacienda Royale Ballroom',    desc: 'A celebration of love with heartfelt toasts, a sumptuous Filipino feast, and the joy of family and friends.', attire: 'Smart Casual', icon: '◆' },
-    { time: '5:00 PM',  title: 'Evening Celebration', venue: 'Hacienda Royale Garden',      desc: 'Dance under the stars with live music, an open bar, and all the warmth of a Bulacan evening until midnight.', attire: 'Smart Casual', icon: '◇' },
+    { time: '12:00 PM', title: 'Cocktail Hour',       venue: '5A\'s Private Place & Resort, San Miguel', desc: 'Sip on refreshments and mingle in the lush gardens while the newlyweds capture their first moments.', attire: 'Garden Formal', icon: '◇' },
+    { time: '1:30 PM',  title: 'Wedding Reception',   venue: '5A\'s Private Place & Resort',    desc: 'A celebration of love with heartfelt toasts, a sumptuous Filipino feast, and the joy of family and friends.', attire: 'Smart Casual', icon: '◆' },
+    { time: '5:00 PM',  title: 'Evening Celebration', venue: '5A\'s Private Place & Resort',      desc: 'Dance under the stars with live music, an open bar, and all the warmth of a Bulacan evening until midnight.', attire: 'Smart Casual', icon: '◇' },
   ],
 
   ceremonyVenueName:    'San Miguel Parish Church',
   ceremonyVenueAddress: 'Poblacion, San Miguel, Bulacan',
-  receptionVenueName:   'Hacienda Royale',
-  receptionVenueAddress:'San Miguel, Bulacan, Philippines',
+  receptionVenueName:   '5A\'s Private Place & Resort',
+  receptionVenueAddress:'Tibagan, San Miguel, Bulacan',
   gettingThereText:     'San Miguel is approximately 2 hours from Metro Manila via NLEX. Jeepneys and tricycles are available from the town center.',
   accommodationText:    'Nearby options include Bulacan hotels in Malolos City (30 mins away). We recommend booking early due to limited rooms.',
-  parkingText:          'Ample parking is available on-site at Hacienda Royale. A shuttle will run between the church and reception venue.',
+  parkingText:          'Ample parking is available on-site at 5A\'s Private Place & Resort. A shuttle will run between the church and reception venue.',
 
   rsvpDeadline:  'September 1, 2026',
   adminPassword: 'admin2026',
