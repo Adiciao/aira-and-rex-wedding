@@ -52,6 +52,9 @@ export default function Hero() {
       .fromTo('.hero-info-col',
         { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6'
       )
+      .fromTo('.hero-hashtag',
+        { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.7'
+      )
       .call(() => { if (dateRef.current) scrambleText(dateRef.current, subtitleText, 1.4) }, null, '-=0.5')
       .fromTo('.hero-scroll', { opacity: 0 }, { opacity: 1, duration: 0.8 }, '-=0.3')
       .fromTo('.hero-rsvp-pill', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.5)' }, '-=0.4')
@@ -144,6 +147,23 @@ export default function Hero() {
           fontVariantNumeric: 'tabular-nums'
         }}>
           &nbsp;
+        </p>
+
+        {/* Hashtag Subtitle */}
+        <p className="hero-hashtag" style={{
+          fontFamily: 'var(--ff-serif)',
+          fontStyle: 'italic',
+          fontSize: 'clamp(1rem, 2.5vw, 1.45rem)',
+          fontWeight: 600,
+          background: 'linear-gradient(135deg, #9B72B0, #c9a96e)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          marginTop: '1.2rem',
+          opacity: 0,
+          letterSpacing: '0.02em',
+        }}>
+          #oREXnaparapakasalansiAIRA
         </p>
       </div>
 
