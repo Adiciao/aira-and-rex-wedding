@@ -22,7 +22,7 @@ function scrambleText(el, finalText, duration = 1.2) {
 
 export default function Hero() {
   const { bride, groom, weddingDate, location, heroSubtitle } = useWedding()
-  const dateRef   = useRef(null)
+  const dateRef = useRef(null)
   const scrollRef = useRef(null)
 
   // Generate dynamic date/location subtitle
@@ -37,24 +37,24 @@ export default function Hero() {
       { opacity: 0, y: 15 },
       { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
     )
-    .fromTo('.hero-name-groom',
-      { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 1.2, ease: 'power3.out' }, '-=0.6'
-    )
-    .fromTo('.hero-amp',
-      { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.9'
-    )
-    .fromTo('.hero-name-bride',
-      { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 1.2, ease: 'power3.out' }, '-=1.0'
-    )
-    .fromTo('.hero-divider',
-      { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 1, ease: 'power3.out' }, '-=0.5'
-    )
-    .fromTo('.hero-info-col',
-      { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6'
-    )
-    .call(() => { if (dateRef.current) scrambleText(dateRef.current, subtitleText, 1.4) }, null, '-=0.5')
-    .fromTo('.hero-scroll', { opacity: 0 }, { opacity: 1, duration: 0.8 }, '-=0.3')
-    .fromTo('.hero-rsvp-pill', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.5)' }, '-=0.4')
+      .fromTo('.hero-name-groom',
+        { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 1.2, ease: 'power3.out' }, '-=0.6'
+      )
+      .fromTo('.hero-amp',
+        { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.9'
+      )
+      .fromTo('.hero-name-bride',
+        { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 1.2, ease: 'power3.out' }, '-=1.0'
+      )
+      .fromTo('.hero-divider',
+        { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 1, ease: 'power3.out' }, '-=0.5'
+      )
+      .fromTo('.hero-info-col',
+        { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6'
+      )
+      .call(() => { if (dateRef.current) scrambleText(dateRef.current, subtitleText, 1.4) }, null, '-=0.5')
+      .fromTo('.hero-scroll', { opacity: 0 }, { opacity: 1, duration: 0.8 }, '-=0.3')
+      .fromTo('.hero-rsvp-pill', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.5)' }, '-=0.4')
 
     gsap.to(scrollRef.current, { y: 8, repeat: -1, yoyo: true, duration: 1.5, ease: 'sine.inOut', delay: 2 })
   }, [subtitleText])
