@@ -15,8 +15,8 @@ export default function Venue() {
           <motion.h2 initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 300, color: 'var(--text)', marginBottom: '2.5rem' }}>The <span style={{ color: 'var(--taupe)' }}>Venues</span></motion.h2>
 
           {[
-            { tag: 'Ceremony',  name: ceremonyVenueName,  addr: ceremonyVenueAddress,  delay: 0.25, mainImg: '/church_exterior.jpg', smallImg: '/church_interior.jpg' },
-            { tag: 'Reception', name: receptionVenueName, addr: receptionVenueAddress, delay: 0.35, mainImg: '/reception_exterior.jpg', smallImg: '/reception_interior.jpg' },
+            { tag: 'Ceremony',  name: ceremonyVenueName,  addr: ceremonyVenueAddress,  delay: 0.25, mainImg: '/church_exterior.jpg',    smallImg: '/church_qr.png',          smallAlt: 'QR Code – Church Directions',   smallLabel: 'Scan for Directions' },
+            { tag: 'Reception', name: receptionVenueName, addr: receptionVenueAddress, delay: 0.35, mainImg: '/reception_exterior.jpg', smallImg: '/reception_interior.jpg', smallAlt: 'Reception Venue Interior',      smallLabel: null },
           ].map(v => (
             <motion.div key={v.tag} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: v.delay }} style={{ background: 'var(--cream)', border: '1px solid var(--blush)', padding: '1.5rem 2rem', marginBottom: '1rem', borderRadius: '4px' }}>
               <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '0.4rem' }}>{v.tag}</p>
@@ -53,13 +53,40 @@ export default function Venue() {
                     Digital Art by Aldrich Salas
                   </div>
                 </div>
-                {/* Smaller interior image */}
-                <div style={{ width: '100px', flexShrink: 0, border: '1px solid rgba(194, 177, 216, 0.4)', padding: '5px', background: '#ffffff', borderRadius: '2px', boxShadow: '0 4px 12px rgba(100, 78, 136, 0.06)', marginBottom: '0.4rem' }}>
+
+                {/* Small image — QR code for church, interior photo for reception */}
+                <div style={{ 
+                  width: '100px', 
+                  flexShrink: 0, 
+                  border: '1px solid rgba(194, 177, 216, 0.4)', 
+                  padding: v.smallLabel ? '6px 6px 22px 6px' : '5px', 
+                  background: '#ffffff', 
+                  borderRadius: '2px', 
+                  boxShadow: '0 4px 12px rgba(100, 78, 136, 0.06)', 
+                  marginBottom: '0.4rem',
+                  position: 'relative'
+                }}>
                   <img 
                     src={v.smallImg} 
-                    alt={`${v.tag} Venue Interior`} 
+                    alt={v.smallAlt} 
                     style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '1px' }} 
                   />
+                  {v.smallLabel && (
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '4px',
+                      left: 0,
+                      right: 0,
+                      textAlign: 'center',
+                      fontFamily: 'var(--ff-sans)',
+                      fontSize: '0.52rem',
+                      letterSpacing: '0.04em',
+                      color: '#9B72B0',
+                      fontWeight: 500
+                    }}>
+                      {v.smallLabel}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -67,6 +94,7 @@ export default function Venue() {
               <p style={{ color: 'var(--text-soft)', fontSize: '0.87rem', lineHeight: 1.7 }}>{v.addr}</p>
             </motion.div>
           ))}
+
 
           <motion.a href={`https://maps.google.com/?q=${encodeURIComponent(ceremonyVenueAddress)}`} target="_blank" rel="noreferrer" initial={{ opacity: 0, y: 10 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.45 }} whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} style={{ display: 'inline-block', marginTop: '0.5rem', padding: '0.9rem 2.4rem', background: 'var(--noir)', color: 'white', fontFamily: 'var(--ff-sans)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 400, borderRadius: '1px', border: '1px solid var(--noir)' }}>Get Directions →</motion.a>
         </div>
