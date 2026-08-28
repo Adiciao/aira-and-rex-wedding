@@ -153,8 +153,8 @@ export default function Hero() {
         <p className="hero-hashtag" style={{
           fontFamily: 'var(--ff-serif)',
           fontStyle: 'italic',
-          fontSize: 'clamp(1rem, 2.5vw, 1.45rem)',
-          fontWeight: 600,
+          fontSize: 'clamp(1.35rem, 3.5vw, 2.05rem)',
+          fontWeight: 700,
           background: 'linear-gradient(135deg, #9B72B0, #c9a96e)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
