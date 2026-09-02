@@ -1,20 +1,20 @@
 import { useEffect } from 'react'
-import PetalCanvas  from './components/PetalCanvas'
-import LiveChat     from './components/LiveChat'
-import Hero         from './components/Hero'
-import Countdown    from './components/Countdown'
-import OurStory     from './components/OurStory'
-import Schedule     from './components/Schedule'
-import QuoteSection from './components/QuoteSection'
+import PetalCanvas    from './components/PetalCanvas'
+import LiveChat       from './components/LiveChat'
+import EnvelopeReveal from './components/EnvelopeReveal'
+import Hero           from './components/Hero'
+import Countdown      from './components/Countdown'
+import OurStory       from './components/OurStory'
+import Schedule       from './components/Schedule'
+import QuoteSection   from './components/QuoteSection'
 import GiftAndHashtag from './components/GiftAndHashtag'
-import Venue        from './components/Venue'
-import Gallery      from './components/Gallery'
-import Entourage    from './components/Entourage'
-import RSVP         from './components/RSVP'
-import Footer       from './components/Footer'
+import Venue          from './components/Venue'
+import Gallery        from './components/Gallery'
+import Entourage      from './components/Entourage'
+import RSVP           from './components/RSVP'
+import Footer         from './components/Footer'
 
 export default function App() {
-  // Smooth lenis scroll feel via native smooth behavior enhancement
   useEffect(() => {
     // Detect touch / mobile — disable custom cursor
     const isMobile = window.matchMedia('(pointer: coarse)').matches
@@ -23,11 +23,14 @@ export default function App() {
 
   return (
     <>
+      {/* Interactive Birthday Envelope Reveal Overlay */}
+      <EnvelopeReveal />
+
       {/* Global overlays */}
       <PetalCanvas />
       <LiveChat />
 
-      {/* Page */}
+      {/* Existing Invitation Page (Preserved 100%) */}
       <main>
         <Hero />
         <Countdown />
