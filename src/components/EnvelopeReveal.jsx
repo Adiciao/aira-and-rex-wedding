@@ -75,12 +75,12 @@ export default function EnvelopeReveal({ onComplete }) {
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
 
-  // 6 Photos bursting out in ALL 360 DEGREES (upward, sideways, and DOWNWARD!)
+  // 7 Photos bursting out in ALL 360 DEGREES (upward, sideways, and DOWNWARD!)
   const photos = [
     {
       img: '/couple_photo.jpg',
       caption: 'Rex & Aira',
-      x: isMobile ? -80 : -190,
+      x: isMobile ? -85 : -210,
       y: isMobile ? -145 : -200,
       rotate: -15,
       delay: 0.08,
@@ -88,7 +88,7 @@ export default function EnvelopeReveal({ onComplete }) {
     {
       img: '/gallery_ceremony.jpg',
       caption: 'San Miguel Church',
-      x: isMobile ? 80 : 190,
+      x: isMobile ? 85 : 210,
       y: isMobile ? -145 : -200,
       rotate: 15,
       delay: 0.14,
@@ -104,7 +104,7 @@ export default function EnvelopeReveal({ onComplete }) {
     {
       img: '/gallery_reception.jpg',
       caption: 'Celebration',
-      x: isMobile ? -95 : -220,
+      x: isMobile ? -100 : -240,
       y: isMobile ? -15 : -10,
       rotate: -18,
       delay: 0.26,
@@ -112,7 +112,7 @@ export default function EnvelopeReveal({ onComplete }) {
     {
       img: '/gallery_rings.jpg',
       caption: 'The Details',
-      x: isMobile ? 95 : 220,
+      x: isMobile ? 100 : 240,
       y: isMobile ? -15 : -10,
       rotate: 16,
       delay: 0.32,
@@ -120,16 +120,16 @@ export default function EnvelopeReveal({ onComplete }) {
     {
       img: '/reception_exterior.jpg',
       caption: '5A\'s Resort',
-      x: isMobile ? -75 : -170,
-      y: isMobile ? 115 : 165,
+      x: isMobile ? -80 : -190,
+      y: isMobile ? 120 : 175,
       rotate: -12,
       delay: 0.38,
     },
     {
       img: '/hero_bg.jpg',
       caption: 'Our Story',
-      x: isMobile ? 75 : 170,
-      y: isMobile ? 115 : 165,
+      x: isMobile ? 80 : 190,
+      y: isMobile ? 120 : 175,
       rotate: 14,
       delay: 0.44,
     },
@@ -175,7 +175,7 @@ export default function EnvelopeReveal({ onComplete }) {
           {/* Envelope & Photos Container */}
           <div style={{ position: 'relative', width: 'clamp(290px, 85vw, 420px)', height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             
-            {/* 360° SCATTERED POLAROID PHOTOS (Burst out on Click 1) */}
+            {/* 360° SCATTERED POLAROID PHOTOS (Burst out on Click 1 ON TOP OF ENVELOPE) */}
             <AnimatePresence>
               {step === 'popped' && !isPaperFlownOut && (
                 <>
@@ -202,7 +202,7 @@ export default function EnvelopeReveal({ onComplete }) {
                         damping: 14, 
                         delay: p.delay 
                       }}
-                      whileHover={{ scale: 1.12, rotate: 0, zIndex: 60, transition: { duration: 0.2 } }}
+                      whileHover={{ scale: 1.12, rotate: 0, zIndex: 200, transition: { duration: 0.2 } }}
                       style={{
                         position: 'absolute',
                         top: '25%',
@@ -210,18 +210,18 @@ export default function EnvelopeReveal({ onComplete }) {
                         width: isMobile ? '105px' : '130px',
                         background: '#ffffff',
                         padding: '6px 6px 20px 6px',
-                        borderRadius: '3px',
-                        boxShadow: '0 10px 28px rgba(74, 32, 90, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12)',
-                        border: '1px solid rgba(194, 177, 216, 0.5)',
-                        zIndex: 10 + idx,
+                        borderRadius: '4px',
+                        boxShadow: '0 12px 32px rgba(74, 32, 90, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15)',
+                        border: '1px solid rgba(194, 177, 216, 0.6)',
+                        zIndex: 100 + idx, // High z-index so photos render ON TOP OF envelope
                         pointerEvents: 'auto',
                       }}
                     >
-                      <div style={{ width: '100%', height: isMobile ? '75px' : '95px', overflow: 'hidden', borderRadius: '1px', background: '#f5f5f5' }}>
+                      <div style={{ width: '100%', height: isMobile ? '75px' : '95px', overflow: 'hidden', borderRadius: '2px', background: '#f5f5f5' }}>
                         <img 
                           src={p.img} 
                           alt={p.caption} 
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
                         />
                       </div>
                       <p style={{ 
@@ -277,7 +277,7 @@ export default function EnvelopeReveal({ onComplete }) {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    zIndex: 45,
+                    zIndex: 150, // High z-index so paper unfolds on top
                     transformOrigin: 'top center',
                     perspective: '1000px',
                     overflow: 'hidden'
