@@ -25,9 +25,9 @@ export default function DressCode() {
         marginTop: '4rem',
       }}
     >
-      <div style={{ maxWidth: 820, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: 1040, margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
-        {/* ── DRESS CODE ── */}
+        {/* ── DRESS CODE HEADER ── */}
         <motion.p
           custom={0} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
           style={{ textAlign: 'center', fontFamily: 'var(--ff-sans)', fontSize: '0.62rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--champagne)', opacity: 0.5, marginBottom: '0.5rem' }}
@@ -49,14 +49,17 @@ export default function DressCode() {
           <path d="M 55 10 L 95 10" stroke="#c9a96e" strokeWidth="0.8" />
         </svg>
 
-        {/* Centered Dress Code Card */}
+        {/* Side-by-Side Cards Grid */}
         <div style={{
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2.5rem',
           justifyContent: 'center',
+          alignItems: 'stretch',
           marginBottom: '5rem',
         }}>
 
-          {/* Principal Sponsors Card */}
+          {/* Card 1: Principal Sponsors Card */}
           <motion.div
             custom={2} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
             style={{
@@ -67,34 +70,37 @@ export default function DressCode() {
               padding: '2.5rem 2rem',
               textAlign: 'center',
               position: 'relative',
-              width: '100%',
-              maxWidth: '480px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
               boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
             }}
           >
-            <h3 style={{
-              fontFamily: 'var(--ff-sans)',
-              fontSize: '1.85rem',
-              fontWeight: 800,
-              color: '#f5e5c9',
-              marginBottom: '1.2rem',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-            }}>
-              For Principal Sponsors
-            </h3>
-            <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, marginBottom: '2rem' }}>
-              Men: Barong &amp; Black Pants<br />
-              Women: Beige Long Dress
-            </p>
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--ff-sans)',
+                fontSize: '1.65rem',
+                fontWeight: 800,
+                color: '#f5e5c9',
+                marginBottom: '1.2rem',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+              }}>
+                For Principal Sponsors
+              </h3>
+              <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, marginBottom: '2rem' }}>
+                Men: Barong &amp; Black Pants<br />
+                Women: Beige Long Dress
+              </p>
+            </div>
             {/* Attire illustration image */}
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', marginTop: 'auto' }}>
               <img
                 src="/dresscode_attire.png"
                 alt="Men: Barong & Black Pants, Women: Beige Long Dress"
                 style={{
                   width: '100%',
-                  maxWidth: '260px',
+                  maxWidth: '240px',
                   height: 'auto',
                   display: 'block',
                   margin: '0 auto',
@@ -103,6 +109,57 @@ export default function DressCode() {
               />
             </div>
           </motion.div>
+
+          {/* Card 2: Guest Outfit Color Palette Card */}
+          <motion.div
+            custom={3} variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
+            style={{
+              background: 'rgba(255,255,255,0.06)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '16px',
+              padding: '2.5rem 2rem',
+              textAlign: 'center',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+            }}
+          >
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--ff-sans)',
+                fontSize: '1.65rem',
+                fontWeight: 800,
+                color: '#f5e5c9',
+                marginBottom: '1.2rem',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+              }}>
+                Guest Outfit Color Palette
+              </h3>
+              <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, marginBottom: '2rem' }}>
+                Please wear formal or semi-formal attire matching our color palette
+              </p>
+            </div>
+            {/* Guest Palette illustration image */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 'auto' }}>
+              <img
+                src="/guest_outfit_palette.png"
+                alt="Guest Outfit Color Palette"
+                style={{
+                  width: '100%',
+                  maxWidth: '320px',
+                  height: 'auto',
+                  display: 'block',
+                  margin: '0 auto',
+                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))'
+                }}
+              />
+            </div>
+          </motion.div>
+
         </div>
 
       </div>
