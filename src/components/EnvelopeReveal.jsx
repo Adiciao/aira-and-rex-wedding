@@ -75,13 +75,14 @@ export default function EnvelopeReveal({ onComplete }) {
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
 
-  // 7 Photos bursting out in ALL 360 DEGREES (upward, sideways, and DOWNWARD!)
+  // 7 Photos bursting out and SLOWLY FLOATING DOWNWARDS
   const photos = [
     {
       img: '/couple_photo.jpg',
       caption: 'Rex & Aira',
       x: isMobile ? -85 : -210,
-      y: isMobile ? -145 : -200,
+      startY: isMobile ? -145 : -200,
+      endY: isMobile ? -25 : -60, // Slowly floating down
       rotate: -15,
       delay: 0.08,
     },
@@ -89,7 +90,8 @@ export default function EnvelopeReveal({ onComplete }) {
       img: '/gallery_ceremony.jpg',
       caption: 'San Miguel Church',
       x: isMobile ? 85 : 210,
-      y: isMobile ? -145 : -200,
+      startY: isMobile ? -145 : -200,
+      endY: isMobile ? -25 : -60, // Slowly floating down
       rotate: 15,
       delay: 0.14,
     },
@@ -97,7 +99,8 @@ export default function EnvelopeReveal({ onComplete }) {
       img: '/church_exterior.jpg',
       caption: 'Holy Matrimony',
       x: 0,
-      y: isMobile ? -175 : -250,
+      startY: isMobile ? -175 : -250,
+      endY: isMobile ? -55 : -110, // Slowly floating down
       rotate: -3,
       delay: 0.2,
     },
@@ -105,7 +108,8 @@ export default function EnvelopeReveal({ onComplete }) {
       img: '/gallery_reception.jpg',
       caption: 'Celebration',
       x: isMobile ? -100 : -240,
-      y: isMobile ? -15 : -10,
+      startY: isMobile ? -15 : -10,
+      endY: isMobile ? 100 : 130, // Slowly floating down
       rotate: -18,
       delay: 0.26,
     },
@@ -113,7 +117,8 @@ export default function EnvelopeReveal({ onComplete }) {
       img: '/gallery_rings.jpg',
       caption: 'The Details',
       x: isMobile ? 100 : 240,
-      y: isMobile ? -15 : -10,
+      startY: isMobile ? -15 : -10,
+      endY: isMobile ? 100 : 130, // Slowly floating down
       rotate: 16,
       delay: 0.32,
     },
@@ -121,7 +126,8 @@ export default function EnvelopeReveal({ onComplete }) {
       img: '/reception_exterior.jpg',
       caption: '5A\'s Resort',
       x: isMobile ? -80 : -190,
-      y: isMobile ? 120 : 175,
+      startY: isMobile ? 120 : 175,
+      endY: isMobile ? 220 : 300, // Slowly floating down
       rotate: -12,
       delay: 0.38,
     },
@@ -129,7 +135,8 @@ export default function EnvelopeReveal({ onComplete }) {
       img: '/hero_bg.jpg',
       caption: 'Our Story',
       x: isMobile ? 80 : 190,
-      y: isMobile ? 120 : 175,
+      startY: isMobile ? 120 : 175,
+      endY: isMobile ? 220 : 300, // Slowly floating down
       rotate: 14,
       delay: 0.44,
     },
@@ -175,7 +182,7 @@ export default function EnvelopeReveal({ onComplete }) {
           {/* Envelope & Photos Container */}
           <div style={{ position: 'relative', width: 'clamp(290px, 85vw, 420px)', height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             
-            {/* 360° SCATTERED POLAROID PHOTOS (Burst out on Click 1 ON TOP OF ENVELOPE) */}
+            {/* 360° SCATTERED POLAROID PHOTOS (Burst out & SLOWLY DRIFT DOWNWARD) */}
             <AnimatePresence>
               {step === 'popped' && !isPaperFlownOut && (
                 <>
@@ -185,22 +192,23 @@ export default function EnvelopeReveal({ onComplete }) {
                       initial={{ x: 0, y: 0, scale: 0.1, rotate: 0, opacity: 0 }}
                       animate={{ 
                         x: p.x, 
-                        y: p.y, 
+                        y: [p.startY, p.endY], 
                         scale: 1, 
-                        rotate: p.rotate, 
+                        rotate: [p.rotate, p.rotate + (idx % 2 === 0 ? 4 : -4)], 
                         opacity: 1 
                       }}
                       exit={{ 
                         opacity: 0, 
                         scale: 0.2, 
-                        y: p.y > 0 ? p.y + 140 : p.y - 140, 
+                        y: p.endY + 150, 
                         transition: { duration: 0.3, delay: idx * 0.03 } 
                       }}
                       transition={{ 
-                        type: 'spring', 
-                        stiffness: 170, 
-                        damping: 14, 
-                        delay: p.delay 
+                        x: { type: 'spring', stiffness: 170, damping: 14, delay: p.delay },
+                        y: { duration: 8, ease: 'easeOut', delay: p.delay }, // Slowly drift downward!
+                        rotate: { duration: 8, ease: 'easeInOut', delay: p.delay },
+                        scale: { type: 'spring', stiffness: 170, damping: 14, delay: p.delay },
+                        opacity: { duration: 0.25, delay: p.delay }
                       }}
                       whileHover={{ scale: 1.12, rotate: 0, zIndex: 200, transition: { duration: 0.2 } }}
                       style={{
@@ -503,114 +511,6 @@ export default function EnvelopeReveal({ onComplete }) {
               </div>
 
             </motion.div>
-          </div>
-
-          {/* ACTION BUTTONS & MESSAGES AT BOTTOM */}
-          <div style={{ marginTop: '3.8rem', textAlign: 'center', zIndex: 60, padding: '0 1rem' }}>
-            {step === 'closed' && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}
-              >
-                <p style={{
-                  fontFamily: 'var(--ff-serif)',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(1.2rem, 3.5vw, 1.6rem)',
-                  color: '#4a205a',
-                  fontWeight: 400
-                }}>
-                  You're Invited to Rex &amp; Aira's Wedding!
-                </p>
-                <motion.div
-                  animate={{ scale: [1, 1.06, 1] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{
-                    background: '#4a205a',
-                    border: '1px solid rgba(212, 175, 55, 0.5)',
-                    borderRadius: '30px',
-                    padding: '0.6rem 1.6rem',
-                    color: '#f5e5c9',
-                    fontFamily: 'var(--ff-sans)',
-                    fontSize: '0.72rem',
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    fontWeight: 600,
-                    boxShadow: '0 4px 16px rgba(74, 32, 90, 0.25)'
-                  }}
-                >
-                  ✉️ Tap Envelope to Open 💥
-                </motion.div>
-              </motion.div>
-            )}
-
-            {step === 'popped' && !isPaperFlownOut && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}
-              >
-                <p style={{
-                  fontFamily: 'var(--ff-serif)',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(1.25rem, 3.8vw, 1.7rem)',
-                  color: '#4a205a',
-                  fontWeight: 500
-                }}>
-                  Wait... there's still something inside 👀
-                </p>
-                <motion.div
-                  animate={{ scale: [1, 1.08, 1], y: [0, -3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{
-                    background: 'linear-gradient(135deg, #4a205a 0%, #6c2b83 100%)',
-                    border: '1px solid rgba(212, 175, 55, 0.6)',
-                    borderRadius: '30px',
-                    padding: '0.65rem 1.8rem',
-                    color: '#f5e5c9',
-                    fontFamily: 'var(--ff-sans)',
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    fontWeight: 700,
-                    boxShadow: '0 8px 24px rgba(74, 32, 90, 0.35)'
-                  }}
-                >
-                  ✨ Tap Envelope to Reveal Invitation ✨
-                </motion.div>
-              </motion.div>
-            )}
-
-            {step === 'unfolded' && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.08, 1], y: [0, -3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{
-                    background: 'linear-gradient(135deg, #4a205a 0%, #6c2b83 100%)',
-                    border: '1px solid rgba(212, 175, 55, 0.6)',
-                    borderRadius: '30px',
-                    padding: '0.7rem 2rem',
-                    color: '#f5e5c9',
-                    fontFamily: 'var(--ff-sans)',
-                    fontSize: '0.78rem',
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    fontWeight: 700,
-                    boxShadow: '0 8px 24px rgba(74, 32, 90, 0.35)'
-                  }}
-                >
-                  ✨ Tap to Enter Wedding Website ✨
-                </motion.div>
-              </motion.div>
-            )}
           </div>
 
         </motion.div>
