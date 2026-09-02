@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 export default function EnvelopeReveal({ onComplete }) {
-  const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolded' | 'folding_airplane' | 'completed'
-  const [airplanePhase, setAirplanePhase] = useState('none') // 'none' | 'folding' | 'flying'
+  const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolded' | 'rolling_up' | 'completed'
   const [isShaking, setIsShaking] = useState(false)
   const [isFlapOpen, setIsFlapOpen] = useState(false)
   const [isPaperFlownOut, setIsPaperFlownOut] = useState(false)
@@ -63,20 +62,13 @@ export default function EnvelopeReveal({ onComplete }) {
         setStep('unfolded')
       }, 550)
     } else if (step === 'unfolded') {
-      // CLICK 3: Paper folds itself into a Paper Airplane and flies away into the sky!
-      setStep('folding_airplane')
-      setAirplanePhase('folding')
+      // CLICK 3: Paper rolls UPWARDS like a scroll off top of screen!
+      setStep('rolling_up')
 
-      // Phase 2: Airplane swoops up into the sky!
-      setTimeout(() => {
-        setAirplanePhase('flying')
-      }, 550)
-
-      // Complete & reveal main website
       setTimeout(() => {
         setStep('completed')
         if (onComplete) onComplete()
-      }, 1400)
+      }, 850)
     }
   }
 
@@ -150,7 +142,7 @@ export default function EnvelopeReveal({ onComplete }) {
           key="envelope-overlay"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
-          animate={{ opacity: step === 'folding_airplane' && airplanePhase === 'flying' ? 0 : 1 }}
+          animate={{ opacity: step === 'rolling_up' ? 0 : 1 }}
           transition={{ duration: 0.6 }}
           style={{
             position: 'fixed',
@@ -249,28 +241,18 @@ export default function EnvelopeReveal({ onComplete }) {
               )}
             </AnimatePresence>
 
-            {/* PHYSICAL INVITATION PAPER -> FOLDS ITSELF INTO A PAPER AIRPLANE & FLIES AWAY */}
+            {/* PHYSICAL INVITATION PAPER -> ROLLS UPWARDS OFF TOP OF SCREEN */}
             <AnimatePresence>
-              {(isPaperFlownOut || step === 'unfolded' || step === 'folding_airplane') && (
+              {(isPaperFlownOut || step === 'unfolded' || step === 'rolling_up') && (
                 <motion.div
                   initial={{ y: 80, scale: 0.7, opacity: 0, rotateX: 30 }}
-                  animate={step === 'folding_airplane' ? (
-                    airplanePhase === 'folding' ? {
-                      y: isMobile ? -60 : -80,
-                      scaleX: 0.25,
-                      scaleY: 0.65,
-                      rotateZ: -25,
-                      rotateY: 65,
-                      opacity: 0.9,
-                    } : {
-                      x: isMobile ? 450 : 750,
-                      y: -1000,
-                      scale: 0.35,
-                      rotateZ: -45,
-                      rotateY: 15,
-                      opacity: 0,
-                    }
-                  ) : {
+                  animate={step === 'rolling_up' ? {
+                    y: -1250,
+                    rotateX: -450,
+                    scaleY: 0.25,
+                    scaleX: 0.85,
+                    opacity: 0,
+                  } : {
                     x: 0,
                     y: isMobile ? -60 : -80,
                     scale: 1,
@@ -281,15 +263,10 @@ export default function EnvelopeReveal({ onComplete }) {
                     rotateZ: 0,
                     rotateY: 0
                   }}
-                  transition={step === 'folding_airplane' ? (
-                    airplanePhase === 'folding' ? {
-                      duration: 0.5,
-                      ease: [0.34, 1.56, 0.64, 1] // Spring snappy folding curve
-                    } : {
-                      duration: 0.8,
-                      ease: [0.22, 1, 0.36, 1] // Smooth aerodynamic flight swoop
-                    }
-                  ) : {
+                  transition={step === 'rolling_up' ? {
+                    duration: 0.8,
+                    ease: [0.32, 0, 0.67, 0] // Aerodynamic roll-up curve
+                  } : {
                     duration: 0.6,
                     ease: [0.16, 1, 0.3, 1]
                   }}
@@ -299,7 +276,7 @@ export default function EnvelopeReveal({ onComplete }) {
                     minHeight: '340px',
                     background: 'linear-gradient(135deg, #fffdfa 0%, #f7f1e5 100%)',
                     border: '1.5px solid #d4af37',
-                    borderRadius: airplanePhase !== 'none' ? '40px 4px 40px 4px' : '8px',
+                    borderRadius: '8px',
                     boxShadow: '0 30px 70px rgba(74, 32, 90, 0.28)',
                     padding: '2.2rem 1.8rem',
                     display: 'flex',
@@ -307,37 +284,13 @@ export default function EnvelopeReveal({ onComplete }) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 45,
-                    transformOrigin: 'center center',
+                    transformOrigin: 'top center',
                     perspective: '1000px',
                     overflow: 'hidden'
                   }}
                 >
-                  {/* Paper Airplane Wings & Fold Lines overlay */}
-                  {airplanePhase !== 'none' && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        zIndex: 20,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: 'linear-gradient(135deg, #fffdfa 0%, #ede3d3 100%)',
-                        border: '2px solid #d4af37',
-                        clipPath: 'polygon(50% 0%, 100% 100%, 50% 85%, 0% 100%)'
-                      }}
-                    >
-                      <svg width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#4a205a" strokeWidth="1.2">
-                        <path d="M22 2L11 13" />
-                        <path d="M22 2L15 22L11 13L2 9L22 2Z" fill="#f5e5c9" fillOpacity="0.4" />
-                      </svg>
-                    </motion.div>
-                  )}
-
                   {/* Top Unfolding Flap Animation */}
-                  {airplanePhase === 'none' && (
+                  {step !== 'rolling_up' && (
                     <motion.div
                       initial={{ rotateX: 0 }}
                       animate={{ rotateX: -180 }}
@@ -359,7 +312,7 @@ export default function EnvelopeReveal({ onComplete }) {
                   )}
 
                   {/* Main Unfolded Invitation Card Content */}
-                  <div style={{ textAlign: 'center', zIndex: 10, width: '100%', opacity: airplanePhase !== 'none' ? 0.3 : 1, transition: 'opacity 0.2s' }}>
+                  <div style={{ textAlign: 'center', zIndex: 10, width: '100%' }}>
                     <p style={{ 
                       fontFamily: 'var(--ff-sans)', 
                       fontSize: '0.62rem', 
@@ -663,7 +616,7 @@ export default function EnvelopeReveal({ onComplete }) {
                     boxShadow: '0 8px 24px rgba(74, 32, 90, 0.35)'
                   }}
                 >
-                  ✈️ Tap Paper to Fly into Invitation ✨
+                  📜 Tap Paper to Roll Up &amp; Enter ✨
                 </motion.div>
               </motion.div>
             )}
