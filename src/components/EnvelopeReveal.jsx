@@ -21,10 +21,10 @@ export default function EnvelopeReveal({ onComplete }) {
 
   const triggerBirthdayPopper = () => {
     // 💥 Birthday Party Popper Confetti Burst!
-    const count = 200
+    const count = 220
     const defaults = {
-      origin: { y: 0.55 },
-      colors: ['#f5e5c9', '#c2b1d8', '#4a205a', '#e8a5b8', '#ffd700', '#ffffff', '#9b72b0']
+      origin: { y: 0.52 },
+      colors: ['#4a205a', '#9b72b0', '#c2b1d8', '#f5e5c9', '#e8a5b8', '#ffd700', '#ffffff']
     }
 
     function fire(particleRatio, opts) {
@@ -36,26 +36,26 @@ export default function EnvelopeReveal({ onComplete }) {
     }
 
     fire(0.25, {
-      spread: 26,
-      startVelocity: 55,
+      spread: 30,
+      startVelocity: 60,
     })
     fire(0.2, {
-      spread: 60,
+      spread: 70,
     })
     fire(0.35, {
-      spread: 100,
+      spread: 110,
       decay: 0.91,
-      scalar: 0.8
+      scalar: 0.85
     })
     fire(0.1, {
-      spread: 120,
-      startVelocity: 25,
+      spread: 130,
+      startVelocity: 30,
       decay: 0.92,
-      scalar: 1.2
+      scalar: 1.25
     })
     fire(0.1, {
-      spread: 120,
-      startVelocity: 45,
+      spread: 130,
+      startVelocity: 50,
     })
   }
 
@@ -63,68 +63,84 @@ export default function EnvelopeReveal({ onComplete }) {
     e.stopPropagation()
 
     if (step === 'closed') {
-      // First Click: Shake -> Birthday Popper Burst -> Photos Fly Out
+      // First Click: Shake -> Birthday Popper Burst -> Photos Fly Out (360 degrees)
       setIsShaking(true)
       setTimeout(() => {
         setIsShaking(false)
         setIsFlapOpen(true)
         triggerBirthdayPopper()
         setStep('popped')
-      }, 450)
+      }, 420)
     } else if (step === 'popped') {
-      // Second Click: Photos disperse -> Letter emerges & unfolds -> Reveal main website
+      // Second Click: Photos disperse -> Invitation Paper emerges & unfolds -> Seamless transition
       setStep('unfolding')
       setTimeout(() => {
         setStep('completed')
         if (onComplete) onComplete()
-      }, 1400)
+      }, 1500)
     }
   }
 
   if (step === 'completed') return null
 
-  // Offsets for scattered polaroid photos (responsive percentages / pixels)
+  // Photos burst out in ALL 360 DEGREES (upward, sideways, and DOWNWARD!)
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
   const photos = [
     {
       img: '/couple_photo.jpg',
       caption: 'Rex & Aira',
-      x: isMobile ? -75 : -170,
-      y: isMobile ? -130 : -180,
-      rotate: -14,
-      delay: 0.1,
+      x: isMobile ? -80 : -190,
+      y: isMobile ? -145 : -210,
+      rotate: -15,
+      delay: 0.08,
     },
     {
       img: '/gallery_ceremony.jpg',
       caption: 'San Miguel Church',
-      x: isMobile ? 75 : 170,
-      y: isMobile ? -140 : -190,
+      x: isMobile ? 80 : 190,
+      y: isMobile ? -145 : -210,
       rotate: 15,
-      delay: 0.18,
+      delay: 0.14,
+    },
+    {
+      img: '/church_exterior.jpg',
+      caption: 'Holy Matrimony',
+      x: 0,
+      y: isMobile ? -180 : -260,
+      rotate: -3,
+      delay: 0.2,
     },
     {
       img: '/gallery_reception.jpg',
       caption: 'Celebration',
-      x: isMobile ? -95 : -210,
-      y: isMobile ? 65 : 70,
+      x: isMobile ? -100 : -230,
+      y: isMobile ? -20 : -10,
       rotate: -18,
-      delay: 0.25,
+      delay: 0.26,
     },
     {
       img: '/gallery_rings.jpg',
       caption: 'The Details',
-      x: isMobile ? 95 : 210,
-      y: isMobile ? 75 : 80,
+      x: isMobile ? 100 : 230,
+      y: isMobile ? -20 : -10,
       rotate: 16,
       delay: 0.32,
     },
     {
+      img: '/reception_exterior.jpg',
+      caption: '5A\'s Resort',
+      x: isMobile ? -75 : -170,
+      y: isMobile ? 115 : 170,
+      rotate: -12,
+      delay: 0.38,
+    },
+    {
       img: '/hero_bg.jpg',
-      caption: 'Our Journey',
-      x: 0,
-      y: isMobile ? -190 : -260,
-      rotate: -4,
-      delay: 0.4,
+      caption: 'Our Story',
+      x: isMobile ? 75 : 170,
+      y: isMobile ? 115 : 170,
+      rotate: 14,
+      delay: 0.44,
     },
   ]
 
@@ -134,9 +150,9 @@ export default function EnvelopeReveal({ onComplete }) {
         <motion.div
           key="envelope-overlay"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.8, ease: 'easeInOut' } }}
-          animate={{ opacity: step === 'unfolding' ? 0.3 : 1 }}
-          transition={{ duration: 0.5 }}
+          exit={{ opacity: 0, transition: { duration: 0.7, ease: 'easeInOut' } }}
+          animate={{ opacity: step === 'unfolding' ? 0 : 1 }}
+          transition={{ duration: 0.6 }}
           style={{
             position: 'fixed',
             inset: 0,
@@ -145,36 +161,37 @@ export default function EnvelopeReveal({ onComplete }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'radial-gradient(circle at center, rgba(30, 18, 42, 0.94) 0%, rgba(12, 7, 18, 0.98) 100%)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            // Background is the exact same warm cream as the invitation!
+            background: 'radial-gradient(circle at center, rgba(253, 251, 247, 0.98) 0%, rgba(244, 235, 224, 0.99) 100%)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
             userSelect: 'none',
             overflow: 'hidden',
             cursor: 'pointer',
           }}
           onClick={handleEnvelopeClick}
         >
-          {/* Subtle Background Particle Sparkles */}
-          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.25 }}>
+          {/* Decorative Floral Accent Pattern */}
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.15 }}>
             <div style={{
               width: '100%',
               height: '100%',
-              backgroundImage: 'radial-gradient(#f5e5c9 1px, transparent 1px)',
-              backgroundSize: '32px 32px'
+              backgroundImage: 'radial-gradient(#8b7355 1px, transparent 1px)',
+              backgroundSize: '36px 36px'
             }} />
           </div>
 
           {/* Envelope Wrapper */}
           <div style={{ position: 'relative', width: 'clamp(290px, 85vw, 420px)', height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             
-            {/* SCATTERED PHOTOS (Burst out on Click 1) */}
+            {/* SCATTERED PHOTOS (Burst out 360 degrees on Click 1) */}
             <AnimatePresence>
               {step === 'popped' && (
                 <>
                   {photos.map((p, idx) => (
                     <motion.div
                       key={idx}
-                      initial={{ x: 0, y: 0, scale: 0.2, rotate: 0, opacity: 0 }}
+                      initial={{ x: 0, y: 0, scale: 0.1, rotate: 0, opacity: 0 }}
                       animate={{ 
                         x: p.x, 
                         y: p.y, 
@@ -184,32 +201,32 @@ export default function EnvelopeReveal({ onComplete }) {
                       }}
                       exit={{ 
                         opacity: 0, 
-                        scale: 0.4, 
-                        y: p.y - 100, 
-                        transition: { duration: 0.4, delay: idx * 0.05 } 
+                        scale: 0.3, 
+                        y: p.y > 0 ? p.y + 120 : p.y - 120, 
+                        transition: { duration: 0.35, delay: idx * 0.04 } 
                       }}
                       transition={{ 
                         type: 'spring', 
-                        stiffness: 160, 
-                        damping: 14, 
+                        stiffness: 170, 
+                        damping: 13, 
                         delay: p.delay 
                       }}
-                      whileHover={{ scale: 1.12, rotate: 0, zIndex: 50, transition: { duration: 0.2 } }}
+                      whileHover={{ scale: 1.12, rotate: 0, zIndex: 60, transition: { duration: 0.2 } }}
                       style={{
                         position: 'absolute',
                         top: '25%',
-                        left: 'calc(50% - 60px)',
-                        width: isMobile ? '110px' : '135px',
+                        left: 'calc(50% - 55px)',
+                        width: isMobile ? '105px' : '130px',
                         background: '#ffffff',
-                        padding: '8px 8px 24px 8px',
-                        borderRadius: '4px',
-                        boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2)',
-                        border: '1px solid rgba(245, 229, 201, 0.4)',
+                        padding: '6px 6px 20px 6px',
+                        borderRadius: '3px',
+                        boxShadow: '0 10px 28px rgba(74, 32, 90, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12)',
+                        border: '1px solid rgba(194, 177, 216, 0.5)',
                         zIndex: 10 + idx,
                         pointerEvents: 'auto',
                       }}
                     >
-                      <div style={{ width: '100%', height: isMobile ? '80px' : '100px', overflow: 'hidden', borderRadius: '2px', background: '#f5f5f5' }}>
+                      <div style={{ width: '100%', height: isMobile ? '75px' : '95px', overflow: 'hidden', borderRadius: '1px', background: '#f5f5f5' }}>
                         <img 
                           src={p.img} 
                           alt={p.caption} 
@@ -220,9 +237,9 @@ export default function EnvelopeReveal({ onComplete }) {
                         textAlign: 'center', 
                         fontFamily: 'var(--ff-serif)', 
                         fontStyle: 'italic', 
-                        fontSize: isMobile ? '0.65rem' : '0.75rem', 
+                        fontSize: isMobile ? '0.62rem' : '0.72rem', 
                         color: 'var(--taupe-dark)', 
-                        marginTop: '6px',
+                        marginTop: '5px',
                         fontWeight: 600
                       }}>
                         {p.caption}
@@ -233,42 +250,47 @@ export default function EnvelopeReveal({ onComplete }) {
               )}
             </AnimatePresence>
 
-            {/* FOLDED INVITATION LETTER (Emerges & Unfolds on Click 2) */}
+            {/* SEAMLESS INVITATION PAPER UNCOLD & REVEAL (Click 2) */}
             <AnimatePresence>
               {step === 'unfolding' && (
                 <motion.div
-                  initial={{ y: 50, scale: 0.85, opacity: 0 }}
+                  initial={{ y: 60, scale: 0.7, opacity: 0, rotateX: 20 }}
                   animate={{ 
-                    y: -140, 
-                    scale: [0.85, 1, 2.5], 
-                    opacity: [0, 1, 1],
+                    y: [-40, -180, -280], 
+                    scale: [0.75, 1.1, 2.8], 
+                    opacity: [0, 1, 0.9, 0],
+                    rotateX: 0
                   }}
-                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
                   style={{
                     position: 'absolute',
-                    width: '90%',
-                    height: '240px',
+                    width: '340px',
+                    height: '280px',
                     background: 'linear-gradient(135deg, #fffdfa 0%, #f7f1e5 100%)',
-                    border: '1px solid #d4af37',
+                    border: '1.5px solid #d4af37',
                     borderRadius: '8px',
-                    boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                    boxShadow: '0 25px 60px rgba(74, 32, 90, 0.25)',
                     padding: '2rem',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 40,
+                    transformOrigin: 'center center'
                   }}
                 >
-                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8b7355', marginBottom: '0.5rem' }}>
-                    The Wedding of
+                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#8b7355', marginBottom: '0.6rem' }}>
+                    The Wedding Invitation
                   </p>
-                  <h2 style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.8rem', color: '#4a205a' }}>
+                  <h1 style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '2.2rem', color: '#4a205a', fontWeight: 300, marginBottom: '0.3rem' }}>
                     Rex &amp; Aira
-                  </h2>
-                  <div style={{ width: '40px', height: '1px', background: '#d4af37', margin: '0.8rem 0' }} />
-                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.15em', color: '#555' }}>
+                  </h1>
+                  <div style={{ width: '50px', height: '1px', background: '#d4af37', margin: '0.8rem 0' }} />
+                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.68rem', letterSpacing: '0.2em', color: '#555', fontWeight: 600 }}>
                     OCTOBER 17, 2026
+                  </p>
+                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.58rem', letterSpacing: '0.12em', color: '#888', marginTop: '0.4rem' }}>
+                    SAN MIGUEL, BULACAN
                   </p>
                 </motion.div>
               )}
@@ -283,7 +305,7 @@ export default function EnvelopeReveal({ onComplete }) {
                 y: step === 'closed' ? [0, -8, 0] : 0
               }}
               transition={isShaking ? {
-                duration: 0.45,
+                duration: 0.42,
                 ease: 'easeInOut'
               } : {
                 duration: 3,
@@ -302,16 +324,16 @@ export default function EnvelopeReveal({ onComplete }) {
               <div style={{
                 position: 'absolute',
                 inset: 0,
-                background: '#eedfcb',
+                background: '#f3e5d3',
                 borderRadius: '8px',
-                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(212, 175, 55, 0.3)',
+                boxShadow: '0 20px 45px rgba(74, 32, 90, 0.18), 0 0 0 1px rgba(212, 175, 55, 0.4)',
                 overflow: 'hidden'
               }}>
                 {/* Interior Lining Texture */}
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(74, 32, 90, 0.1) 100%)',
+                  background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(74, 32, 90, 0.08) 100%)',
                 }} />
               </div>
 
@@ -321,7 +343,7 @@ export default function EnvelopeReveal({ onComplete }) {
                   rotateX: isFlapOpen ? 180 : 0
                 }}
                 transition={{
-                  duration: 0.6,
+                  duration: 0.55,
                   ease: [0.16, 1, 0.3, 1]
                 }}
                 style={{
@@ -330,12 +352,12 @@ export default function EnvelopeReveal({ onComplete }) {
                   left: 0,
                   right: 0,
                   height: '130px',
-                  background: isFlapOpen ? '#e3d2ba' : 'linear-gradient(180deg, #f7ebd9 0%, #ecdcb8 100%)',
+                  background: isFlapOpen ? '#e6d5c1' : 'linear-gradient(180deg, #faf2e6 0%, #ebd9c3 100%)',
                   transformOrigin: 'top center',
                   clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
                   zIndex: isFlapOpen ? 5 : 30,
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                  borderTop: '1px solid #e2cfb3',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  borderTop: '1px solid #e0ceb6',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -349,16 +371,16 @@ export default function EnvelopeReveal({ onComplete }) {
                     width: '48px',
                     height: '48px',
                     borderRadius: '50%',
-                    background: 'radial-gradient(circle at 35% 35%, #9b2c2c 0%, #6b1d1d 70%, #4a1212 100%)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3)',
-                    border: '2px solid #b83232',
+                    background: 'radial-gradient(circle at 35% 35%, #4a205a 0%, #32133e 70%, #1e0927 100%)',
+                    boxShadow: '0 4px 12px rgba(74, 32, 90, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3)',
+                    border: '2px solid #d4af37',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: '#f5e5c9',
                     fontFamily: 'var(--ff-serif)',
                     fontStyle: 'italic',
-                    fontSize: '1rem',
+                    fontSize: '0.95rem',
                     fontWeight: 700,
                     letterSpacing: '-0.05em'
                   }}>
@@ -378,27 +400,26 @@ export default function EnvelopeReveal({ onComplete }) {
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(90deg, #ebd9c3 0%, #dfccb3 100%)',
+                  background: 'linear-gradient(90deg, #f0e0cc 0%, #e2cfb7 100%)',
                   clipPath: 'polygon(0 0, 50% 50%, 0 100%)',
                 }} />
                 {/* Right pocket flap */}
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(-90deg, #ebd9c3 0%, #dfccb3 100%)',
+                  background: 'linear-gradient(-90deg, #f0e0cc 0%, #e2cfb7 100%)',
                   clipPath: 'polygon(100% 0, 50% 50%, 100% 100%)',
                 }} />
                 {/* Bottom pocket flap */}
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(0deg, #f3e5d3 0%, #e5d3bc 100%)',
+                  background: 'linear-gradient(0deg, #f6ebd9 0%, #e8d7c0 100%)',
                   clipPath: 'polygon(0 100%, 50% 48%, 100% 100%)',
-                  boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.05)',
                 }} />
               </div>
 
-              {/* Gold Ribbon Accents on Front */}
+              {/* Gold Monogram Header on Front */}
               <div style={{
                 position: 'absolute',
                 bottom: '15px',
@@ -425,20 +446,20 @@ export default function EnvelopeReveal({ onComplete }) {
           </div>
 
           {/* HINT & ACTION MESSAGES AT BOTTOM */}
-          <div style={{ marginTop: '3.5rem', textAlign: 'center', zIndex: 60, padding: '0 1rem' }}>
+          <div style={{ marginTop: '3.8rem', textAlign: 'center', zIndex: 60, padding: '0 1rem' }}>
             {step === 'closed' && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
+                transition={{ delay: 0.2 }}
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}
               >
                 <p style={{
                   fontFamily: 'var(--ff-serif)',
                   fontStyle: 'italic',
                   fontSize: 'clamp(1.2rem, 3.5vw, 1.6rem)',
-                  color: '#f5e5c9',
-                  textShadow: '0 2px 8px rgba(0,0,0,0.6)'
+                  color: '#4a205a',
+                  fontWeight: 400
                 }}>
                   You're Invited to Rex &amp; Aira's Wedding!
                 </p>
@@ -446,17 +467,17 @@ export default function EnvelopeReveal({ onComplete }) {
                   animate={{ scale: [1, 1.06, 1] }}
                   transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
                   style={{
-                    background: 'rgba(245, 229, 201, 0.15)',
-                    border: '1px solid rgba(245, 229, 201, 0.3)',
+                    background: '#4a205a',
+                    border: '1px solid rgba(212, 175, 55, 0.5)',
                     borderRadius: '30px',
-                    padding: '0.5rem 1.4rem',
+                    padding: '0.6rem 1.6rem',
                     color: '#f5e5c9',
                     fontFamily: 'var(--ff-sans)',
                     fontSize: '0.72rem',
                     letterSpacing: '0.18em',
                     textTransform: 'uppercase',
                     fontWeight: 600,
-                    backdropFilter: 'blur(6px)'
+                    boxShadow: '0 4px 16px rgba(74, 32, 90, 0.25)'
                   }}
                 >
                   ✉️ Tap Envelope to Open 💥
@@ -475,9 +496,8 @@ export default function EnvelopeReveal({ onComplete }) {
                   fontFamily: 'var(--ff-serif)',
                   fontStyle: 'italic',
                   fontSize: 'clamp(1.25rem, 3.8vw, 1.7rem)',
-                  color: '#ffffff',
-                  textShadow: '0 2px 10px rgba(0,0,0,0.7)',
-                  fontWeight: 400
+                  color: '#4a205a',
+                  fontWeight: 500
                 }}>
                   Wait... there's still something inside 👀
                 </p>
@@ -485,17 +505,17 @@ export default function EnvelopeReveal({ onComplete }) {
                   animate={{ scale: [1, 1.08, 1], y: [0, -3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                   style={{
-                    background: 'linear-gradient(135deg, #4a205a 0%, #7b3891 100%)',
-                    border: '1px solid rgba(245, 229, 201, 0.5)',
+                    background: 'linear-gradient(135deg, #4a205a 0%, #6c2b83 100%)',
+                    border: '1px solid rgba(212, 175, 55, 0.6)',
                     borderRadius: '30px',
-                    padding: '0.6rem 1.6rem',
+                    padding: '0.65rem 1.8rem',
                     color: '#f5e5c9',
                     fontFamily: 'var(--ff-sans)',
                     fontSize: '0.75rem',
                     letterSpacing: '0.18em',
                     textTransform: 'uppercase',
                     fontWeight: 700,
-                    boxShadow: '0 6px 20px rgba(74, 32, 90, 0.6)'
+                    boxShadow: '0 8px 24px rgba(74, 32, 90, 0.35)'
                   }}
                 >
                   ✨ Tap Envelope to Reveal Invitation ✨
