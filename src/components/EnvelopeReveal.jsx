@@ -6,6 +6,7 @@ export default function EnvelopeReveal({ onComplete }) {
   const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolding' | 'completed'
   const [isShaking, setIsShaking] = useState(false)
   const [isFlapOpen, setIsFlapOpen] = useState(false)
+  const [unfoldPhase, setUnfoldPhase] = useState(0) // 0: emerging, 1: unfolding paper, 2: morph to hero
 
   // Disable body scroll while envelope reveal is active
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function EnvelopeReveal({ onComplete }) {
 
   const triggerBirthdayPopper = () => {
     // 💥 Birthday Party Popper Confetti Burst!
-    const count = 220
+    const count = 240
     const defaults = {
       origin: { y: 0.52 },
       colors: ['#4a205a', '#9b72b0', '#c2b1d8', '#f5e5c9', '#e8a5b8', '#ffd700', '#ffffff']
@@ -35,28 +36,11 @@ export default function EnvelopeReveal({ onComplete }) {
       })
     }
 
-    fire(0.25, {
-      spread: 30,
-      startVelocity: 60,
-    })
-    fire(0.2, {
-      spread: 70,
-    })
-    fire(0.35, {
-      spread: 110,
-      decay: 0.91,
-      scalar: 0.85
-    })
-    fire(0.1, {
-      spread: 130,
-      startVelocity: 30,
-      decay: 0.92,
-      scalar: 1.25
-    })
-    fire(0.1, {
-      spread: 130,
-      startVelocity: 50,
-    })
+    fire(0.25, { spread: 30, startVelocity: 60 })
+    fire(0.2, { spread: 70 })
+    fire(0.35, { spread: 110, decay: 0.91, scalar: 0.85 })
+    fire(0.1, { spread: 130, startVelocity: 30, decay: 0.92, scalar: 1.25 })
+    fire(0.1, { spread: 130, startVelocity: 50 })
   }
 
   const handleEnvelopeClick = (e) => {
@@ -72,12 +56,18 @@ export default function EnvelopeReveal({ onComplete }) {
         setStep('popped')
       }, 420)
     } else if (step === 'popped') {
-      // Second Click: Photos disperse -> Invitation Paper emerges & unfolds -> Seamless transition
+      // Second Click: Photos disperse -> Physical Paper emerges, unfolds & seamlessly morphs to real invitation
       setStep('unfolding')
+      setUnfoldPhase(1)
+
+      setTimeout(() => {
+        setUnfoldPhase(2)
+      }, 500)
+
       setTimeout(() => {
         setStep('completed')
         if (onComplete) onComplete()
-      }, 1500)
+      }, 1450)
     }
   }
 
@@ -150,9 +140,9 @@ export default function EnvelopeReveal({ onComplete }) {
         <motion.div
           key="envelope-overlay"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.7, ease: 'easeInOut' } }}
-          animate={{ opacity: step === 'unfolding' ? 0 : 1 }}
-          transition={{ duration: 0.6 }}
+          exit={{ opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } }}
+          animate={{ opacity: step === 'unfolding' && unfoldPhase === 2 ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
           style={{
             position: 'fixed',
             inset: 0,
@@ -161,7 +151,7 @@ export default function EnvelopeReveal({ onComplete }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            // Background is the exact same warm cream as the invitation!
+            // Matching invitation background tone
             background: 'radial-gradient(circle at center, rgba(253, 251, 247, 0.98) 0%, rgba(244, 235, 224, 0.99) 100%)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
@@ -171,8 +161,8 @@ export default function EnvelopeReveal({ onComplete }) {
           }}
           onClick={handleEnvelopeClick}
         >
-          {/* Decorative Floral Accent Pattern */}
-          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.15 }}>
+          {/* Subtle Background Pattern */}
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.12 }}>
             <div style={{
               width: '100%',
               height: '100%',
@@ -201,9 +191,9 @@ export default function EnvelopeReveal({ onComplete }) {
                       }}
                       exit={{ 
                         opacity: 0, 
-                        scale: 0.3, 
-                        y: p.y > 0 ? p.y + 120 : p.y - 120, 
-                        transition: { duration: 0.35, delay: idx * 0.04 } 
+                        scale: 0.2, 
+                        y: p.y > 0 ? p.y + 150 : p.y - 150, 
+                        transition: { duration: 0.3, delay: idx * 0.03 } 
                       }}
                       transition={{ 
                         type: 'spring', 
@@ -250,48 +240,115 @@ export default function EnvelopeReveal({ onComplete }) {
               )}
             </AnimatePresence>
 
-            {/* SEAMLESS INVITATION PAPER UNCOLD & REVEAL (Click 2) */}
+            {/* SEAMLESS PHYSICAL PAPER UNFOLDING & TRANSITION TO INVITATION */}
             <AnimatePresence>
               {step === 'unfolding' && (
                 <motion.div
-                  initial={{ y: 60, scale: 0.7, opacity: 0, rotateX: 20 }}
-                  animate={{ 
-                    y: [-40, -180, -280], 
-                    scale: [0.75, 1.1, 2.8], 
-                    opacity: [0, 1, 0.9, 0],
-                    rotateX: 0
+                  initial={{ y: 50, scale: 0.75, opacity: 0, rotateX: 25 }}
+                  animate={unfoldPhase === 1 ? {
+                    y: -130,
+                    scale: 1,
+                    opacity: 1,
+                    rotateX: 0,
+                  } : {
+                    y: -180,
+                    scale: 3.5,
+                    opacity: 0,
+                    rotateX: 0,
                   }}
-                  transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    duration: unfoldPhase === 1 ? 0.55 : 0.85,
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
                   style={{
                     position: 'absolute',
                     width: '340px',
-                    height: '280px',
+                    minHeight: unfoldPhase >= 1 ? '380px' : '220px',
                     background: 'linear-gradient(135deg, #fffdfa 0%, #f7f1e5 100%)',
                     border: '1.5px solid #d4af37',
                     borderRadius: '8px',
-                    boxShadow: '0 25px 60px rgba(74, 32, 90, 0.25)',
-                    padding: '2rem',
+                    boxShadow: '0 30px 70px rgba(74, 32, 90, 0.3)',
+                    padding: '2.2rem 1.8rem',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    zIndex: 40,
-                    transformOrigin: 'center center'
+                    zIndex: 45,
+                    transformOrigin: 'center center',
+                    perspective: '1000px',
+                    overflow: 'hidden'
                   }}
                 >
-                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#8b7355', marginBottom: '0.6rem' }}>
-                    The Wedding Invitation
-                  </p>
-                  <h1 style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '2.2rem', color: '#4a205a', fontWeight: 300, marginBottom: '0.3rem' }}>
-                    Rex &amp; Aira
-                  </h1>
-                  <div style={{ width: '50px', height: '1px', background: '#d4af37', margin: '0.8rem 0' }} />
-                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.68rem', letterSpacing: '0.2em', color: '#555', fontWeight: 600 }}>
-                    OCTOBER 17, 2026
-                  </p>
-                  <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.58rem', letterSpacing: '0.12em', color: '#888', marginTop: '0.4rem' }}>
-                    SAN MIGUEL, BULACAN
-                  </p>
+                  {/* Top Folded Flap Animation (Flips open upwards) */}
+                  <motion.div
+                    initial={{ rotateX: 0 }}
+                    animate={{ rotateX: unfoldPhase >= 1 ? -180 : 0 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '50%',
+                      background: 'linear-gradient(180deg, #fdfbf7 0%, #f4eae0 100%)',
+                      borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
+                      transformOrigin: 'top center',
+                      backfaceVisibility: 'hidden',
+                      zIndex: 5,
+                      pointerEvents: 'none'
+                    }}
+                  />
+
+                  {/* Main Unfolded Invitation Card Content */}
+                  <div style={{ textAlign: 'center', zIndex: 10, width: '100%' }}>
+                    <p style={{ 
+                      fontFamily: 'var(--ff-sans)', 
+                      fontSize: '0.62rem', 
+                      letterSpacing: '0.28em', 
+                      textTransform: 'uppercase', 
+                      color: 'var(--taupe)', 
+                      marginBottom: '0.8rem',
+                      fontWeight: 600
+                    }}>
+                      October 17, 2026 · San Miguel, Bulacan
+                    </p>
+
+                    <h1 style={{ 
+                      fontFamily: 'var(--ff-serif)', 
+                      fontStyle: 'italic', 
+                      fontSize: '2.6rem', 
+                      color: 'var(--text)', 
+                      fontWeight: 300, 
+                      lineHeight: 1.1,
+                      marginBottom: '0.6rem'
+                    }}>
+                      Rex &amp; Aira
+                    </h1>
+
+                    <p style={{
+                      fontFamily: 'var(--ff-sans)',
+                      fontSize: '0.95rem',
+                      fontWeight: 700,
+                      color: '#4a205a',
+                      letterSpacing: '0.04em',
+                      margin: '0.6rem 0 1rem'
+                    }}>
+                      #oREXnaparapakasalansiAIRA
+                    </p>
+
+                    <div style={{ width: '40px', height: '1px', background: '#d4af37', margin: '0.8rem auto' }} />
+
+                    <p style={{ 
+                      fontFamily: 'var(--ff-sans)', 
+                      fontSize: '0.6rem', 
+                      letterSpacing: '0.22em', 
+                      textTransform: 'uppercase', 
+                      color: 'var(--taupe-dark)',
+                      fontWeight: 700
+                    }}>
+                      Until Rex &amp; Aira Say I Do
+                    </p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
