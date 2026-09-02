@@ -9,10 +9,15 @@ export default function Venue() {
 
   return (
     <section id="venue" ref={ref} style={{ padding: 'clamp(5rem, 10vw, 10rem) 2rem', background: 'var(--cream-light)', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(3rem, 6vw, 8rem)', alignItems: 'center' }}>
-        <div>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '1rem' }}>Find Us Here</motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 300, color: 'var(--text)', marginBottom: '2.5rem' }}>The <span style={{ color: 'var(--taupe)' }}>Venues</span></motion.h2>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        {/* Centered Header */}
+        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '0.6rem' }}>Find Us Here</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 300, color: 'var(--text)', marginBottom: 0 }}>The <span style={{ color: 'var(--taupe)' }}>Venues</span></motion.h2>
+        </div>
+
+        <div className="venue-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(3rem, 6vw, 8rem)', alignItems: 'center' }}>
+          <div>
 
           {[
             { tag: 'Ceremony',  name: ceremonyVenueName,  addr: ceremonyVenueAddress,  delay: 0.25, mainImg: '/church_exterior.jpg',    smallImg: '/church_qr.png',     smallAlt: 'QR Code – Church Directions',     smallLabel: 'Scan for Directions' },
@@ -102,8 +107,9 @@ export default function Venue() {
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}>
           <AnimatedMap />
         </motion.div>
+        </div>
       </div>
-      <style>{`@media (max-width: 800px) { #venue > div { grid-template-columns: 1fr !important; } }`}</style>
+      <style>{`@media (max-width: 800px) { .venue-grid { grid-template-columns: 1fr !important; } }`}</style>
     </section>
   )
 }
