@@ -2,11 +2,55 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
+const RAW_PHOTOS = [
+  { img: '/couple_photo.jpg', caption: 'Rex & Aira' },
+  { img: '/gallery_ceremony.jpg', caption: 'San Miguel Church' },
+  { img: '/church_exterior.jpg', caption: 'Holy Matrimony' },
+  { img: '/gallery_reception.jpg', caption: 'Celebration' },
+  { img: '/gallery_rings.jpg', caption: 'The Details' },
+  { img: '/reception_exterior.jpg', caption: '5A\'s Resort' },
+  { img: '/hero_bg.jpg', caption: 'Our Story' },
+]
+
+function generateRandomizedPhotos() {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+  const count = RAW_PHOTOS.length
+  const stepAngle = (Math.PI * 2) / count
+  const angleOffset = Math.random() * Math.PI * 2 // Random starting rotation angle
+
+  // Shuffle photos order randomly
+  const shuffled = [...RAW_PHOTOS].sort(() => Math.random() - 0.5)
+
+  return shuffled.map((p, idx) => {
+    const baseAngle = angleOffset + idx * stepAngle + (Math.random() * 0.4 - 0.2)
+    const distance = isMobile 
+      ? 110 + Math.random() * 70 
+      : 195 + Math.random() * 110
+
+    const x = Math.cos(baseAngle) * distance
+    const startY = Math.sin(baseAngle) * distance * 0.8
+    const driftDistance = isMobile ? 80 + Math.random() * 70 : 120 + Math.random() * 110
+    const endY = startY + driftDistance
+    const rotate = Math.random() * 44 - 22 // -22deg to +22deg
+    const delay = idx * 0.06
+
+    return {
+      ...p,
+      x,
+      startY,
+      endY,
+      rotate,
+      delay
+    }
+  })
+}
+
 export default function EnvelopeReveal({ onComplete }) {
   const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolded' | 'disappearing' | 'completed'
   const [isShaking, setIsShaking] = useState(false)
   const [isFlapOpen, setIsFlapOpen] = useState(false)
   const [isPaperFlownOut, setIsPaperFlownOut] = useState(false)
+  const [photos, setPhotos] = useState([])
 
   // Disable body scroll while envelope reveal is active
   useEffect(() => {
@@ -46,8 +90,11 @@ export default function EnvelopeReveal({ onComplete }) {
     e.stopPropagation()
 
     if (step === 'closed') {
-      // CLICK 1: Shake -> Flap Opens + Birthday Popper Confetti + 360 Photos Burst
+      // CLICK 1: Generate fresh random positions -> Shake -> Flap Opens + Birthday Popper Confetti + Photos Burst
+      const randomized = generateRandomizedPhotos()
+      setPhotos(randomized)
       setIsShaking(true)
+
       setTimeout(() => {
         setIsShaking(false)
         setIsFlapOpen(true)
@@ -74,73 +121,6 @@ export default function EnvelopeReveal({ onComplete }) {
   if (step === 'completed') return null
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-
-  // 7 Photos bursting out and SLOWLY FLOATING DOWNWARDS
-  const photos = [
-    {
-      img: '/couple_photo.jpg',
-      caption: 'Rex & Aira',
-      x: isMobile ? -85 : -210,
-      startY: isMobile ? -145 : -200,
-      endY: isMobile ? -25 : -60, // Slowly floating down
-      rotate: -15,
-      delay: 0.08,
-    },
-    {
-      img: '/gallery_ceremony.jpg',
-      caption: 'San Miguel Church',
-      x: isMobile ? 85 : 210,
-      startY: isMobile ? -145 : -200,
-      endY: isMobile ? -25 : -60, // Slowly floating down
-      rotate: 15,
-      delay: 0.14,
-    },
-    {
-      img: '/church_exterior.jpg',
-      caption: 'Holy Matrimony',
-      x: 0,
-      startY: isMobile ? -175 : -250,
-      endY: isMobile ? -55 : -110, // Slowly floating down
-      rotate: -3,
-      delay: 0.2,
-    },
-    {
-      img: '/gallery_reception.jpg',
-      caption: 'Celebration',
-      x: isMobile ? -100 : -240,
-      startY: isMobile ? -15 : -10,
-      endY: isMobile ? 100 : 130, // Slowly floating down
-      rotate: -18,
-      delay: 0.26,
-    },
-    {
-      img: '/gallery_rings.jpg',
-      caption: 'The Details',
-      x: isMobile ? 100 : 240,
-      startY: isMobile ? -15 : -10,
-      endY: isMobile ? 100 : 130, // Slowly floating down
-      rotate: 16,
-      delay: 0.32,
-    },
-    {
-      img: '/reception_exterior.jpg',
-      caption: '5A\'s Resort',
-      x: isMobile ? -80 : -190,
-      startY: isMobile ? 120 : 175,
-      endY: isMobile ? 220 : 300, // Slowly floating down
-      rotate: -12,
-      delay: 0.38,
-    },
-    {
-      img: '/hero_bg.jpg',
-      caption: 'Our Story',
-      x: isMobile ? 80 : 190,
-      startY: isMobile ? 120 : 175,
-      endY: isMobile ? 220 : 300, // Slowly floating down
-      rotate: 14,
-      delay: 0.44,
-    },
-  ]
 
   return (
     <AnimatePresence>
@@ -182,7 +162,7 @@ export default function EnvelopeReveal({ onComplete }) {
           {/* Envelope & Photos Container */}
           <div style={{ position: 'relative', width: 'clamp(290px, 85vw, 420px)', height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             
-            {/* 360° SCATTERED POLAROID PHOTOS (Burst out & SLOWLY DRIFT DOWNWARD) */}
+            {/* DYNAMICALLY RANDOMIZED POLAROID PHOTOS (Burst out & Slowly Drift Downward) */}
             <AnimatePresence>
               {step === 'popped' && !isPaperFlownOut && (
                 <>
@@ -194,7 +174,7 @@ export default function EnvelopeReveal({ onComplete }) {
                         x: p.x, 
                         y: [p.startY, p.endY], 
                         scale: 1, 
-                        rotate: [p.rotate, p.rotate + (idx % 2 === 0 ? 4 : -4)], 
+                        rotate: [p.rotate, p.rotate + (idx % 2 === 0 ? 5 : -5)], 
                         opacity: 1 
                       }}
                       exit={{ 
@@ -204,10 +184,10 @@ export default function EnvelopeReveal({ onComplete }) {
                         transition: { duration: 0.3, delay: idx * 0.03 } 
                       }}
                       transition={{ 
-                        x: { type: 'spring', stiffness: 170, damping: 14, delay: p.delay },
-                        y: { duration: 8, ease: 'easeOut', delay: p.delay }, // Slowly drift downward!
-                        rotate: { duration: 8, ease: 'easeInOut', delay: p.delay },
-                        scale: { type: 'spring', stiffness: 170, damping: 14, delay: p.delay },
+                        x: { type: 'spring', stiffness: 160, damping: 14, delay: p.delay },
+                        y: { duration: 8.5, ease: 'easeOut', delay: p.delay }, // Slowly drift downward!
+                        rotate: { duration: 8.5, ease: 'easeInOut', delay: p.delay },
+                        scale: { type: 'spring', stiffness: 160, damping: 14, delay: p.delay },
                         opacity: { duration: 0.25, delay: p.delay }
                       }}
                       whileHover={{ scale: 1.12, rotate: 0, zIndex: 200, transition: { duration: 0.2 } }}
@@ -221,7 +201,7 @@ export default function EnvelopeReveal({ onComplete }) {
                         borderRadius: '4px',
                         boxShadow: '0 12px 32px rgba(74, 32, 90, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15)',
                         border: '1px solid rgba(194, 177, 216, 0.6)',
-                        zIndex: 100 + idx, // High z-index so photos render ON TOP OF envelope
+                        zIndex: 100 + idx, // Render on top of envelope
                         pointerEvents: 'auto',
                       }}
                     >
