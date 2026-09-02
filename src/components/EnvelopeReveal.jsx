@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 export default function EnvelopeReveal({ onComplete }) {
-  const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolded' | 'rolling_up' | 'completed'
+  const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolded' | 'disappearing' | 'completed'
   const [isShaking, setIsShaking] = useState(false)
   const [isFlapOpen, setIsFlapOpen] = useState(false)
   const [isPaperFlownOut, setIsPaperFlownOut] = useState(false)
@@ -61,13 +61,13 @@ export default function EnvelopeReveal({ onComplete }) {
         setStep('unfolded')
       }, 500)
     } else if (step === 'unfolded') {
-      // CLICK 3: Paper rolls UPWARDS like a scroll off top of screen into live invitation
-      setStep('rolling_up')
+      // CLICK 3: Disappear immediately!
+      setStep('disappearing')
 
       setTimeout(() => {
         setStep('completed')
         if (onComplete) onComplete()
-      }, 850)
+      }, 200)
     }
   }
 
@@ -141,9 +141,9 @@ export default function EnvelopeReveal({ onComplete }) {
         <motion.div
           key="envelope-overlay"
           initial={{ opacity: 1 }}
-          animate={{ opacity: step === 'rolling_up' ? 0 : 1 }}
+          animate={{ opacity: step === 'disappearing' ? 0 : 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
           style={{
             position: 'fixed',
             inset: 0,
@@ -241,17 +241,14 @@ export default function EnvelopeReveal({ onComplete }) {
               )}
             </AnimatePresence>
 
-            {/* PHYSICAL INVITATION PAPER -> 3D UNFOLDS & ROLLS UPWARDS OFF TOP */}
+            {/* PHYSICAL INVITATION PAPER -> DISAPPEARS ON CLICK 3 */}
             <AnimatePresence>
-              {(isPaperFlownOut || step === 'unfolded' || step === 'rolling_up') && (
+              {(isPaperFlownOut || step === 'unfolded' || step === 'disappearing') && (
                 <motion.div
                   initial={{ y: 80, scale: 0.7, opacity: 0, rotateX: 30 }}
-                  animate={step === 'rolling_up' ? {
-                    y: -1250,
-                    rotateX: -450,
-                    scaleY: 0.25,
-                    scaleX: 0.85,
+                  animate={step === 'disappearing' ? {
                     opacity: 0,
+                    scale: 0.95
                   } : {
                     x: 0,
                     y: isMobile ? -60 : -80,
@@ -263,11 +260,8 @@ export default function EnvelopeReveal({ onComplete }) {
                     rotateZ: 0,
                     rotateY: 0
                   }}
-                  transition={step === 'rolling_up' ? {
-                    duration: 0.8,
-                    ease: [0.32, 0, 0.67, 0]
-                  } : {
-                    duration: 0.6,
+                  transition={{
+                    duration: step === 'disappearing' ? 0.2 : 0.6,
                     ease: [0.16, 1, 0.3, 1]
                   }}
                   style={{
@@ -290,7 +284,7 @@ export default function EnvelopeReveal({ onComplete }) {
                   }}
                 >
                   {/* Top 3D Unfolding Flap */}
-                  {step !== 'rolling_up' && (
+                  {step !== 'disappearing' && (
                     <motion.div
                       initial={{ rotateX: 0 }}
                       animate={{ rotateX: -180 }}
@@ -613,7 +607,7 @@ export default function EnvelopeReveal({ onComplete }) {
                     boxShadow: '0 8px 24px rgba(74, 32, 90, 0.35)'
                   }}
                 >
-                  📜 Tap Paper to Roll Up &amp; Enter ✨
+                  ✨ Tap to Enter Wedding Website ✨
                 </motion.div>
               </motion.div>
             )}
