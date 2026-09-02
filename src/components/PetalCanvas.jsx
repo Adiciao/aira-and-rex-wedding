@@ -100,13 +100,16 @@ class Petal {
   }
 }
 
-export default function PetalCanvas() {
+export default function PetalCanvas({ active = true }) {
   const canvasRef = useRef(null)
   const petalsRef = useRef([])
   const rafRef    = useRef(null)
 
   useEffect(() => {
+    if (!active) return
+
     const canvas = canvasRef.current
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
 
     const resize = () => {
@@ -153,7 +156,9 @@ export default function PetalCanvas() {
       cancelAnimationFrame(rafRef.current)
       window.removeEventListener('resize', resize)
     }
-  }, [])
+  }, [active])
+
+  if (!active) return null
 
   return (
     <canvas

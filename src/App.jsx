@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import PetalCanvas    from './components/PetalCanvas'
 import LiveChat       from './components/LiveChat'
 import EnvelopeReveal from './components/EnvelopeReveal'
@@ -15,6 +15,8 @@ import RSVP           from './components/RSVP'
 import Footer         from './components/Footer'
 
 export default function App() {
+  const [showPetals, setShowPetals] = useState(false)
+
   useEffect(() => {
     // Detect touch / mobile — disable custom cursor
     const isMobile = window.matchMedia('(pointer: coarse)').matches
@@ -24,10 +26,10 @@ export default function App() {
   return (
     <>
       {/* Interactive Birthday Envelope Reveal Overlay */}
-      <EnvelopeReveal />
+      <EnvelopeReveal onComplete={() => setShowPetals(true)} />
 
-      {/* Global overlays */}
-      <PetalCanvas />
+      {/* Global overlays (Petals start popping when envelope sequence finishes) */}
+      <PetalCanvas active={showPetals} />
       <LiveChat />
 
       {/* Existing Invitation Page (Preserved 100%) */}
