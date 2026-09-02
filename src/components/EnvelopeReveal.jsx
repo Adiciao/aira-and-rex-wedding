@@ -3,10 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 export default function EnvelopeReveal({ onComplete }) {
-  const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolded' | 'rolling_up' | 'completed'
+  const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolding' | 'completed'
   const [isShaking, setIsShaking] = useState(false)
   const [isFlapOpen, setIsFlapOpen] = useState(false)
-  const [isPaperFlownOut, setIsPaperFlownOut] = useState(false)
 
   // Disable body scroll while envelope reveal is active
   useEffect(() => {
@@ -56,19 +55,13 @@ export default function EnvelopeReveal({ onComplete }) {
         setStep('popped')
       }, 420)
     } else if (step === 'popped') {
-      // CLICK 2: Photos disperse -> Paper emerges & 3D unfolds -> STAYS on screen
-      setIsPaperFlownOut(true)
-      setTimeout(() => {
-        setStep('unfolded')
-      }, 550)
-    } else if (step === 'unfolded') {
-      // CLICK 3: Paper rolls UPWARDS like a scroll off top of screen!
-      setStep('rolling_up')
+      // CLICK 2: Seamless Unfold & Zoom-Expand Transition into Live Website
+      setStep('unfolding')
 
       setTimeout(() => {
         setStep('completed')
         if (onComplete) onComplete()
-      }, 850)
+      }, 1200)
     }
   }
 
@@ -141,9 +134,9 @@ export default function EnvelopeReveal({ onComplete }) {
         <motion.div
           key="envelope-overlay"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
-          animate={{ opacity: step === 'rolling_up' ? 0 : 1 }}
-          transition={{ duration: 0.6 }}
+          exit={{ opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } }}
+          animate={{ opacity: step === 'unfolding' ? 0 : 1 }}
+          transition={{ duration: 0.55 }}
           style={{
             position: 'fixed',
             inset: 0,
@@ -177,7 +170,7 @@ export default function EnvelopeReveal({ onComplete }) {
             
             {/* SCATTERED PHOTOS (Burst out 360 degrees on Click 1) */}
             <AnimatePresence>
-              {step === 'popped' && !isPaperFlownOut && (
+              {step === 'popped' && (
                 <>
                   {photos.map((p, idx) => (
                     <motion.div
@@ -241,35 +234,18 @@ export default function EnvelopeReveal({ onComplete }) {
               )}
             </AnimatePresence>
 
-            {/* PHYSICAL INVITATION PAPER -> ROLLS UPWARDS OFF TOP OF SCREEN */}
+            {/* SEAMLESS PHYSICAL PAPER UNFOLD & MORPH REVEAL (Click 2) */}
             <AnimatePresence>
-              {(isPaperFlownOut || step === 'unfolded' || step === 'rolling_up') && (
+              {step === 'unfolding' && (
                 <motion.div
-                  initial={{ y: 80, scale: 0.7, opacity: 0, rotateX: 30 }}
-                  animate={step === 'rolling_up' ? {
-                    y: -1250,
-                    rotateX: -450,
-                    scaleY: 0.25,
-                    scaleX: 0.85,
-                    opacity: 0,
-                  } : {
-                    x: 0,
-                    y: isMobile ? -60 : -80,
-                    scale: 1,
-                    scaleX: 1,
-                    scaleY: 1,
-                    opacity: 1,
-                    rotateX: 0,
-                    rotateZ: 0,
-                    rotateY: 0
+                  initial={{ y: 60, scale: 0.7, opacity: 0, rotateX: 30 }}
+                  animate={{ 
+                    y: [-40, -140, -220], 
+                    scale: [0.75, 1.1, 2.8], 
+                    opacity: [0, 1, 0.9, 0],
+                    rotateX: 0
                   }}
-                  transition={step === 'rolling_up' ? {
-                    duration: 0.8,
-                    ease: [0.32, 0, 0.67, 0] // Aerodynamic roll-up curve
-                  } : {
-                    duration: 0.6,
-                    ease: [0.16, 1, 0.3, 1]
-                  }}
+                  transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
                   style={{
                     position: 'absolute',
                     width: 'clamp(310px, 90vw, 380px)',
@@ -284,32 +260,30 @@ export default function EnvelopeReveal({ onComplete }) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 45,
-                    transformOrigin: 'top center',
+                    transformOrigin: 'center center',
                     perspective: '1000px',
                     overflow: 'hidden'
                   }}
                 >
                   {/* Top Unfolding Flap Animation */}
-                  {step !== 'rolling_up' && (
-                    <motion.div
-                      initial={{ rotateX: 0 }}
-                      animate={{ rotateX: -180 }}
-                      transition={{ duration: 0.5, ease: 'easeOut' }}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '50%',
-                        background: 'linear-gradient(180deg, #fdfbf7 0%, #f4eae0 100%)',
-                        borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
-                        transformOrigin: 'top center',
-                        backfaceVisibility: 'hidden',
-                        zIndex: 5,
-                        pointerEvents: 'none'
-                      }}
-                    />
-                  )}
+                  <motion.div
+                    initial={{ rotateX: 0 }}
+                    animate={{ rotateX: -180 }}
+                    transition={{ duration: 0.45, ease: 'easeOut' }}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '50%',
+                      background: 'linear-gradient(180deg, #fdfbf7 0%, #f4eae0 100%)',
+                      borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
+                      transformOrigin: 'top center',
+                      backfaceVisibility: 'hidden',
+                      zIndex: 5,
+                      pointerEvents: 'none'
+                    }}
+                  />
 
                   {/* Main Unfolded Invitation Card Content */}
                   <div style={{ textAlign: 'center', zIndex: 10, width: '100%' }}>
@@ -554,7 +528,7 @@ export default function EnvelopeReveal({ onComplete }) {
               </motion.div>
             )}
 
-            {step === 'popped' && !isPaperFlownOut && (
+            {step === 'popped' && (
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -587,36 +561,7 @@ export default function EnvelopeReveal({ onComplete }) {
                     boxShadow: '0 8px 24px rgba(74, 32, 90, 0.35)'
                   }}
                 >
-                  ✨ Tap Envelope to Reveal Invitation ✨
-                </motion.div>
-              </motion.div>
-            )}
-
-            {step === 'unfolded' && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.08, 1], y: [0, -3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{
-                    background: 'linear-gradient(135deg, #4a205a 0%, #6c2b83 100%)',
-                    border: '1px solid rgba(212, 175, 55, 0.6)',
-                    borderRadius: '30px',
-                    padding: '0.7rem 2rem',
-                    color: '#f5e5c9',
-                    fontFamily: 'var(--ff-sans)',
-                    fontSize: '0.78rem',
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    fontWeight: 700,
-                    boxShadow: '0 8px 24px rgba(74, 32, 90, 0.35)'
-                  }}
-                >
-                  📜 Tap Paper to Roll Up &amp; Enter ✨
+                  ✨ Tap Envelope to Enter Invitation ✨
                 </motion.div>
               </motion.div>
             )}
