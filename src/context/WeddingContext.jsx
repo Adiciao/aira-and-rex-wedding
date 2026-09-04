@@ -63,7 +63,7 @@ export const DEFAULTS = {
   ],
 
   schedule: [
-    { time: '9:00 AM',  title: 'Ceremony',     venue: 'San Miguel Parish Church',    desc: 'The exchange of sacred vows before God and loved ones. Kindly be seated by 8:45 AM.', attire: 'Semi-Formal Attire', icon: '◆' },
+    { time: '9:00 AM',  title: 'Ceremony',     venue: 'San Miguel Parish Church',    desc: 'The exchange of sacred vows before God and loved ones. Kindly be seated by 9:00 AM.', attire: 'Semi-Formal Attire', icon: '◆' },
     { time: '12:00 PM', title: 'Cocktail Hour',       venue: '5A\'s Private Place & Resort, San Miguel', desc: 'Sip on refreshments and mingle in the lush gardens while the newlyweds capture their first moments.', attire: 'Semi-Formal Attire', icon: '◇' },
     { time: '12:30 PM', title: 'Wedding Reception',   venue: '5A\'s Private Place & Resort',    desc: 'A celebration of love with heartfelt toasts, a sumptuous Filipino feast, and the joy of family and friends.', attire: 'Semi-Formal Attire', icon: '◆' },
     { time: '5:00 PM',  title: 'After Party',         venue: '5A\'s Private Place & Resort',      desc: 'Dance under the stars with live music, an open bar, and all the warmth of a Bulacan evening until midnight.', attire: 'Semi-Formal Attire', icon: '◇' },
