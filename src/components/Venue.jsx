@@ -20,8 +20,28 @@ export default function Venue() {
           <div>
 
           {[
-            { tag: 'Ceremony',  name: ceremonyVenueName,  addr: ceremonyVenueAddress,  delay: 0.25, mainImg: '/church_exterior.jpg',    smallImg: '/church_qr.png',     smallAlt: 'QR Code – Church Directions',     smallLabel: 'Scan for Directions' },
-            { tag: 'Reception', name: '5A\'s Private Place & Resort', addr: 'Tibagan San Miguel, Bulacan', delay: 0.35, mainImg: '/reception_exterior.jpg', smallImg: '/reception_qr.png', smallAlt: 'QR Code – Reception Directions', smallLabel: 'Scan for Directions' },
+            { 
+              tag: 'Ceremony',  
+              name: ceremonyVenueName,  
+              addr: ceremonyVenueAddress,  
+              delay: 0.25, 
+              mainImg: '/church_exterior.jpg',    
+              smallImg: '/church_qr.png',     
+              smallAlt: 'QR Code – Church Directions',     
+              smallLabel: 'Scan for Directions',
+              mapsUrl: `https://maps.google.com/?q=${encodeURIComponent(ceremonyVenueName + ', ' + ceremonyVenueAddress)}`
+            },
+            { 
+              tag: 'Reception', 
+              name: '5A\'s Private Place & Resort', 
+              addr: 'Tibagan San Miguel, Bulacan', 
+              delay: 0.35, 
+              mainImg: '/reception_exterior.jpg', 
+              smallImg: '/reception_qr.png', 
+              smallAlt: 'QR Code – Reception Directions', 
+              smallLabel: 'Scan for Directions',
+              mapsUrl: 'https://www.google.com/maps/place/5A+Private+Place+%26+Resort/@15.1325952,120.9937426,800m/data=!3m2!1e3!4b1!4m6!3m5!1s0x33971bc96d9eaf7b:0x7018b36d194d7709!8m2!3d15.13259!4d120.9963175!16s%2Fg%2F11s4t29tcp?entry=ttu&g_ep=EgoyMDI2MDkwMS4wIKXMDSoASAFQAw%3D%3D'
+            },
           ].map(v => (
             <motion.div key={v.tag} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: v.delay }} style={{ background: 'var(--cream)', border: '1px solid var(--blush)', padding: '1.5rem 2rem', marginBottom: '1rem', borderRadius: '4px' }}>
               <p style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '0.4rem' }}>{v.tag}</p>
@@ -60,17 +80,25 @@ export default function Venue() {
                 </div>
 
                 {/* Small image — QR code for church, interior photo for reception */}
-                <div style={{ 
-                  width: '100px', 
-                  flexShrink: 0, 
-                  border: '1px solid rgba(194, 177, 216, 0.4)', 
-                  padding: v.smallLabel ? '6px 6px 22px 6px' : '5px', 
-                  background: '#ffffff', 
-                  borderRadius: '2px', 
-                  boxShadow: '0 4px 12px rgba(100, 78, 136, 0.06)', 
-                  marginBottom: '0.4rem',
-                  position: 'relative'
-                }}>
+                <a 
+                  href={v.mapsUrl}
+                  target="_blank" 
+                  rel="noreferrer"
+                  title="Click to open Google Maps directions"
+                  style={{ 
+                    width: '100px', 
+                    flexShrink: 0, 
+                    border: '1px solid rgba(194, 177, 216, 0.4)', 
+                    padding: v.smallLabel ? '6px 6px 22px 6px' : '5px', 
+                    background: '#ffffff', 
+                    borderRadius: '2px', 
+                    boxShadow: '0 4px 12px rgba(100, 78, 136, 0.06)', 
+                    marginBottom: '0.4rem',
+                    position: 'relative',
+                    display: 'block',
+                    cursor: 'pointer'
+                  }}
+                >
                   <img 
                     src={v.smallImg} 
                     alt={v.smallAlt} 
@@ -92,16 +120,33 @@ export default function Venue() {
                       {v.smallLabel}
                     </div>
                   )}
-                </div>
+                </a>
               </div>
 
               <h3 style={{ fontFamily: 'var(--ff-serif)', fontSize: '1.4rem', fontWeight: 400, marginBottom: '0.4rem' }}>{v.name}</h3>
-              <p style={{ color: 'var(--text-soft)', fontSize: '0.87rem', lineHeight: 1.7 }}>{v.addr}</p>
+              <p style={{ color: 'var(--text-soft)', fontSize: '0.87rem', lineHeight: 1.7, marginBottom: '0.8rem' }}>{v.addr}</p>
+              
+              <a 
+                href={v.mapsUrl} 
+                target="_blank" 
+                rel="noreferrer"
+                style={{
+                  display: 'inline-block',
+                  fontSize: '0.68rem',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                  color: 'var(--taupe-dark)',
+                  textDecoration: 'underline'
+                }}
+              >
+                Open in Google Maps →
+              </a>
             </motion.div>
           ))}
 
 
-          <motion.a href={`https://maps.google.com/?q=${encodeURIComponent(ceremonyVenueAddress)}`} target="_blank" rel="noreferrer" initial={{ opacity: 0, y: 10 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.45 }} whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} style={{ display: 'inline-block', marginTop: '0.5rem', padding: '0.9rem 2.4rem', background: 'var(--noir)', color: 'white', fontFamily: 'var(--ff-sans)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 400, borderRadius: '1px', border: '1px solid var(--noir)' }}>Get Directions →</motion.a>
+          <motion.a href="https://www.google.com/maps/place/5A+Private+Place+%26+Resort/@15.1325952,120.9937426,800m/data=!3m2!1e3!4b1!4m6!3m5!1s0x33971bc96d9eaf7b:0x7018b36d194d7709!8m2!3d15.13259!4d120.9963175!16s%2Fg%2F11s4t29tcp?entry=ttu&g_ep=EgoyMDI2MDkwMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" initial={{ opacity: 0, y: 10 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.45 }} whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} style={{ display: 'inline-block', marginTop: '0.5rem', padding: '0.9rem 2.4rem', background: 'var(--noir)', color: 'white', fontFamily: 'var(--ff-sans)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 400, borderRadius: '1px', border: '1px solid var(--noir)' }}>Get Directions →</motion.a>
         </div>
 
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}>
