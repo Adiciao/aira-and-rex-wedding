@@ -8,7 +8,7 @@ export default function MusicPlayer({ play }) {
   const [visible, setVisible] = useState(false)
   const startedRef = useRef(false)
 
-  // Always in DOM so browser can preload. Play fires on envelope reveal click (user gesture).
+  // Always in DOM so browser can preload. Plays on envelope reveal click (user gesture).
   useEffect(() => {
     if (!play || startedRef.current) return
     startedRef.current = true
@@ -22,17 +22,14 @@ export default function MusicPlayer({ play }) {
     audio.play().then(() => {
       setVisible(true)
     }).catch(() => {
-      // Autoplay still blocked — still show button so user can tap
       setVisible(true)
     })
   }, [play])
 
-  // Sync mute
   useEffect(() => {
     if (audioRef.current) audioRef.current.muted = muted
   }, [muted])
 
-  // Sync volume
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume
   }, [volume])
@@ -55,31 +52,31 @@ export default function MusicPlayer({ play }) {
       {visible && (
         <div style={{
           position: 'fixed',
-          // Sit above the chat button: chat is bottom:2rem height:60px + gap
-          bottom: 'calc(2rem + 60px + 0.75rem)',
-          right: '2rem',
+          // Bottom-LEFT corner — away from the chat button (bottom-right)
+          bottom: '2rem',
+          left: '2rem',
           zIndex: 9999,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'flex-end',
+          alignItems: 'flex-start',
           gap: '0.5rem',
         }}>
-          {/* Volume slider panel — shown on hover/click */}
+          {/* Volume slider — shown on hover */}
           {showVolume && (
             <div style={{
-              background: 'linear-gradient(135deg, rgba(30,12,6,0.92), rgba(80,40,20,0.92))',
+              background: 'rgba(45, 31, 64, 0.93)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
               borderRadius: '1.2rem',
-              padding: '0.6rem 0.85rem',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)',
+              padding: '0.55rem 0.9rem',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.3), 0 0 0 1.5px rgba(158,135,189,0.4)',
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
               minWidth: '9rem',
             }}>
-              <span style={{ fontSize: '0.75rem', color: '#d4af69' }}>
-                {muted ? '🔇' : volume < 0.3 ? '🔈' : '🔊'}
+              <span style={{ fontSize: '0.8rem' }}>
+                {muted || volume === 0 ? '🔇' : volume < 0.35 ? '🔈' : '🔊'}
               </span>
               <input
                 type="range"
@@ -90,83 +87,53 @@ export default function MusicPlayer({ play }) {
                 onChange={e => {
                   const v = parseFloat(e.target.value)
                   setVolume(v)
-                  if (v === 0) setMuted(true)
-                  else setMuted(false)
+                  setMuted(v === 0)
                 }}
                 style={{
                   flex: 1,
-                  accentColor: '#d4af69',
+                  accentColor: '#b7a0d8',
                   cursor: 'pointer',
-                  height: '3px',
                 }}
               />
-              <span style={{ fontSize: '0.7rem', color: 'rgba(212,175,105,0.8)', minWidth: '2rem', textAlign: 'right' }}>
+              <span style={{ fontSize: '0.7rem', color: '#c2b1d8', minWidth: '2rem', textAlign: 'right' }}>
                 {muted ? '0%' : Math.round(volume * 100) + '%'}
               </span>
             </div>
           )}
 
-          {/* Music toggle button */}
+          {/* Music toggle button — matches palette (taupe purple) */}
           <button
             onClick={handleButtonClick}
             onMouseEnter={() => setShowVolume(true)}
             onMouseLeave={() => setShowVolume(false)}
-            title={muted ? 'Unmute music' : 'Mute music'}
+            title={muted ? 'Unmute music' : 'Mute / adjust volume'}
             style={{
-              width: '3.2rem',
-              height: '3.2rem',
+              width: 60,
+              height: 60,
               borderRadius: '50%',
               border: 'none',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'linear-gradient(135deg, rgba(30,12,6,0.88), rgba(80,40,20,0.88))',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              background: '#9e87bd',           // matches --taupe (same as chat btn)
+              boxShadow: '0 8px 30px rgba(0,0,0,0.18)',
+              transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              fontSize: '1.5rem',
             }}
-            onFocus={() => setShowVolume(true)}
-            onBlur={() => setShowVolume(false)}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'scale(1.08)'
+              setShowVolume(true)
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'scale(1)'
+              setShowVolume(false)
+            }}
           >
-            {muted ? <MutedIcon /> : <PlayingIcon />}
+            {muted || volume === 0 ? '🔇' : '🎵'}
           </button>
         </div>
       )}
     </>
-  )
-}
-
-function PlayingIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <style>{`
-        @keyframes noteBounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-3px); }
-        }
-        .note1 { animation: noteBounce 1.1s ease-in-out infinite; }
-        .note2 { animation: noteBounce 1.1s ease-in-out infinite 0.35s; }
-      `}</style>
-      <g className="note1">
-        <path d="M9 18V5l12-2v13" stroke="#d4af69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <circle cx="6" cy="18" r="3" fill="#d4af69"/>
-      </g>
-      <g className="note2">
-        <circle cx="18" cy="16" r="3" fill="#d4af69"/>
-      </g>
-    </svg>
-  )
-}
-
-function MutedIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M9 18V5l12-2v13" stroke="rgba(212,175,105,0.45)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <circle cx="6" cy="18" r="3" fill="rgba(212,175,105,0.45)"/>
-      <circle cx="18" cy="16" r="3" fill="rgba(212,175,105,0.45)"/>
-      <line x1="4" y1="4" x2="20" y2="20" stroke="#e07070" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
   )
 }
