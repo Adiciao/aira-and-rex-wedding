@@ -17,7 +17,7 @@ import Footer         from './components/Footer'
 
 export default function App() {
   const [showPetals, setShowPetals] = useState(false)
-  const [playMusic, setPlayMusic] = useState(true)
+  const [playMusic, setPlayMusic] = useState(false)
 
   useEffect(() => {
     // Detect touch / mobile — disable custom cursor
