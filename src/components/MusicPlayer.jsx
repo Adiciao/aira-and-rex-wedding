@@ -104,8 +104,14 @@ export default function MusicPlayer({ play }) {
           {/* Music toggle button — matches palette (taupe purple) */}
           <button
             onClick={handleButtonClick}
-            onMouseEnter={() => setShowVolume(true)}
-            onMouseLeave={() => setShowVolume(false)}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'scale(1.08)'
+              setShowVolume(true)
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'scale(1)'
+              setShowVolume(false)
+            }}
             title={muted ? 'Unmute music' : 'Mute / adjust volume'}
             style={{
               width: 60,
@@ -116,18 +122,10 @@ export default function MusicPlayer({ play }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: '#9e87bd',           // matches --taupe (same as chat btn)
+              background: '#9e87bd',
               boxShadow: '0 8px 30px rgba(0,0,0,0.18)',
               transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
               fontSize: '1.5rem',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'scale(1.08)'
-              setShowVolume(true)
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'scale(1)'
-              setShowVolume(false)
             }}
           >
             {muted || volume === 0 ? '🔇' : '🎵'}
