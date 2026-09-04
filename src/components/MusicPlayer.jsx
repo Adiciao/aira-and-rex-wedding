@@ -3,11 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 export default function MusicPlayer({ play }) {
   const audioRef = useRef(null)
   const [muted, setMuted] = useState(false)
+  const [volume, setVolume] = useState(0.45)
+  const [showVolume, setShowVolume] = useState(false)
   const [visible, setVisible] = useState(false)
   const startedRef = useRef(false)
 
-  // Always render <audio> so it preloads in background
-  // When `play` flips to true (after envelope reveal click), start immediately
+  // Always in DOM so browser can preload. Play fires on envelope reveal click (user gesture).
   useEffect(() => {
     if (!play || startedRef.current) return
     startedRef.current = true
@@ -15,32 +16,31 @@ export default function MusicPlayer({ play }) {
     const audio = audioRef.current
     if (!audio) return
 
-    audio.volume = 0.45
+    audio.volume = volume
     audio.muted = false
 
-    const tryPlay = () => {
-      audio.play().then(() => {
-        setVisible(true)
-      }).catch(() => {
-        // Autoplay still blocked — show button so user can tap to start
-        setVisible(true)
-      })
-    }
-
-    tryPlay()
+    audio.play().then(() => {
+      setVisible(true)
+    }).catch(() => {
+      // Autoplay still blocked — still show button so user can tap
+      setVisible(true)
+    })
   }, [play])
 
-  // Sync mute toggle
+  // Sync mute
   useEffect(() => {
     if (audioRef.current) audioRef.current.muted = muted
   }, [muted])
 
+  // Sync volume
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = volume
+  }, [volume])
+
   const handleButtonClick = () => {
     const audio = audioRef.current
     if (!audio) return
-
     if (audio.paused) {
-      // User tapped to start (autoplay was blocked)
       audio.play().catch(() => {})
       setMuted(false)
     } else {
@@ -50,44 +50,89 @@ export default function MusicPlayer({ play }) {
 
   return (
     <>
-      {/* Always in DOM so browser can preload */}
       <audio ref={audioRef} src="/palagi.mp3" loop preload="auto" />
 
-      {/* Floating button — only shows after envelope is done */}
       {visible && (
-        <button
-          onClick={handleButtonClick}
-          title={muted ? 'Unmute music' : 'Mute music'}
-          style={{
-            position: 'fixed',
-            bottom: '1.5rem',
-            right: '1.5rem',
-            zIndex: 9999,
-            width: '3.2rem',
-            height: '3.2rem',
-            borderRadius: '50%',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'linear-gradient(135deg, rgba(30,12,6,0.85), rgba(80,40,20,0.85))',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)',
-            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.transform = 'scale(1.12)'
-            e.currentTarget.style.boxShadow = '0 6px 28px rgba(0,0,0,0.55), 0 0 0 2px rgba(212,175,105,0.6)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.transform = 'scale(1)'
-            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)'
-          }}
-        >
-          {muted ? <MutedIcon /> : <PlayingIcon />}
-        </button>
+        <div style={{
+          position: 'fixed',
+          // Sit above the chat button: chat is bottom:2rem height:60px + gap
+          bottom: 'calc(2rem + 60px + 0.75rem)',
+          right: '2rem',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '0.5rem',
+        }}>
+          {/* Volume slider panel — shown on hover/click */}
+          {showVolume && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(30,12,6,0.92), rgba(80,40,20,0.92))',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              borderRadius: '1.2rem',
+              padding: '0.6rem 0.85rem',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              minWidth: '9rem',
+            }}>
+              <span style={{ fontSize: '0.75rem', color: '#d4af69' }}>
+                {muted ? '🔇' : volume < 0.3 ? '🔈' : '🔊'}
+              </span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={muted ? 0 : volume}
+                onChange={e => {
+                  const v = parseFloat(e.target.value)
+                  setVolume(v)
+                  if (v === 0) setMuted(true)
+                  else setMuted(false)
+                }}
+                style={{
+                  flex: 1,
+                  accentColor: '#d4af69',
+                  cursor: 'pointer',
+                  height: '3px',
+                }}
+              />
+              <span style={{ fontSize: '0.7rem', color: 'rgba(212,175,105,0.8)', minWidth: '2rem', textAlign: 'right' }}>
+                {muted ? '0%' : Math.round(volume * 100) + '%'}
+              </span>
+            </div>
+          )}
+
+          {/* Music toggle button */}
+          <button
+            onClick={handleButtonClick}
+            onMouseEnter={() => setShowVolume(true)}
+            onMouseLeave={() => setShowVolume(false)}
+            title={muted ? 'Unmute music' : 'Mute music'}
+            style={{
+              width: '3.2rem',
+              height: '3.2rem',
+              borderRadius: '50%',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, rgba(30,12,6,0.88), rgba(80,40,20,0.88))',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            }}
+            onFocus={() => setShowVolume(true)}
+            onBlur={() => setShowVolume(false)}
+          >
+            {muted ? <MutedIcon /> : <PlayingIcon />}
+          </button>
+        </div>
       )}
     </>
   )
