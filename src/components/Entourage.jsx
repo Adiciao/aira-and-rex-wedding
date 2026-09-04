@@ -288,10 +288,11 @@ export default function Entourage() {
 
         {/* Parents Section - Box Container */}
         <div style={{ 
-          border: '1px solid rgba(194, 177, 216, 0.45)', 
-          borderRadius: '16px', 
-          padding: '2.5rem clamp(1rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem)', 
-          background: 'rgba(255,255,255,0.12)', 
+          border: '1.5px solid rgba(201, 169, 110, 0.55)', 
+          borderRadius: '20px', 
+          padding: '3rem clamp(1rem, 3vw, 2.5rem) 2.5rem clamp(1rem, 3vw, 2.5rem)', 
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(245,238,252,0.2) 100%)', 
+          boxShadow: '0 12px 40px rgba(100, 78, 136, 0.08)',
           position: 'relative', 
           marginTop: '2rem',
           marginBottom: '3.5rem',
@@ -304,30 +305,47 @@ export default function Entourage() {
             left: '50%', 
             transform: 'translateX(-50%)', 
             background: 'var(--cream-light)', 
-            padding: '0 1.2rem', 
+            padding: '0 1.5rem', 
             fontFamily: 'var(--ff-serif)', 
             fontStyle: 'italic', 
-            fontSize: '1.35rem', 
-            color: 'var(--taupe-dark)',
-            whiteSpace: 'nowrap'
+            fontSize: '1.45rem', 
+            color: '#a38144',
+            fontWeight: 600,
+            whiteSpace: 'nowrap',
+            border: '1px solid rgba(201, 169, 110, 0.4)',
+            borderRadius: '20px',
+            boxShadow: '0 4px 12px rgba(100, 78, 136, 0.06)'
           }}>
-            Beloved Parents
+            👑 Beloved Parents
           </div>
 
           <div className="parents-desktop-grid" style={{ 
             maxWidth: '820px', 
-            margin: '0 auto'
+            margin: '0 auto',
+            gap: '1.5rem'
           }}>
-            <div>
-              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe)', marginBottom: '0.6rem', fontWeight: 700 }}>Parents of the Groom</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe-dark)', marginBottom: '1rem', fontWeight: 700, textAlign: 'center' }}>Parents of the Groom</h3>
               {ENTOURAGE.parents.groom.map((name, idx) => (
-                <ParentName key={name} name={name} index={idx} />
+                <ParentCard 
+                  key={name} 
+                  name={name} 
+                  role={idx === 0 ? 'Father of the Groom' : 'Mother of the Groom'} 
+                  index={idx} 
+                  inView={inView} 
+                />
               ))}
             </div>
-            <div>
-              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe)', marginBottom: '0.6rem', fontWeight: 700 }}>Parents of the Bride</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <h3 style={{ fontFamily: 'var(--ff-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.3rem', color: 'var(--taupe-dark)', marginBottom: '1rem', fontWeight: 700, textAlign: 'center' }}>Parents of the Bride</h3>
               {ENTOURAGE.parents.bride.map((name, idx) => (
-                <ParentName key={name} name={name} index={idx + 2} />
+                <ParentCard 
+                  key={name} 
+                  name={name} 
+                  role={idx === 0 ? 'Father of the Bride' : 'Mother of the Bride'} 
+                  index={idx + 2} 
+                  inView={inView} 
+                />
               ))}
             </div>
           </div>
@@ -796,27 +814,139 @@ export default function Entourage() {
   )
 }
 
-function ParentName({ name, index }) {
+function ParentCard({ name, role, index, inView }) {
   const [hovered, setHovered] = useState(false)
+
+  // Extract initial from name e.g. "Mr. Gregorio Parungao" -> "G"
+  const cleanName = name.replace(/^(Mr\.|Mrs\.|Ms\.|Dr\.)\s+/, '')
+  const initial = cleanName.charAt(0)
+
+  useEffect(() => {
+    if (inView) {
+      const timer = setTimeout(() => {
+        if (window.weddingAudioCtx && window.weddingAudioCtx.state === 'running') {
+          playWeddingNote(index)
+        }
+      }, (0.15 + index * 0.08) * 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [inView])
+
+  const handleMouseEnter = () => {
+    setHovered(true)
+    playWeddingNote(index)
+  }
+
   return (
-    <motion.p
-      onMouseEnter={() => {
-        setHovered(true)
-        playWeddingNote(index)
+    <motion.div
+      initial={{ opacity: 0, y: 30, scale: 0.94 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      whileHover={{ scale: 1.03, y: -4, zIndex: 5 }}
+      transition={{ 
+        type: 'spring', 
+        stiffness: 120, 
+        damping: 14, 
+        delay: 0.15 + index * 0.08 
       }}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily: 'var(--ff-sans)',
-        fontWeight: 500,
-        fontSize: '0.92rem',
-        color: hovered ? '#c9a96e' : 'var(--text)',
-        margin: '0.35rem 0',
-        transition: 'color 0.25s ease',
-        cursor: 'default'
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1.2rem',
+        padding: '1.1rem 1.5rem',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 238, 252, 0.96) 100%)',
+        border: `1.5px solid ${hovered ? '#c9a96e' : 'rgba(201, 169, 110, 0.55)'}`,
+        borderRadius: '14px',
+        position: 'relative',
+        boxShadow: hovered 
+          ? '0 14px 35px rgba(100, 78, 136, 0.18), 0 0 20px rgba(201, 169, 110, 0.35)' 
+          : '0 8px 24px rgba(100, 78, 136, 0.08)',
+        width: '100%',
+        maxWidth: '360px',
+        margin: '0 auto',
+        transition: 'border 0.3s ease, box-shadow 0.3s ease',
       }}
     >
-      {name}
-    </motion.p>
+      {/* Inner double border outline in rich gold */}
+      <div style={{
+        position: 'absolute',
+        inset: '4px',
+        border: '1px solid rgba(201, 169, 110, 0.35)',
+        borderRadius: '10px',
+        pointerEvents: 'none'
+      }} />
+
+      {/* Top Gold Foliage Ribbon */}
+      <div style={{ 
+        position: 'absolute', 
+        top: '4px', 
+        left: '14px', 
+        right: '14px', 
+        height: '6px', 
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='6' viewBox='0 0 60 6'%3E%3Cpath d='M 0 3 Q 15 1, 30 3 Q 45 5, 60 3' fill='none' stroke='%23c9a96e' stroke-width='0.8'/%3E%3Ccircle cx='15' cy='2.5' r='1.5' fill='%23c9a96e'/%3E%3Ccircle cx='45' cy='3.5' r='1.5' fill='%23c9a96e'/%3E%3C/svg%3E")`, 
+        backgroundRepeat: 'repeat-x', 
+        opacity: 0.85 
+      }} />
+
+      {/* Royal Crown & Circle Initial Badge */}
+      <div style={{ position: 'relative', width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        {/* Crown Icon floating above badge */}
+        <div style={{ position: 'absolute', top: '-7px', left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+          <svg width="14" height="10" viewBox="0 0 16 12" fill="none">
+            <path d="M1 11L3 4L8 8L13 4L15 11H1Z" fill="#c9a96e" stroke="#a38144" strokeWidth="0.8" />
+            <circle cx="3" cy="3" r="1" fill="#c9a96e" />
+            <circle cx="8" cy="7" r="1.2" fill="#c9a96e" />
+            <circle cx="13" cy="3" r="1" fill="#c9a96e" />
+          </svg>
+        </div>
+
+        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="21" fill="none" stroke="#c9a96e" strokeWidth="0.8" strokeDasharray="3,2" />
+          <circle cx="24" cy="24" r="18" fill="rgba(245, 238, 252, 0.8)" stroke="#c9a96e" strokeWidth="1.2" />
+        </svg>
+
+        <span style={{ 
+          fontFamily: 'var(--ff-serif)', 
+          fontStyle: 'italic', 
+          fontSize: '1.25rem', 
+          fontWeight: 700, 
+          color: '#a38144', 
+          position: 'relative', 
+          zIndex: 1, 
+          top: '1px' 
+        }}>
+          {initial}
+        </span>
+      </div>
+
+      {/* Name and Role text */}
+      <div style={{ textAlign: 'left', position: 'relative', zIndex: 1 }}>
+        <p style={{ 
+          fontFamily: 'var(--ff-serif)', 
+          fontWeight: 700, 
+          fontSize: '1.08rem', 
+          color: 'var(--noir)', 
+          marginBottom: '0.15rem',
+          letterSpacing: '0.01em' 
+        }}>
+          {name}
+        </p>
+        <p style={{ 
+          fontFamily: 'var(--ff-sans)', 
+          fontSize: '0.72rem', 
+          color: 'var(--taupe-dark)', 
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          fontWeight: 600,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px'
+        }}>
+          <span>👑</span> {role}
+        </p>
+      </div>
+    </motion.div>
   )
 }
 
