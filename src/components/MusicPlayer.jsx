@@ -4,69 +4,95 @@ export default function MusicPlayer({ play }) {
   const audioRef = useRef(null)
   const [muted, setMuted] = useState(false)
   const [visible, setVisible] = useState(false)
+  const startedRef = useRef(false)
 
-  // Start / stop music based on `play` prop
+  // Always render <audio> so it preloads in background
+  // When `play` flips to true (after envelope reveal click), start immediately
   useEffect(() => {
-    if (!audioRef.current) return
-    if (play) {
-      audioRef.current.volume = 0.45
-      audioRef.current.play().catch(() => {
-        // Autoplay blocked — show button so user can enable manually
+    if (!play || startedRef.current) return
+    startedRef.current = true
+
+    const audio = audioRef.current
+    if (!audio) return
+
+    audio.volume = 0.45
+    audio.muted = false
+
+    const tryPlay = () => {
+      audio.play().then(() => {
+        setVisible(true)
+      }).catch(() => {
+        // Autoplay still blocked — show button so user can tap to start
+        setVisible(true)
       })
-      setVisible(true)
     }
+
+    tryPlay()
   }, [play])
 
-  // Sync mute state
+  // Sync mute toggle
   useEffect(() => {
     if (audioRef.current) audioRef.current.muted = muted
   }, [muted])
 
-  if (!visible) return null
+  const handleButtonClick = () => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (audio.paused) {
+      // User tapped to start (autoplay was blocked)
+      audio.play().catch(() => {})
+      setMuted(false)
+    } else {
+      setMuted(m => !m)
+    }
+  }
 
   return (
     <>
+      {/* Always in DOM so browser can preload */}
       <audio ref={audioRef} src="/palagi.mp3" loop preload="auto" />
 
-      {/* Floating music button */}
-      <button
-        onClick={() => setMuted(m => !m)}
-        title={muted ? 'Unmute music' : 'Mute music'}
-        style={{
-          position: 'fixed',
-          bottom: '1.5rem',
-          right: '1.5rem',
-          zIndex: 9999,
-          width: '3.2rem',
-          height: '3.2rem',
-          borderRadius: '50%',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(135deg, rgba(30,12,6,0.85), rgba(80,40,20,0.85))',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.transform = 'scale(1.12)'
-          e.currentTarget.style.boxShadow = '0 6px 28px rgba(0,0,0,0.55), 0 0 0 2px rgba(212,175,105,0.6)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.transform = 'scale(1)'
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)'
-        }}
-      >
-        {muted ? <MutedIcon /> : <PlayingIcon />}
-      </button>
+      {/* Floating button — only shows after envelope is done */}
+      {visible && (
+        <button
+          onClick={handleButtonClick}
+          title={muted ? 'Unmute music' : 'Mute music'}
+          style={{
+            position: 'fixed',
+            bottom: '1.5rem',
+            right: '1.5rem',
+            zIndex: 9999,
+            width: '3.2rem',
+            height: '3.2rem',
+            borderRadius: '50%',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, rgba(30,12,6,0.85), rgba(80,40,20,0.85))',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'scale(1.12)'
+            e.currentTarget.style.boxShadow = '0 6px 28px rgba(0,0,0,0.55), 0 0 0 2px rgba(212,175,105,0.6)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'scale(1)'
+            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(212,175,105,0.35)'
+          }}
+        >
+          {muted ? <MutedIcon /> : <PlayingIcon />}
+        </button>
+      )}
     </>
   )
 }
 
-/* Animated music note icon */
 function PlayingIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
