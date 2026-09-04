@@ -52,15 +52,27 @@ export default function EnvelopeReveal({ onComplete, onFirstClick }) {
   const [isPaperFlownOut, setIsPaperFlownOut] = useState(false)
   const [photos, setPhotos] = useState([])
 
-  // Disable body scroll while envelope reveal is active
+  // Disable all scrolling (touch, wheel, body scroll) while envelope mode is active
   useEffect(() => {
     if (step !== 'completed') {
       document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
+      document.documentElement.style.overflow = 'hidden'
+
+      const preventScroll = (e) => {
+        if (e.cancelable) {
+          e.preventDefault()
+        }
+      }
+
+      window.addEventListener('touchmove', preventScroll, { passive: false })
+      window.addEventListener('wheel', preventScroll, { passive: false })
+
+      return () => {
+        document.body.style.overflow = ''
+        document.documentElement.style.overflow = ''
+        window.removeEventListener('touchmove', preventScroll)
+        window.removeEventListener('wheel', preventScroll)
+      }
     }
   }, [step])
 
