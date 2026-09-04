@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti'
 const RAW_PHOTOS = [
   { img: '/couple_photo.jpg', caption: 'Rex & Aira' },
   { img: '/gallery_ceremony.jpg', caption: 'San Miguel Church' },
-  { img: '/church_exterior.jpg', caption: 'Holy Matrimony' },
+  { img: '/church_exterior.jpg', caption: 'Ceremony' },
   { img: '/gallery_reception.jpg', caption: 'Celebration' },
   { img: '/gallery_rings.jpg', caption: 'The Details' },
   { img: '/reception_exterior.jpg', caption: '5A\'s Resort' },

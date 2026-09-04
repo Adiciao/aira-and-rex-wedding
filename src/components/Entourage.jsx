@@ -68,7 +68,7 @@ const ENTOURAGE = {
     { name: 'Reymart Bajande', role: 'Groomsman', initial: 'R' }
   ],
   bridesmaids: [
-    { name: 'Trisha Dizon', role: 'Bridesmaid', initial: 'T' },
+    { name: 'Jilian Leigh Linao', role: 'Bridesmaid', initial: 'J' },
     { name: 'Rachelle Parungao', role: 'Bridesmaid', initial: 'R' },
     { name: 'Ruscel Joy Dizon', role: 'Bridesmaid', initial: 'R' }
   ],
@@ -95,7 +95,7 @@ const ENTOURAGE = {
         },
         {
           left: { name: 'John Louie Dizon', role: 'Veil Sponsor', initial: 'J' },
-          right: { name: 'Jilian Leigh Linao', role: 'Veil Sponsor', initial: 'J' }
+          right: { name: 'Jamelai Arcega', role: 'Veil Sponsor', initial: 'J' }
         }
       ]
     },

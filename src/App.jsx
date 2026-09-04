@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import PetalCanvas    from './components/PetalCanvas'
 import LiveChat       from './components/LiveChat'
 import EnvelopeReveal from './components/EnvelopeReveal'
+import MusicPlayer    from './components/MusicPlayer'
 import Hero           from './components/Hero'
 import Countdown      from './components/Countdown'
 import OurStory       from './components/OurStory'
@@ -31,6 +32,7 @@ export default function App() {
       {/* Global overlays (Petals start popping when envelope sequence finishes) */}
       <PetalCanvas active={showPetals} />
       <LiveChat />
+      <MusicPlayer play={showPetals} />
 
       {/* Existing Invitation Page (Preserved 100%) */}
       <main>

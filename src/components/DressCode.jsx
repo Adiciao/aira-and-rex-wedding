@@ -140,7 +140,7 @@ export default function DressCode() {
                 Guest Outfit Color Palette
               </h3>
               <p style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, marginBottom: '2rem' }}>
-                Please wear formal or semi-formal attire matching our color palette
+                Please wear semi-formal attire matching our color palette
               </p>
             </div>
             {/* Guest Palette illustration image */}
