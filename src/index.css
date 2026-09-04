@@ -191,15 +191,28 @@ body.admin-mode textarea {
     padding: 1.5rem !important;
   }
 
+  .music-widget-container,
   .live-chat-container {
-    bottom: 1rem !important;
-    right: 1rem !important;
+    bottom: max(1.25rem, env(safe-area-inset-bottom, 1.25rem)) !important;
+  }
+
+  .music-widget-container {
+    left: 1.25rem !important;
+  }
+
+  .live-chat-container {
+    right: 1.25rem !important;
+  }
+
+  .floating-widget-btn {
+    width: 56px !important;
+    height: 56px !important;
   }
 
   .live-chat-window {
     bottom: 72px !important;
     right: 0 !important;
-    width: calc(100vw - 2rem) !important;
+    width: calc(100vw - 2.5rem) !important;
     max-width: 330px !important;
     height: 420px !important;
   }

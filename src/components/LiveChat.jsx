@@ -125,6 +125,7 @@ export default function LiveChat() {
     <div className="live-chat-container" style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999, fontFamily: 'var(--ff-sans)' }}>
       {/* Floating Toggle Button */}
       <button
+        className="floating-widget-btn"
         onClick={() => setIsOpen(!isOpen)}
         style={{
           width: 60, height: 60,
