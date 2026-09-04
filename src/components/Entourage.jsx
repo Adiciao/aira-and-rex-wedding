@@ -316,7 +316,7 @@ export default function Entourage() {
             borderRadius: '20px',
             boxShadow: '0 4px 12px rgba(100, 78, 136, 0.06)'
           }}>
-            👑 Beloved Parents
+            Beloved Parents
           </div>
 
           <div className="parents-desktop-grid" style={{ 
@@ -889,32 +889,22 @@ function ParentCard({ name, role, index, inView }) {
         opacity: 0.85 
       }} />
 
-      {/* Royal Crown & Circle Initial Badge */}
-      <div style={{ position: 'relative', width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-        {/* Crown Icon floating above badge */}
-        <div style={{ position: 'absolute', top: '-7px', left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
-          <svg width="14" height="10" viewBox="0 0 16 12" fill="none">
-            <path d="M1 11L3 4L8 8L13 4L15 11H1Z" fill="#c9a96e" stroke="#a38144" strokeWidth="0.8" />
-            <circle cx="3" cy="3" r="1" fill="#c9a96e" />
-            <circle cx="8" cy="7" r="1.2" fill="#c9a96e" />
-            <circle cx="13" cy="3" r="1" fill="#c9a96e" />
-          </svg>
-        </div>
-
-        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 48 48">
-          <circle cx="24" cy="24" r="21" fill="none" stroke="#c9a96e" strokeWidth="0.8" strokeDasharray="3,2" />
-          <circle cx="24" cy="24" r="18" fill="rgba(245, 238, 252, 0.8)" stroke="#c9a96e" strokeWidth="1.2" />
+      {/* Circle Initial Badge */}
+      <div style={{ position: 'relative', width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="19" fill="none" stroke="#c9a96e" strokeWidth="0.8" strokeDasharray="3,2" />
+          <circle cx="22" cy="22" r="16" fill="rgba(245, 238, 252, 0.8)" stroke="#c9a96e" strokeWidth="1.2" />
         </svg>
 
         <span style={{ 
           fontFamily: 'var(--ff-serif)', 
           fontStyle: 'italic', 
-          fontSize: '1.25rem', 
+          fontSize: '1.2rem', 
           fontWeight: 700, 
           color: '#a38144', 
           position: 'relative', 
           zIndex: 1, 
-          top: '1px' 
+          top: '0px' 
         }}>
           {initial}
         </span>
@@ -939,11 +929,8 @@ function ParentCard({ name, role, index, inView }) {
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           fontWeight: 600,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px'
         }}>
-          <span>👑</span> {role}
+          {role}
         </p>
       </div>
     </motion.div>
