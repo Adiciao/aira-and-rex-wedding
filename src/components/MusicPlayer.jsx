@@ -6,7 +6,7 @@ export default function MusicPlayer({ play }) {
   const [muted, setMuted] = useState(false)
   const [volume, setVolume] = useState(0.45)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [isLiked, setIsLiked] = useState(true)
@@ -23,24 +23,29 @@ export default function MusicPlayer({ play }) {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Auto-play when user clicks envelope (user gesture requirement)
+  // Auto-play immediately when link opens
   useEffect(() => {
-    if (!play || startedRef.current) return
-    startedRef.current = true
-
     const audio = audioRef.current
     if (!audio) return
 
     audio.volume = volume
-    audio.muted = false
 
-    audio.play().then(() => {
-      setIsPlaying(true)
-      setVisible(true)
-    }).catch(() => {
-      setVisible(true)
-    })
-  }, [play])
+    const tryPlay = () => {
+      audio.play().then(() => {
+        setIsPlaying(true)
+      }).catch(() => {
+        // Browser autoplay policy fallback: start on very first click/tap anywhere
+        const startOnInteraction = () => {
+          audio.play().then(() => setIsPlaying(true)).catch(() => {})
+        }
+        window.addEventListener('click', startOnInteraction, { once: true })
+        window.addEventListener('touchstart', startOnInteraction, { once: true })
+        window.addEventListener('keydown', startOnInteraction, { once: true })
+      })
+    }
+
+    tryPlay()
+  }, [])
 
   // Audio event listeners for timeline & duration
   useEffect(() => {
