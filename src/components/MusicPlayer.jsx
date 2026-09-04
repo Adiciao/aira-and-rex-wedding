@@ -153,7 +153,7 @@ export default function MusicPlayer({ play }) {
                     <button
                       onClick={toggleMute}
                       style={{
-                        background: 'none', border: 'none', cursor: 'pointer',
+                        background: 'none', cursor: 'pointer',
                         fontSize: '0.75rem', color: 'var(--taupe)', fontWeight: 600,
                         padding: '0.2rem 0.5rem',
                         borderRadius: 6,
