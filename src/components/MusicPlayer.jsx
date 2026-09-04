@@ -93,7 +93,7 @@ export default function MusicPlayer({ play }) {
                     Now Playing
                   </p>
                   <p style={{ fontSize: '0.7rem', opacity: 0.8, letterSpacing: '0.04em' }}>
-                    Palagi — TJ Monterde
+                    Palagi — Violin Cover
                   </p>
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function MusicPlayer({ play }) {
                     <MusicNoteIcon size={28} color="white" />
                   </div>
                   <p style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text)', lineHeight: 1.3 }}>
-                    Palagi (Wedding Version)
+                    Palagi (Violin Cover)
                   </p>
                   <p style={{ fontSize: '0.78rem', color: 'var(--text-soft)', marginTop: '0.2rem' }}>
                     TJ Monterde

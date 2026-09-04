@@ -17,6 +17,7 @@ import Footer         from './components/Footer'
 
 export default function App() {
   const [showPetals, setShowPetals] = useState(false)
+  const [playMusic, setPlayMusic] = useState(false)
 
   useEffect(() => {
     // Detect touch / mobile — disable custom cursor
@@ -27,12 +28,15 @@ export default function App() {
   return (
     <>
       {/* Interactive Birthday Envelope Reveal Overlay */}
-      <EnvelopeReveal onComplete={() => setShowPetals(true)} />
+      <EnvelopeReveal
+        onFirstClick={() => setPlayMusic(true)}
+        onComplete={() => setShowPetals(true)}
+      />
 
       {/* Global overlays (Petals start popping when envelope sequence finishes) */}
       <PetalCanvas active={showPetals} />
       <LiveChat />
-      <MusicPlayer play={showPetals} />
+      <MusicPlayer play={playMusic} />
 
       {/* Existing Invitation Page (Preserved 100%) */}
       <main>

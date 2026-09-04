@@ -45,7 +45,7 @@ function generateRandomizedPhotos() {
   })
 }
 
-export default function EnvelopeReveal({ onComplete }) {
+export default function EnvelopeReveal({ onComplete, onFirstClick }) {
   const [step, setStep] = useState('closed') // 'closed' | 'popped' | 'unfolded' | 'disappearing' | 'completed'
   const [isShaking, setIsShaking] = useState(false)
   const [isFlapOpen, setIsFlapOpen] = useState(false)
@@ -91,6 +91,7 @@ export default function EnvelopeReveal({ onComplete }) {
 
     if (step === 'closed') {
       // CLICK 1: Generate fresh random positions -> Shake -> Flap Opens + Birthday Popper Confetti + Photos Burst
+      if (onFirstClick) onFirstClick()  // start music on first user interaction
       const randomized = generateRandomizedPhotos()
       setPhotos(randomized)
       setIsShaking(true)
