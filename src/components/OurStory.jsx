@@ -82,7 +82,7 @@ export default function OurStory() {
                   boxShadow: activeTab === 'bride' ? '0 4px 15px rgba(158, 135, 189, 0.3)' : 'none',
                 }}
               >
-                🌸 Story of the Bride (Aira)
+                👰 Story of the Bride (Aira)
               </button>
               <button
                 className="story-tab-btn"
