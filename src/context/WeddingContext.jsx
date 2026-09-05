@@ -56,10 +56,55 @@ export const DEFAULTS = {
   location: 'San Miguel, Bulacan',
   heroSubtitle: 'October 17, 2026  ·  San Miguel, Bulacan',
 
-  story: [
-    "It began in the familiar streets of San Miguel, Bulacan — a small town where everyone knows everyone, and yet somehow, Rex and Aira found each other as if for the very first time.",
-    "Through fiestas and quiet evenings, through laughter and every ordinary Tuesday — they built something extraordinary. Two hearts from the same place, choosing the same forever.",
-    "Now, surrounded by the warmth of their hometown and the people they love most, they invite you to be part of the most beautiful chapter yet.",
+  brideStory: [
+    "Year 2019, 1st year college ako second semester marami akong nakakausap na lalaki nung time na yon kasi galing ako sa break up and I want to chill and don't cry anymore. And there's one guy got my attention nagmessage siya sakin and said hi at nireplyan ko ng hello and asking me after if tumatanggap daw ba ako ng compliment sa ibang tao. At ang sabi ko oo naman, bakit? Hahaha. There's a feeling na he knows me, but I don't know him.",
+    "Then dun na kami nag start mag usap until na kwento na niya sakin nung elementary daw kami nakikita na daw niya ako at nung Christmas party namin madalas ako sinasagala at nakita niya akong nakacostume na Santa claus, ang cute cute ko daw. At syempre nung time na yun hindi ako naniniwala pabebe ang atake haha artii. By the way he is grade 5 that time and I was grade 3, then we decided to see each other in person at sinundo niya ako sa oriente galing ako sa school pagkakatanda ko mag weekends na nun kaya uuwi ako samin. So ayun na nga sinundo niya ako sa oriente at dumaan kami sa isang isawan sa Batasan bata nag date agad haha.",
+    "After namin magmeryenda umuwi na din kami tapos binaba lang niya ako sa tapat ng bahay namin sa labas ng kalsada. At maraming araw ang lumipas naging maayos naman ang lahat at naging okay kami. Then March 24, 2019 fiesta samin nun at the same time kasal ni ate Annie. Nagka ayaan kaming dalawa magperya that time at sumakay ng octopus na rides, dun kami nagkaroon ng first pic. And someone saw us, isa sa mga kaibigan ni ate Almira at nagsumbong haha. After gumala sa peryahan inaya ko siya sa bahay para kumain at pinakilala ko siyang kaibigan ko sa family ko haha.",
+    "At ayun nagtuloy tuloy na ang pag usap namin hanggang sa maging official na siyang nanligaw sakin na umabot ng halos 1 taon. At nung official na naging kami November 16, 2019 which is that day ay sinama niya ako sa family reunion nila. He asked me kung pwede na daw ba niya ako maging girlfriend and I said yes. Through the years maraming pagsubok na dumating samin, pagiging toyoin ko ay isang reason din haha until now na mag 7 years na kami going strong pa din hehe."
+  ],
+
+  groomStory: [
+    "2019 nung una kameng nagka kilala nag lakas loob na mag chat sa kanya. Nasa 1st year college na sya nung habang ako kaka graduate ko lang at nag aapply palang sa trabaho. Nag approach ako sa kanya ng hi and she reply hello and the story goes on hanggang sa officially nanligaw nako sa kanya at after almost 1 year during the reunion ng family namin she gave me her big yes!.",
+    "Kagaya ng ibang love story di kame dumaan sa shortcut nag talo, may mga di pag kakaintindihan at maraming di napagkakasunduan. Pero ang pag ibig namin sa isat isa at mas matimbang sa kahit ano man pag subok.",
+    "Nagstart kame ng hi end up as hi mahal, tinanong ko sya ng nag aaccept kaba ng compliment sa stranger at we end up at saying I Do to each other. Napakahiwaga ng pag ibig at masasabi ko na ikaw na ang mamahalin ko hanggang sa huli."
+  ],
+
+  acrosticPoem: [
+    {
+      letter: 'A',
+      lines: [
+        "Akong isang manlalakbay na walang kahihinatnan.",
+        "At ikaw ang destinansyon na matagal ko nang nais paroonan.",
+        "Ang makilala ka ay batid ng langit."
+      ]
+    },
+    {
+      letter: 'I',
+      lines: [
+        "Ikaw ang nais kong makapiling.",
+        "Kahit na ang bukas ay aking huli nang pag gising.",
+        "Wala nakong gustong masilayan sa umaga.",
+        "Kundi ang mukha mo aking asawa."
+      ]
+    },
+    {
+      letter: 'R',
+      lines: [
+        "Rason kung bakit ako'y umiral",
+        "Malamang ay dahil sayo aking mahal",
+        "Hanggang sa katapusan ng ating kwento.",
+        "Mananatiling ikaw ang simula at katapusan nito."
+      ]
+    },
+    {
+      letter: 'A',
+      lines: [
+        "Ating litrato kaylan man ay di kukupas.",
+        "Mananatiling nandito ngayon at bukas.",
+        "Kwento nati'y hindi mag wawakas.",
+        "Patuloy kong uulit utilin hanggang bukas."
+      ]
+    }
   ],
 
   schedule: [
