@@ -24,99 +24,104 @@ export default function OurStory() {
 
   return (
     <section id="story" ref={ref} style={{ padding: 'clamp(5rem, 10vw, 9rem) 2rem', background: 'var(--cream-light)', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         
-        {/* Main Grid: Story Text & Couple Photo */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(3rem, 6vw, 6rem)', alignItems: 'flex-start', marginBottom: '5rem' }}>
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '0.8rem' }}>Our Love Story</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4.2rem)', fontWeight: 300, lineHeight: 1.1, color: 'var(--text)' }}>
+            How it all <span style={{ color: 'var(--taupe)' }}>began</span>
+          </motion.h2>
+        </div>
 
-          <div>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--taupe)', marginBottom: '0.8rem' }}>Our Love Story</motion.p>
-            <motion.h2 initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 300, lineHeight: 1.05, color: 'var(--text)', marginBottom: '2rem' }}>
-              How it all<br /><span style={{ color: 'var(--taupe)' }}>began</span>
-            </motion.h2>
-
-            {/* Story Perspective Switcher Tabs */}
-            <div className="story-tabs-container" style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-              <button
-                className="story-tab-btn"
-                onClick={() => setActiveTab('bride')}
-                style={{
-                  padding: '0.65rem 1.4rem',
-                  borderRadius: '25px',
-                  border: activeTab === 'bride' ? '1.5px solid var(--taupe)' : '1px solid var(--blush)',
-                  background: activeTab === 'bride' ? 'var(--taupe)' : 'var(--cream)',
-                  color: activeTab === 'bride' ? 'white' : 'var(--text)',
-                  fontFamily: 'var(--ff-serif)',
-                  fontSize: '0.95rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: activeTab === 'bride' ? '0 4px 15px rgba(158, 135, 189, 0.3)' : 'none',
-                }}
-              >
-                🌸 Story of the Bride (Aira)
-              </button>
-              <button
-                className="story-tab-btn"
-                onClick={() => setActiveTab('groom')}
-                style={{
-                  padding: '0.65rem 1.4rem',
-                  borderRadius: '25px',
-                  border: activeTab === 'groom' ? '1.5px solid var(--taupe)' : '1px solid var(--blush)',
-                  background: activeTab === 'groom' ? 'var(--taupe)' : 'var(--cream)',
-                  color: activeTab === 'groom' ? 'white' : 'var(--text)',
-                  fontFamily: 'var(--ff-serif)',
-                  fontSize: '0.95rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: activeTab === 'groom' ? '0 4px 15px rgba(158, 135, 189, 0.3)' : 'none',
-                }}
-              >
-                🤵 Story of the Groom (Rex)
-              </button>
+        {/* Couple Image & Date Badge - Directly BELOW "How it all began" */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }} 
+          animate={inView ? { opacity: 1, y: 0 } : {}} 
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }} 
+          style={{ position: 'relative', maxWidth: 820, margin: '0 auto 4.5rem auto' }}
+        >
+          <TiltCard>
+            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', boxShadow: '0 30px 80px rgba(0,0,0,0.15)', border: '1px solid var(--blush)' }}>
+              <motion.img src={images?.couple || '/couple_photo.jpg'} alt={`${groom} and ${bride}`} style={{ width: '100%', height: 'clamp(360px, 58vh, 580px)', objectFit: 'cover', display: 'block', y: imageY }} />
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to top, rgba(15,13,11,0.6), transparent)' }} />
             </div>
+          </TiltCard>
 
-            {/* Animated Story Content */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.4 }}
-              >
-                {currentStory.map((p, i) => (
-                  <p key={i} className="story-paragraph-text" style={{ color: 'var(--text-soft)', fontSize: '0.95rem', lineHeight: 1.95, marginBottom: '1.2rem', textAlign: 'justify' }}>
-                    {p}
-                  </p>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+          <motion.div className="story-date-badge" initial={{ opacity: 0, scale: 0.7, rotate: -10 }} animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}} transition={{ duration: 0.8, delay: 0.9, ease: [0.34, 1.56, 0.64, 1] }} style={{ position: 'absolute', bottom: '-1.8rem', right: '1.8rem', background: 'var(--cream-light)', border: '1px solid var(--blush)', padding: '1.2rem 1.6rem', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.1)', zIndex: 2 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--ff-serif)', fontSize: '2.8rem', fontWeight: 300, lineHeight: 1 }}>{day}</span>
+            <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--taupe)', marginTop: '0.2rem' }}>{month} {year}</span>
+          </motion.div>
 
-            <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={inView ? { opacity: 1, scaleX: 1 } : {}} transition={{ duration: 1, delay: 0.7 }} style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--blush)', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.8rem', fontWeight: 300, color: 'var(--taupe)' }}>{groom || 'Rex'} &amp; {bride || 'Aira'}</span>
-              <div style={{ width: 40, height: 1, background: 'var(--champagne)' }} />
-              <span style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-soft)', fontWeight: 300 }}>{year}</span>
-            </motion.div>
+          <div style={{ position: 'absolute', top: '-12px', left: '-12px', width: 60, height: 60, borderTop: '1px solid var(--champagne)', borderLeft: '1px solid var(--champagne)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: 60, height: 60, borderBottom: '1px solid var(--champagne)', borderRight: '1px solid var(--champagne)', pointerEvents: 'none' }} />
+        </motion.div>
+
+        {/* Story Text Container */}
+        <div style={{ maxWidth: 860, margin: '0 auto 5rem auto' }}>
+          {/* Story Perspective Switcher Tabs */}
+          <div className="story-tabs-container" style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+            <button
+              className="story-tab-btn"
+              onClick={() => setActiveTab('bride')}
+              style={{
+                padding: '0.75rem 1.6rem',
+                borderRadius: '30px',
+                border: activeTab === 'bride' ? '1.5px solid var(--taupe)' : '1px solid var(--blush)',
+                background: activeTab === 'bride' ? 'var(--taupe)' : 'var(--cream)',
+                color: activeTab === 'bride' ? 'white' : 'var(--text)',
+                fontFamily: 'var(--ff-serif)',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: activeTab === 'bride' ? '0 4px 15px rgba(158, 135, 189, 0.3)' : 'none',
+              }}
+            >
+              🌸 Story of the Bride (Aira)
+            </button>
+            <button
+              className="story-tab-btn"
+              onClick={() => setActiveTab('groom')}
+              style={{
+                padding: '0.75rem 1.6rem',
+                borderRadius: '30px',
+                border: activeTab === 'groom' ? '1.5px solid var(--taupe)' : '1px solid var(--blush)',
+                background: activeTab === 'groom' ? 'var(--taupe)' : 'var(--cream)',
+                color: activeTab === 'groom' ? 'white' : 'var(--text)',
+                fontFamily: 'var(--ff-serif)',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: activeTab === 'groom' ? '0 4px 15px rgba(158, 135, 189, 0.3)' : 'none',
+              }}
+            >
+              🤵 Story of the Groom (Rex)
+            </button>
           </div>
 
-          {/* Couple Image & Date Badge */}
-          <motion.div initial={{ opacity: 0, x: 60 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }} style={{ position: 'relative', marginTop: '1rem' }}>
-            <TiltCard>
-              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', boxShadow: '0 30px 80px rgba(0,0,0,0.15)', border: '1px solid var(--blush)' }}>
-                <motion.img src={images?.couple || '/couple_photo.jpg'} alt={`${groom} and ${bride}`} style={{ width: '100%', height: 'clamp(420px, 62vh, 640px)', objectFit: 'cover', display: 'block', y: imageY }} />
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to top, rgba(15,13,11,0.6), transparent)' }} />
-              </div>
-            </TiltCard>
-
-            <motion.div className="story-date-badge" initial={{ opacity: 0, scale: 0.7, rotate: -10 }} animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}} transition={{ duration: 0.8, delay: 0.9, ease: [0.34, 1.56, 0.64, 1] }} style={{ position: 'absolute', bottom: '-2rem', left: '-2.5rem', background: 'var(--cream-light)', border: '1px solid var(--blush)', padding: '1.4rem 1.8rem', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.1)', zIndex: 2 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--ff-serif)', fontSize: '3rem', fontWeight: 300, lineHeight: 1 }}>{day}</span>
-              <span style={{ display: 'block', fontFamily: 'var(--ff-sans)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--taupe)', marginTop: '0.2rem' }}>{month} {year}</span>
+          {/* Animated Story Content */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+            >
+              {currentStory.map((p, i) => (
+                <p key={i} className="story-paragraph-text" style={{ color: 'var(--text-soft)', fontSize: '1rem', lineHeight: 1.95, marginBottom: '1.4rem', textAlign: 'justify' }}>
+                  {p}
+                </p>
+              ))}
             </motion.div>
+          </AnimatePresence>
 
-            <div style={{ position: 'absolute', top: '-12px', left: '-12px', width: 60, height: 60, borderTop: '1px solid var(--champagne)', borderLeft: '1px solid var(--champagne)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', bottom: '-12px', right: '-12px', width: 60, height: 60, borderBottom: '1px solid var(--champagne)', borderRight: '1px solid var(--champagne)', pointerEvents: 'none' }} />
+          <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={inView ? { opacity: 1, scaleX: 1 } : {}} transition={{ duration: 1, delay: 0.7 }} style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--blush)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+            <span style={{ fontFamily: 'var(--ff-serif)', fontStyle: 'italic', fontSize: '1.8rem', fontWeight: 300, color: 'var(--taupe)' }}>{groom || 'Rex'} &amp; {bride || 'Aira'}</span>
+            <div style={{ width: 40, height: 1, background: 'var(--champagne)' }} />
+            <span style={{ fontFamily: 'var(--ff-sans)', fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-soft)', fontWeight: 300 }}>{year}</span>
           </motion.div>
         </div>
 
@@ -208,7 +213,6 @@ export default function OurStory() {
         </motion.div>
 
       </div>
-      <style>{`@media (max-width: 800px) { #story > div:first-child { grid-template-columns: 1fr !important; } }`}</style>
     </section>
   )
 }
