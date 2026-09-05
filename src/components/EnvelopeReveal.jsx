@@ -3,18 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 const RAW_PHOTOS = [
-  { img: '/gallery/IMG_5246.JPG', caption: 'Moments of Joy',  objPos: 'center top' },
-  { img: '/gallery/IMG_5253.JPG', caption: 'Our Story',       objPos: 'center top' },
-  { img: '/gallery/IMG_5259.JPG', caption: 'Pure Happiness',  objPos: 'center top' },
-  { img: '/gallery/IMG_5263.JPG', caption: 'Whispers of Love',objPos: 'center top' },
   { img: '/gallery/IMG_5265.JPG', caption: 'Rex & Aira',      objPos: 'center top' },
   { img: '/gallery/IMG_5274.JPG', caption: 'Sweet Embraces',  objPos: 'center top' },
-  { img: '/gallery/IMG_5279.JPG', caption: 'A Lifetime Ahead',objPos: 'center top' },
   { img: '/gallery/IMG_5282.JPG', caption: 'Golden Hour',     objPos: 'center top' },
   { img: '/gallery/IMG_5293.JPG', caption: 'Pure Magic',      objPos: 'center top' },
-  { img: '/gallery/IMG_5297.JPG', caption: 'Endless Smiles',  objPos: 'center top' },
   { img: '/gallery/IMG_5306.JPG', caption: 'Hand in Hand',    objPos: 'center top' },
-  { img: '/gallery/IMG_5315.JPG', caption: 'Side by Side',    objPos: 'center top' },
   { img: '/gallery/IMG_5318.JPG', caption: 'Forever Us',      objPos: 'center top' },
 ]
 
