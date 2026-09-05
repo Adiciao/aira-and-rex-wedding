@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 const RAW_PHOTOS = [
-  { img: '/gallery/IMG_5265.JPG', caption: 'Rex & Aira',      objPos: 'center top' },
-  { img: '/gallery/IMG_5274.JPG', caption: 'Sweet Embraces',  objPos: 'center top' },
-  { img: '/gallery/IMG_5282.JPG', caption: 'Golden Hour',     objPos: 'center top' },
-  { img: '/gallery/IMG_5293.JPG', caption: 'Pure Magic',      objPos: 'center top' },
-  { img: '/gallery/IMG_5306.JPG', caption: 'Hand in Hand',    objPos: 'center top' },
-  { img: '/gallery/IMG_5318.JPG', caption: 'Forever Us',      objPos: 'center top' },
+  { img: '/gallery/IMG_5265_sm.jpg', caption: 'Rex & Aira',      objPos: 'center top' },
+  { img: '/gallery/IMG_5274_sm.jpg', caption: 'Sweet Embraces',  objPos: 'center top' },
+  { img: '/gallery/IMG_5282_sm.jpg', caption: 'Golden Hour',     objPos: 'center top' },
+  { img: '/gallery/IMG_5293_sm.jpg', caption: 'Pure Magic',      objPos: 'center top' },
+  { img: '/gallery/IMG_5306_sm.jpg', caption: 'Hand in Hand',    objPos: 'center top' },
+  { img: '/gallery/IMG_5318_sm.jpg', caption: 'Forever Us',      objPos: 'center top' },
 ]
 
 function generateRandomizedPhotos() {
