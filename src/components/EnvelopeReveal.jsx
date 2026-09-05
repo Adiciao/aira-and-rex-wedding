@@ -58,6 +58,14 @@ export default function EnvelopeReveal({ onComplete, onFirstClick }) {
   const [isPaperFlownOut, setIsPaperFlownOut] = useState(false)
   const [photos, setPhotos] = useState([])
 
+  // Preload all photos silently on mount so they're cached before the animation fires
+  useEffect(() => {
+    RAW_PHOTOS.forEach(p => {
+      const img = new Image()
+      img.src = p.img
+    })
+  }, [])
+
   // Disable all scrolling (touch, wheel, body scroll) while envelope mode is active
   useEffect(() => {
     if (step !== 'completed') {
