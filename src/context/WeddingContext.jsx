@@ -178,6 +178,12 @@ export function WeddingProvider({ children }) {
               merged[key] = data[key]
             }
           })
+
+          // Fallback array fields if not present in Firestore document
+          if (!merged.brideStory || merged.brideStory.length === 0) merged.brideStory = DEFAULTS.brideStory
+          if (!merged.groomStory || merged.groomStory.length === 0) merged.groomStory = DEFAULTS.groomStory
+          if (!merged.acrosticPoem || merged.acrosticPoem.length === 0) merged.acrosticPoem = DEFAULTS.acrosticPoem
+
           merged.images = {
             ...DEFAULTS.images,
             ...(prev.images ?? {}),

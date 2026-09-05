@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion'
-import { useWedding } from '../context/WeddingContext'
+import { useWedding, DEFAULTS } from '../context/WeddingContext'
 
 export default function OurStory() {
   const { bride, groom, brideStory, groomStory, acrosticPoem, images, weddingDate } = useWedding()
@@ -15,48 +15,12 @@ export default function OurStory() {
   const month = dateObj.toLocaleString('en', { month: 'short' }).toUpperCase()
   const year  = dateObj.getFullYear()
 
-  // Fallback defaults if context not yet hydrated
-  const currentStory = activeTab === 'bride' 
-    ? (brideStory || []) 
-    : (groomStory || [])
+  // Guaranteed fallback arrays from DEFAULTS so story is never incomplete
+  const brideParagraphs = (brideStory && brideStory.length > 0) ? brideStory : DEFAULTS.brideStory
+  const groomParagraphs = (groomStory && groomStory.length > 0) ? groomStory : DEFAULTS.groomStory
+  const poemData        = (acrosticPoem && acrosticPoem.length > 0) ? acrosticPoem : DEFAULTS.acrosticPoem
 
-  const poemData = acrosticPoem || [
-    {
-      letter: 'A',
-      lines: [
-        "Akong isang manlalakbay na walang kahihinatnan.",
-        "At ikaw ang destinansyon na matagal ko nang nais paroonan.",
-        "Ang makilala ka ay batid ng langit."
-      ]
-    },
-    {
-      letter: 'I',
-      lines: [
-        "Ikaw ang nais kong makapiling.",
-        "Kahit na ang bukas ay aking huli nang pag gising.",
-        "Wala nakong gustong masilayan sa umaga.",
-        "Kundi ang mukha mo aking asawa."
-      ]
-    },
-    {
-      letter: 'R',
-      lines: [
-        "Rason kung bakit ako'y umiral",
-        "Malamang ay dahil sayo aking mahal",
-        "Hanggang sa katapusan ng ating kwento.",
-        "Mananatiling ikaw ang simula at katapusan nito."
-      ]
-    },
-    {
-      letter: 'A',
-      lines: [
-        "Ating litrato kaylan man ay di kukupas.",
-        "Mananatiling nandito ngayon at bukas.",
-        "Kwento nati'y hindi mag wawakas.",
-        "Patuloy kong uulit utilin hanggang bukas."
-      ]
-    }
-  ]
+  const currentStory = activeTab === 'bride' ? brideParagraphs : groomParagraphs
 
   return (
     <section id="story" ref={ref} style={{ padding: 'clamp(5rem, 10vw, 9rem) 2rem', background: 'var(--cream-light)', overflow: 'hidden' }}>
@@ -72,11 +36,11 @@ export default function OurStory() {
             </motion.h2>
 
             {/* Story Perspective Switcher Tabs */}
-            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
               <button
                 onClick={() => setActiveTab('bride')}
                 style={{
-                  padding: '0.6rem 1.4rem',
+                  padding: '0.65rem 1.4rem',
                   borderRadius: '25px',
                   border: activeTab === 'bride' ? '1.5px solid var(--taupe)' : '1px solid var(--blush)',
                   background: activeTab === 'bride' ? 'var(--taupe)' : 'var(--cream)',
@@ -94,7 +58,7 @@ export default function OurStory() {
               <button
                 onClick={() => setActiveTab('groom')}
                 style={{
-                  padding: '0.6rem 1.4rem',
+                  padding: '0.65rem 1.4rem',
                   borderRadius: '25px',
                   border: activeTab === 'groom' ? '1.5px solid var(--taupe)' : '1px solid var(--blush)',
                   background: activeTab === 'groom' ? 'var(--taupe)' : 'var(--cream)',
@@ -125,6 +89,24 @@ export default function OurStory() {
                     {p}
                   </p>
                 ))}
+
+                {/* Additional Groom Promise highlight if Groom tab is active */}
+                {activeTab === 'groom' && (
+                  <div style={{
+                    marginTop: '1.5rem',
+                    padding: '1.2rem 1.4rem',
+                    background: 'rgba(158, 135, 189, 0.08)',
+                    borderLeft: '3px solid var(--taupe)',
+                    borderRadius: '0 12px 12px 0',
+                    fontFamily: 'var(--ff-serif)',
+                    fontStyle: 'italic',
+                    fontSize: '1.02rem',
+                    color: 'var(--taupe-dark)',
+                    lineHeight: 1.6
+                  }}>
+                    "Nagstart kame ng hi, end up as 'hi mahal'. Tinanong ko sya ng 'nag aaccept ka ba ng compliment sa stranger?' at we end up saying 'I Do' to each other. Napakahiwaga ng pag ibig at masasabi ko na ikaw na ang mamahalin ko hanggang sa huli."
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
 
@@ -199,7 +181,7 @@ export default function OurStory() {
                 <div 
                   key={sIdx}
                   style={{
-                    background: 'rgba(255,255,255,0.7)',
+                    background: 'rgba(255,255,255,0.75)',
                     border: '1px solid rgba(194, 177, 216, 0.4)',
                     borderRadius: '12px',
                     padding: '1.5rem',
