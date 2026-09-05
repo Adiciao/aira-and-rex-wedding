@@ -36,8 +36,9 @@ export default function OurStory() {
             </motion.h2>
 
             {/* Story Perspective Switcher Tabs */}
-            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+            <div className="story-tabs-container" style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
               <button
+                className="story-tab-btn"
                 onClick={() => setActiveTab('bride')}
                 style={{
                   padding: '0.65rem 1.4rem',
@@ -56,6 +57,7 @@ export default function OurStory() {
                 🌸 Story of the Bride (Aira)
               </button>
               <button
+                className="story-tab-btn"
                 onClick={() => setActiveTab('groom')}
                 style={{
                   padding: '0.65rem 1.4rem',
@@ -85,7 +87,7 @@ export default function OurStory() {
                 transition={{ duration: 0.4 }}
               >
                 {currentStory.map((p, i) => (
-                  <p key={i} style={{ color: 'var(--text-soft)', fontSize: '0.95rem', lineHeight: 1.95, marginBottom: '1.2rem', textAlign: 'justify' }}>
+                  <p key={i} className="story-paragraph-text" style={{ color: 'var(--text-soft)', fontSize: '0.95rem', lineHeight: 1.95, marginBottom: '1.2rem', textAlign: 'justify' }}>
                     {p}
                   </p>
                 ))}
@@ -120,6 +122,7 @@ export default function OurStory() {
 
         {/* 📜 Dedicated Acrostic Poem Card ("A-I-R-A") */}
         <motion.div
+          className="acrostic-poem-card"
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, delay: 0.5 }}

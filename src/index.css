@@ -216,4 +216,53 @@ body.admin-mode textarea {
     max-width: 330px !important;
     height: 420px !important;
   }
+
+  /* Story & Poem mobile enhancements */
+  .story-tabs-container {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .story-tab-btn {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 0.65rem 1rem !important;
+    font-size: 0.88rem !important;
+  }
+
+  .story-paragraph-text {
+    text-align: left !important;
+    font-size: 0.92rem !important;
+    line-height: 1.8 !important;
+  }
+
+  .acrostic-poem-card {
+    padding: 2rem 1.25rem !important;
+    border-radius: 16px !important;
+  }
+
+  .story-date-badge {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: -1.5rem !important;
+    padding: 0.8rem 1.4rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra mobile optimization for small phones (< 480px) */
+  html {
+    font-size: 15px;
+  }
+
+  section {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .acrostic-poem-card p {
+    font-size: 0.92rem !important;
+    line-height: 1.75 !important;
+  }
 }
