@@ -89,24 +89,6 @@ export default function OurStory() {
                     {p}
                   </p>
                 ))}
-
-                {/* Additional Groom Promise highlight if Groom tab is active */}
-                {activeTab === 'groom' && (
-                  <div style={{
-                    marginTop: '1.5rem',
-                    padding: '1.2rem 1.4rem',
-                    background: 'rgba(158, 135, 189, 0.08)',
-                    borderLeft: '3px solid var(--taupe)',
-                    borderRadius: '0 12px 12px 0',
-                    fontFamily: 'var(--ff-serif)',
-                    fontStyle: 'italic',
-                    fontSize: '1.02rem',
-                    color: 'var(--taupe-dark)',
-                    lineHeight: 1.6
-                  }}>
-                    "Nagstart kame ng hi, end up as 'hi mahal'. Tinanong ko sya ng 'nag aaccept ka ba ng compliment sa stranger?' at we end up saying 'I Do' to each other. Napakahiwaga ng pag ibig at masasabi ko na ikaw na ang mamahalin ko hanggang sa huli."
-                  </div>
-                )}
               </motion.div>
             </AnimatePresence>
 
