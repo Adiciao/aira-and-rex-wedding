@@ -3,13 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 const RAW_PHOTOS = [
-  { img: '/couple_photo.jpg', caption: 'Rex & Aira' },
-  { img: '/gallery_ceremony.jpg', caption: 'San Miguel Church' },
-  { img: '/church_exterior.jpg', caption: 'Ceremony' },
-  { img: '/gallery_reception.jpg', caption: 'Celebration' },
-  { img: '/gallery_rings.jpg', caption: 'The Details' },
-  { img: '/reception_exterior.jpg', caption: '5A\'s Resort' },
-  { img: '/hero_bg.jpg', caption: 'Our Story' },
+  { img: '/gallery/IMG_5265.JPG', caption: 'Rex & Aira' },
+  { img: '/gallery/IMG_5274.JPG', caption: 'Sweet Embraces' },
+  { img: '/gallery/IMG_5282.JPG', caption: 'Golden Hour' },
+  { img: '/gallery/IMG_5293.JPG', caption: 'Pure Magic' },
+  { img: '/gallery/IMG_5306.JPG', caption: 'Hand in Hand' },
+  { img: '/gallery/IMG_5253.JPG', caption: 'Our Story' },
+  { img: '/gallery/IMG_5318.JPG', caption: 'Forever Us' },
 ]
 
 function generateRandomizedPhotos() {
