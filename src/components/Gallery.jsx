@@ -8,7 +8,13 @@ export default function Gallery() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const [active, setActive] = useState(null)
 
-  const GRID_AREAS = ['span 5 / span 5', 'span 7 / span 7', 'span 6 / span 6', 'span 6 / span 6', 'span 12 / span 12']
+  const GRID_AREAS = [
+    'span 4 / span 4', 'span 4 / span 4', 'span 4 / span 4',
+    'span 6 / span 6', 'span 6 / span 6',
+    'span 4 / span 4', 'span 4 / span 4', 'span 4 / span 4',
+    'span 6 / span 6', 'span 6 / span 6',
+    'span 4 / span 4', 'span 4 / span 4', 'span 4 / span 4',
+  ]
 
   return (
     <>

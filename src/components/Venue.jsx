@@ -51,7 +51,7 @@ export default function Venue() {
                 <div style={{ 
                   flex: 1, 
                   border: '1px solid rgba(194, 177, 216, 0.4)', 
-                  padding: '6px 6px 28px 6px', 
+                  padding: '6px', 
                   background: '#ffffff', 
                   borderRadius: '2px', 
                   boxShadow: '0 4px 12px rgba(100, 78, 136, 0.06)',
@@ -62,21 +62,6 @@ export default function Venue() {
                     alt={`${v.tag} Venue Exterior`} 
                     style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '1px' }} 
                   />
-                  <div style={{ 
-                    position: 'absolute', 
-                    bottom: '5px', 
-                    left: 0, 
-                    right: 0, 
-                    textAlign: 'center', 
-                    fontFamily: 'var(--ff-serif)', 
-                    fontStyle: 'italic', 
-                    fontSize: '0.74rem', 
-                    color: 'var(--taupe-dark)', 
-                    letterSpacing: '0.02em',
-                    fontWeight: 500
-                  }}>
-                    Digital Art by Aldrich Salas
-                  </div>
                 </div>
 
                 {/* Small image — QR code for church, interior photo for reception */}
@@ -171,7 +156,7 @@ function AnimatedMap() {
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      padding: '6px 6px 32px 6px', 
+      padding: '6px', 
       boxShadow: '0 8px 24px rgba(100, 78, 136, 0.08)' 
     }}>
       <img 
@@ -179,21 +164,6 @@ function AnimatedMap() {
         alt="Wedding Route Map from Ceremony to Reception" 
         style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '2px' }} 
       />
-      <div style={{ 
-        position: 'absolute', 
-        bottom: '8px', 
-        left: 0,
-        right: 0,
-        textAlign: 'center', 
-        fontFamily: 'var(--ff-serif)', 
-        fontStyle: 'italic', 
-        fontSize: '0.85rem', 
-        color: 'var(--taupe-dark)', 
-        letterSpacing: '0.04em',
-        fontWeight: 500
-      }}>
-        Digital Art by Aldrich Salas
-      </div>
     </div>
   )
 }
