@@ -3,13 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 const RAW_PHOTOS = [
-  { img: '/gallery/IMG_5265.JPG', caption: 'Rex & Aira' },
-  { img: '/gallery/IMG_5274.JPG', caption: 'Sweet Embraces' },
-  { img: '/gallery/IMG_5282.JPG', caption: 'Golden Hour' },
-  { img: '/gallery/IMG_5293.JPG', caption: 'Pure Magic' },
-  { img: '/gallery/IMG_5306.JPG', caption: 'Hand in Hand' },
-  { img: '/gallery/IMG_5253.JPG', caption: 'Our Story' },
-  { img: '/gallery/IMG_5318.JPG', caption: 'Forever Us' },
+  { img: '/gallery/IMG_5246.JPG', caption: 'Moments of Joy',  objPos: 'center top' },
+  { img: '/gallery/IMG_5253.JPG', caption: 'Our Story',       objPos: 'center top' },
+  { img: '/gallery/IMG_5259.JPG', caption: 'Pure Happiness',  objPos: 'center top' },
+  { img: '/gallery/IMG_5263.JPG', caption: 'Whispers of Love',objPos: 'center top' },
+  { img: '/gallery/IMG_5265.JPG', caption: 'Rex & Aira',      objPos: 'center top' },
+  { img: '/gallery/IMG_5274.JPG', caption: 'Sweet Embraces',  objPos: 'center top' },
+  { img: '/gallery/IMG_5279.JPG', caption: 'A Lifetime Ahead',objPos: 'center top' },
+  { img: '/gallery/IMG_5282.JPG', caption: 'Golden Hour',     objPos: 'center top' },
+  { img: '/gallery/IMG_5293.JPG', caption: 'Pure Magic',      objPos: 'center top' },
+  { img: '/gallery/IMG_5297.JPG', caption: 'Endless Smiles',  objPos: 'center top' },
+  { img: '/gallery/IMG_5306.JPG', caption: 'Hand in Hand',    objPos: 'center top' },
+  { img: '/gallery/IMG_5315.JPG', caption: 'Side by Side',    objPos: 'center top' },
+  { img: '/gallery/IMG_5318.JPG', caption: 'Forever Us',      objPos: 'center top' },
 ]
 
 function generateRandomizedPhotos() {
@@ -207,10 +213,10 @@ export default function EnvelopeReveal({ onComplete, onFirstClick }) {
                       style={{
                         position: 'absolute',
                         top: '25%',
-                        left: 'calc(50% - 55px)',
-                        width: isMobile ? '105px' : '130px',
+                        left: isMobile ? 'calc(50% - 58px)' : 'calc(50% - 68px)',
+                        width: isMobile ? '116px' : '136px',
                         background: '#ffffff',
-                        padding: '6px 6px 20px 6px',
+                        padding: '6px 6px 22px 6px',
                         borderRadius: '4px',
                         boxShadow: '0 12px 32px rgba(74, 32, 90, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15)',
                         border: '1px solid rgba(194, 177, 216, 0.6)',
@@ -218,11 +224,11 @@ export default function EnvelopeReveal({ onComplete, onFirstClick }) {
                         pointerEvents: 'auto',
                       }}
                     >
-                      <div style={{ width: '100%', height: isMobile ? '75px' : '95px', overflow: 'hidden', borderRadius: '2px', background: '#f5f5f5' }}>
+                      <div style={{ width: '100%', height: isMobile ? '100px' : '120px', overflow: 'hidden', borderRadius: '2px', background: '#f5f5f5' }}>
                         <img 
                           src={p.img} 
                           alt={p.caption} 
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.objPos || 'center top', display: 'block' }} 
                         />
                       </div>
                       <p style={{ 
