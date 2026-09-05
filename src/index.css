@@ -250,6 +250,62 @@ body.admin-mode textarea {
   }
 }
 
+/* ── Our Story Desktop vs Mobile Layout ── */
+@media (min-width: 801px) {
+  .story-main-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-areas:
+      "header image"
+      "text   image" !important;
+    gap: 0 clamp(3rem, 6vw, 6rem) !important;
+    align-items: start !important;
+  }
+
+  .story-header-block {
+    grid-area: header !important;
+    text-align: left !important;
+  }
+
+  .story-image-block {
+    grid-area: image !important;
+  }
+
+  .story-text-block {
+    grid-area: text !important;
+  }
+
+  .desktop-br {
+    display: inline !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .story-main-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+
+  .story-header-block {
+    order: 1 !important;
+    text-align: center !important;
+  }
+
+  .story-image-block {
+    order: 2 !important;
+    margin: 0.5rem 0 2rem 0 !important;
+  }
+
+  .story-text-block {
+    order: 3 !important;
+  }
+
+  .desktop-br {
+    display: none !important;
+  }
+}
+
 @media (max-width: 480px) {
   /* Extra mobile optimization for small phones (< 480px) */
   html {
