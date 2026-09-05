@@ -21,6 +21,7 @@ async function resizePhotos() {
     console.log(`Resizing ${photo}...`);
     try {
       await sharp(inputPath)
+        .rotate() // Auto-rotate based on EXIF orientation!
         .resize({ width: 800 }) // 800px width is plenty for a 130px polaroid!
         .jpeg({ quality: 80 })
         .toFile(outputPath);
