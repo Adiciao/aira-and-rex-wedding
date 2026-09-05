@@ -192,11 +192,26 @@ export function WeddingProvider({ children }) {
           if (!merged.groomStory || merged.groomStory.length === 0) merged.groomStory = DEFAULTS.groomStory
           if (!merged.acrosticPoem || merged.acrosticPoem.length === 0) merged.acrosticPoem = DEFAULTS.acrosticPoem
 
-          merged.images = {
+          const mergedImages = {
             ...DEFAULTS.images,
             ...(prev.images ?? {}),
             ...(data.images ?? {}),
           }
+
+          // If Firestore gallery contains old placeholder images, always use the new prenup photos
+          const firestoreGallery = (data.images ?? {}).gallery
+          const oldPlaceholders = ['/gallery_ceremony.jpg', '/gallery_reception.jpg', '/gallery_rings.jpg', '/hero_bg.jpg', '/couple_photo.jpg']
+          const hasOldImages = !firestoreGallery || firestoreGallery.length === 0 ||
+            firestoreGallery.every(img => oldPlaceholders.includes(img?.src ?? img))
+          if (hasOldImages) {
+            mergedImages.gallery = DEFAULTS.images.gallery
+          }
+
+          // Also use new hero/couple if still pointing to old defaults
+          if (!mergedImages.hero || mergedImages.hero === '/hero_bg.jpg') mergedImages.hero = DEFAULTS.images.hero
+          if (!mergedImages.couple || mergedImages.couple === '/couple_photo.jpg') mergedImages.couple = DEFAULTS.images.couple
+
+          merged.images = mergedImages
           return merged
         })
       } else {
