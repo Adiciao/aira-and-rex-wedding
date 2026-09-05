@@ -47,7 +47,7 @@ export default function OurStory() {
           >
             <TiltCard>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', boxShadow: '0 30px 80px rgba(0,0,0,0.15)', border: '1px solid var(--blush)' }}>
-                <motion.img src={images?.couple || '/couple_photo.jpg'} alt={`${groom} and ${bride}`} style={{ width: '100%', height: 'clamp(380px, 60vh, 620px)', objectFit: 'cover', display: 'block', y: imageY }} />
+                <motion.img src={images?.couple || '/couple_photo.jpg'} alt={`${groom} and ${bride}`} style={{ width: '100%', height: 'auto', display: 'block', y: imageY }} />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(to top, rgba(15,13,11,0.6), transparent)' }} />
               </div>
             </TiltCard>
